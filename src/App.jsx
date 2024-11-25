@@ -9,11 +9,11 @@ import Portofolio from './pages/Portofolio'
 
 function App() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main>
+      <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Navigate to="/tentang-saya" />} />
+          <Route path="/" element={<Navigate to="/tentang-saya" replace />} />
           <Route path="/tentang-saya" element={<TentangSaya />} />
           <Route path="/pendidikan" element={<Pendidikan />} />
           <Route path="/pengalaman" element={<Pengalaman />} />
@@ -22,7 +22,7 @@ function App() {
         </Routes>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
 
