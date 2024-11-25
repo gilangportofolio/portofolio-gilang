@@ -1,0 +1,553 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset dasar */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+
+/* Layout styles */
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1280px; /* atau sesuai kebutuhan */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
+/* Hero section styles */
+.hero-section {
+  @apply container mx-auto px-4 py-12;
+}
+
+.hero-content {
+  @apply flex flex-col md:flex-row items-center gap-8 max-w-6xl mx-auto;
+}
+
+.profile-image-container {
+  @apply w-64 h-64 relative;
+}
+
+.profile-image {
+  @apply w-full h-full object-cover rounded-full border-4 border-orange-500;
+}
+
+.hero-text {
+  @apply flex-1 text-center md:text-left;
+}
+
+.hero-title {
+  @apply text-4xl font-bold mb-4 text-gray-800;
+}
+
+.hero-description {
+  @apply text-gray-700 text-lg mb-6 leading-relaxed max-w-3xl;
+}
+
+.social-links {
+  @apply flex justify-center md:justify-start space-x-4;
+}
+
+.social-icon {
+  @apply bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110;
+}
+
+.mobile-menu {
+  @apply fixed top-0 left-0 w-full h-full bg-white z-50;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu.closed {
+  transform: translateX(100%);
+}
+
+.brand {
+  @apply text-2xl font-bold text-gray-800;
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    @apply hidden;
+  }
+  
+  .admin-icon {
+    @apply hidden;
+  }
+  
+  .mobile-menu-button {
+    @apply block;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-menu-button {
+    @apply hidden;
+  }
+  
+  .nav-menu {
+    @apply flex;
+  }
+}
+
+* {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Custom styles untuk halaman Pendidikan */
+.education-timeline {
+  @apply relative;
+}
+
+/* Timeline vertical line */
+.timeline-line {
+  @apply absolute left-6 top-0 h-full w-0.5 bg-black/20 transition-all duration-300;
+  z-index: -1;
+}
+
+/* Education card */
+.education-card {
+  @apply relative pl-16 pb-12 last:pb-0 transition-all duration-300;
+}
+
+/* Education header */
+.education-header {
+  @apply flex flex-col md:flex-row md:justify-between md:items-start mb-4 pb-3 border-b border-gray-200;
+}
+
+.education-title {
+  @apply text-xl font-bold text-gray-900 mb-1;
+}
+
+.education-title span {
+  @apply text-base ml-1;
+}
+
+.education-subtitle {
+  @apply text-gray-700 font-semibold;
+}
+
+.education-year {
+  @apply text-gray-600 font-medium mt-2 md:mt-0;
+}
+
+/* Education content */
+.education-description {
+  @apply text-gray-600 leading-relaxed mb-6;
+}
+
+/* Points list */
+.points-list {
+  @apply space-y-6;
+}
+
+.point-item {
+  @apply relative pl-6;
+}
+
+.point-bullet {
+  @apply absolute left-0 top-2.5 w-2 h-2 bg-black/70 rounded-full;
+}
+
+.point-title {
+  @apply font-semibold text-gray-800 mb-2 leading-relaxed text-justify;
+}
+
+.point-description {
+  @apply text-gray-600 text-sm mt-2 leading-relaxed text-justify;
+}
+
+/* Hover effects */
+.education-card:hover .timeline-dot {
+  @apply scale-110 bg-orange-100;
+  box-shadow: 0 0 15px rgba(251, 146, 60, 0.3);
+}
+
+.education-card:hover .timeline-dot svg {
+  @apply text-orange-600 scale-110 transition-all duration-300;
+}
+
+.education-card:hover .education-title {
+  @apply text-gray-800 transition-colors duration-300;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .education-card {
+    @apply pl-12;
+  }
+  
+  .timeline-line {
+    @apply left-4;
+  }
+  
+  .timeline-dot {
+    @apply -left-3;
+  }
+}
+
+/* Location style */
+.education-location {
+  @apply flex items-center gap-2 text-sm text-gray-600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .education-header {
+    @apply flex-col gap-2;
+  }
+  
+  .education-location {
+    @apply flex-wrap;
+  }
+}
+
+/* Pengalaman section styles */
+.pengalaman-timeline {
+  @apply absolute left-0 top-0 h-full w-0.5 bg-gray-200;
+  z-index: -1;
+}
+
+.pengalaman-card {
+  @apply grid grid-cols-[140px_1fr] items-start mb-12 last:mb-0 transition-all duration-300;
+}
+
+.pengalaman-status {
+  @apply flex justify-end pr-8;
+}
+
+.pengalaman-content-wrapper {
+  @apply relative pl-8 transition-all duration-300;
+}
+
+.pengalaman-bullet {
+  @apply absolute -left-[6px] top-[10px] w-3 h-3 bg-black rounded-full;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.pengalaman-content {
+  @apply relative;
+}
+
+.pengalaman-title {
+  @apply text-blue-600 text-lg font-medium hover:text-blue-800 transition-colors duration-300;
+  transition: all 0.3s ease;
+}
+
+.pengalaman-position {
+  @apply text-gray-700 mt-1;
+}
+
+.pengalaman-detail {
+  @apply text-gray-600 mt-4;
+}
+
+.pengalaman-points {
+  @apply mt-4 space-y-2;
+}
+
+.pengalaman-point {
+  @apply flex gap-3;
+}
+
+.pengalaman-date {
+  @apply absolute top-0 right-0 text-black font-bold text-sm;
+}
+
+.pengalaman-note {
+  @apply text-sm text-gray-500 mt-4 italic;
+}
+
+/* Tambahkan style baru untuk icon container */
+.education-title-container {
+  @apply flex items-start;
+}
+
+/* Timeline dots (graduation cap) */
+.timeline-dot {
+  @apply absolute -left-10 w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center border border-gray-300;
+  top: 0;
+  transform: translateY(0);
+}
+
+/* Education card - tambahkan transition dan hover effect */
+.education-card {
+  @apply relative pl-16 pb-12 last:pb-0 transition-all duration-300;
+}
+
+/* Tambahkan efek hover untuk education card */
+.education-card:hover {
+  @apply bg-orange-50/30 rounded-lg; /* Tambah background color saat hover */
+  transform: translateX(10px); /* Geser sedikit ke kanan */
+  padding: 1rem 1rem 1rem 4rem; /* Tambah padding untuk efek padding */
+}
+
+/* Tambahkan efek blur untuk card yang tidak di-hover */
+.education-timeline:hover .education-card:not(:hover) {
+  @apply opacity-50 blur-[1px]; /* Membuat card lain menjadi blur dan transparan */
+  transform: scale(0.98); /* Sedikit mengecil */
+}
+
+/* Perhalus transisi untuk semua card */
+.education-card {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Pastikan timeline line tetap terlihat */
+.timeline-line {
+  @apply absolute left-6 top-0 h-full w-0.5 bg-black/20 transition-all duration-300;
+  z-index: -1; /* Pastikan garis berada di belakang card */
+}
+
+/* Tambahkan efek hover untuk timeline dot */
+.education-card:hover .timeline-dot {
+  @apply scale-110 bg-orange-100; /* Perbesar sedikit dan ubah warna background */
+  box-shadow: 0 0 15px rgba(251, 146, 60, 0.3); /* Tambah glow effect */
+}
+
+/* Efek hover untuk card */
+.pengalaman-card:hover {
+  @apply bg-orange-50/30 rounded-lg;
+  transform: translateX(10px);
+  padding: 1rem;
+}
+
+/* Efek blur untuk card yang tidak di-hover */
+.max-w-4xl:hover .pengalaman-card:not(:hover) {
+  @apply opacity-50 blur-[1px];
+  transform: scale(0.98);
+}
+
+/* Efek hover untuk bullet */
+.pengalaman-card:hover .pengalaman-bullet {
+  @apply scale-150 bg-orange-500;
+  box-shadow: 0 0 15px rgba(251, 146, 60, 0.3);
+}
+
+/* Efek hover untuk title */
+.pengalaman-card:hover .pengalaman-title {
+  @apply text-orange-600;
+}
+
+/* Perbaiki responsive design */
+@media (max-width: 768px) {
+  .pengalaman-timeline {
+    left: 100px;
+  }
+  
+  .pengalaman-card {
+    @apply grid-cols-[100px_1fr];
+  }
+}
+
+/* Garis timeline kontinyu */
+.pengalaman-timeline-continuous {
+  @apply absolute left-[140px] top-0 bottom-0 w-0.5 bg-gray-200;
+  z-index: -1;
+  height: 100%;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .pengalaman-timeline-continuous {
+    left: 100px;
+  }
+}
+
+/* Status badge styles */
+.pengalaman-status-badge {
+  @apply inline-block px-4 py-1.5 text-base font-medium rounded-full;
+  @apply border border-gray-200; /* Tambahkan border */
+  @apply shadow-sm; /* Tambahkan sedikit shadow */
+}
+
+/* Variasi warna status yang diselaraskan */
+.pengalaman-status-badge[data-status="Full Time"] {
+  @apply bg-blue-50 text-blue-700 border-blue-200;
+}
+
+.pengalaman-status-badge[data-status="Intern"] {
+  @apply bg-orange-50 text-orange-700 border-orange-200;
+}
+
+.pengalaman-status-badge[data-status="Freelance"] {
+  @apply bg-purple-50 text-purple-700 border-purple-200;
+}
+
+.pengalaman-status-badge[data-status="Part Time"] {
+  @apply bg-green-50 text-green-700 border-green-200;
+}
+
+/* Hover effect untuk status badge */
+.pengalaman-status-badge:hover {
+  @apply shadow-md transform scale-105;
+  transition: all 0.2s ease;
+}
+
+/* Sertifikat styles */
+.sertifikat-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300;
+}
+
+.sertifikat-card:hover {
+  @apply transform -translate-y-1;
+}
+
+/* Animation untuk cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sertifikat-card {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Styling untuk filter buttons */
+.filter-button {
+  @apply px-4 py-2 rounded-full transition-all duration-300;
+}
+
+.filter-button:hover {
+  @apply bg-orange-100;
+}
+
+.filter-button.active {
+  @apply bg-orange-500 text-white;
+}
+
+/* Dropdown styles */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 200px;
+  z-index: 50;
+  @apply bg-white rounded-lg shadow-lg py-2 mt-1;
+}
+
+.dropdown-item {
+  @apply block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left;
+  white-space: nowrap;
+}
+
+/* Tambahan untuk memastikan dropdown tidak terpotong */
+.nav-link {
+  @apply relative;
+}
+
+/* Tambahan untuk container dropdown */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tambahkan style untuk admin icon */
+.admin-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+

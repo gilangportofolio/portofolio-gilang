@@ -1,0 +1,156 @@
+/* Base Header */
+header {
+  @apply fixed top-0 left-0 right-0 bg-white z-50;
+  width: 100%;
+}
+
+/* Container Navigation */
+.nav-container {
+  @apply relative flex items-center justify-between px-4 mx-auto;
+  height: 60px;
+  max-width: 1280px;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+  @apply md:hidden z-50 p-2 text-gray-600 hover:text-gray-900;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  @apply fixed left-0 bg-white z-40 w-full
+         transform transition-transform duration-300 ease-in-out;
+  top: 62px; /* header height + border */
+  height: auto;
+  padding: 1rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu.closed {
+  transform: translateX(-100%);
+}
+
+/* Mobile Menu Items */
+.mobile-nav-link {
+  @apply block w-full px-6 py-3 text-gray-700 
+         hover:bg-gray-50 border-b border-gray-100;
+  font-size: 16px;
+}
+
+/* Mobile Dropdown */
+.mobile-dropdown {
+  @apply relative;
+}
+
+.mobile-dropdown-header {
+  @apply flex items-center justify-between w-full px-6 py-3 
+         text-gray-700 hover:bg-gray-50 border-b border-gray-100;
+}
+
+.mobile-dropdown-content {
+  @apply bg-gray-50;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.mobile-dropdown-content.open {
+  max-height: 500px; /* atau sesuaikan dengan kebutuhan */
+}
+
+.mobile-dropdown-item {
+  @apply block w-full px-8 py-2.5 text-gray-600 
+         hover:bg-gray-100 border-b border-gray-100;
+  font-size: 15px;
+}
+
+/* Submenu in Mobile */
+.mobile-submenu {
+  @apply bg-gray-50 py-2;
+}
+
+.mobile-submenu-link {
+  @apply block w-full px-8 py-2 text-gray-600 
+         hover:bg-gray-100 border-b border-gray-100;
+  font-size: 15px;
+}
+
+/* Admin Link in Mobile */
+.mobile-admin-link {
+  @apply flex items-center gap-2 px-6 py-4 mt-2
+         text-gray-700 hover:bg-gray-50;
+}
+
+.mobile-admin-link svg {
+  @apply text-gray-500;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  @apply absolute left-1/2 -translate-x-1/2
+         flex items-center space-x-6 justify-center;
+}
+
+/* Orange Border Bottom */
+.border-bottom-gradient {
+  @apply bg-gray-200;
+  height: 2px;
+}
+
+/* Dropdown Menu */
+.dropdown-container {
+  @apply relative;
+}
+
+.dropdown-menu {
+  @apply absolute bg-white rounded-lg shadow-lg py-2 mt-1;
+  min-width: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.dropdown-item {
+  @apply block w-full px-4 py-2 text-left text-gray-700 
+         hover:bg-gray-100 whitespace-nowrap;
+}
+
+/* Admin Area Link */
+.admin-area {
+  @apply absolute right-4 flex items-center gap-2 
+         text-gray-700 hover:text-orange-500;
+}
+
+/* Main Content Adjustment */
+main {
+  margin-top: 62px; /* header height + border */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .nav-menu {
+    @apply hidden;
+  }
+  
+  .admin-area {
+    @apply hidden;
+  }
+
+  .mobile-menu {
+    @apply block;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-menu-button {
+    @apply hidden;
+  }
+  
+  .mobile-menu {
+    @apply hidden;
+  }
+} 

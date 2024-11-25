@@ -1,0 +1,69 @@
+@media (max-width: 768px) {
+  /* Timeline */
+  .education-timeline {
+    padding-left: 2rem;
+  }
+
+  .timeline-line {
+    left: 1rem;
+  }
+
+  /* Education Card */
+  .education-card {
+    padding-left: 1rem;
+  }
+
+  .timeline-dot {
+    left: -1.5rem;
+  }
+
+  .education-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .education-title-container {
+    width: 100%;
+  }
+
+  .education-title {
+    font-size: 1.125rem;
+  }
+
+  .education-year {
+    font-size: 0.875rem;
+  }
+
+  /* Points List */
+  .points-list {
+    padding-left: 1rem;
+  }
+
+  .point-item {
+    gap: 0.5rem;
+  }
+
+  /* Section Padding */
+  .education-section {
+    padding: 4rem 1rem;
+    margin-top: 3rem;
+  }
+
+  /* Background Decorations */
+  .bg-decoration {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .education-title {
+    font-size: 1rem;
+  }
+
+  .education-subtitle,
+  .education-description,
+  .point-description {
+    font-size: 0.875rem;
+  }
+} 

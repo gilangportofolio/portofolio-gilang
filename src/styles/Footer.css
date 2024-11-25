@@ -1,0 +1,71 @@
+/* Base Footer */
+.footer {
+  @apply bg-white mt-auto w-full;
+  padding: 2rem 0;
+}
+
+/* Footer Container */
+.footer-container {
+  @apply max-w-7xl mx-auto px-4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Footer Sections */
+.footer-section {
+  @apply space-y-3;
+}
+
+.footer-section h3 {
+  @apply text-lg font-semibold text-gray-800 mb-2;
+}
+
+/* Links & Text */
+.footer-section a,
+.footer-section p {
+  @apply text-gray-600 hover:text-orange-500 transition-colors;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Social Icons */
+.social-icons {
+  @apply flex gap-4 mt-2;
+}
+
+.social-icons a {
+  @apply text-gray-600 hover:text-orange-500 transition-colors;
+}
+
+/* Map Container */
+.map-container {
+  @apply rounded-lg overflow-hidden border border-gray-200;
+  height: 150px;
+}
+
+.map-container iframe {
+  @apply w-full h-full;
+  border: 0;
+}
+
+/* Copyright */
+.copyright {
+  @apply text-center text-sm text-gray-500 mt-4 pt-4 border-t border-gray-100;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .footer-section {
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+} 

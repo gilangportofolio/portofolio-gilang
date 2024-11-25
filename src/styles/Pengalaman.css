@@ -1,0 +1,236 @@
+/* Container utama */
+.pengalaman-section {
+  @apply max-w-7xl mx-auto px-4 mb-8 mt-16;
+}
+
+/* Card wrapper */
+.experience-wrapper {
+  @apply w-full flex justify-center items-center gap-20;
+}
+
+/* Card */
+/* Jarak antar card */
+.experience-card {
+    @apply bg-white p-8 rounded-lg border border-gray-200 
+           shadow-sm hover:shadow-md transition-shadow
+           mb-8; /* Menambah margin bottom */
+  }
+
+
+/* Mengatur posisi card kiri-kanan */
+.experience-wrapper:nth-child(odd) .experience-card {
+  @apply ml-auto;
+}
+
+.experience-wrapper:nth-child(even) .experience-card {
+  @apply mr-auto;
+}
+
+/* Card Elements */
+.status-badge {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.company-name {
+  @apply text-lg font-bold;
+}
+
+.position-title {
+  @apply text-gray-600;
+}
+
+.date-info {
+  @apply flex items-center gap-2 mt-3 text-gray-500;
+}
+
+.date-info svg {
+  @apply text-purple-400;
+}
+
+.date-text {
+  @apply text-sm;
+}
+
+.experience-detail {
+  @apply mt-4 text-gray-600 leading-relaxed;
+}
+
+/* Points List */
+.points-list {
+  @apply mt-4 space-y-3;
+}
+
+.point-item {
+  @apply flex items-start gap-3;
+}
+
+.point-bullet {
+  @apply text-purple-400 mt-1;
+}
+
+.point-text {
+  @apply text-gray-600;
+}
+
+/* Note */
+.experience-note {
+  @apply mt-4 text-sm text-gray-500 italic border-l-2 border-purple-300 pl-4;
+}
+
+/* Status Colors */
+.status-fulltime,
+.status-Full-Time,
+.status-full-time,
+.status-Full\ Time {
+  @apply bg-emerald-100 text-emerald-800;
+}
+
+.status-parttime,
+.status-Part-Time,
+.status-part-time,
+.status-Part\ Time,
+.status-Partime {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.status-freelance,
+.status-Freelance {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.status-organisasi,
+.status-Organisasi {
+  @apply bg-orange-100 text-orange-800;
+}
+
+.status-intern,
+.status-Intern {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Glassmorphism */
+.backdrop-blur {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.detail-text {
+  @apply text-gray-700;
+}
+
+.points-list {
+  @apply pl-4;
+}
+
+.keterangan-text {
+  @apply text-sm italic;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  /* Filter Buttons */
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .filter-button {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  /* Experience Card */
+  .experience-card {
+    padding: 1rem;
+  }
+
+  .experience-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .company-info {
+    width: 100%;
+  }
+
+  .status-info {
+    width: 100%;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  /* Logo */
+  .company-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .company-name {
+    font-size: 1rem;
+  }
+}
+
+/* Filter Buttons Container */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+/* Filter Button Style */
+.filter-button {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+/* Active & Hover States */
+.filter-button.active {
+  background-color: #14b8a6;
+  color: white;
+}
+
+.filter-button:not(.active) {
+  background-color: #f3f4f6;
+}
+
+.filter-button:hover:not(.active) {
+  background-color: #e5e7eb;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .filter-container {
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+} 

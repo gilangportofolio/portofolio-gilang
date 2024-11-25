@@ -1,0 +1,206 @@
+/* Container dan Layout Umum */
+.portofolio-section {
+  @apply py-16 px-4 min-h-screen bg-gray-50;
+}
+
+.container {
+  @apply max-w-7xl mx-auto mt-24;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+  @apply flex flex-wrap justify-center gap-4 mb-12;
+}
+
+.filter-buttons button {
+  @apply px-6 py-2 rounded-full text-gray-700 bg-white shadow-sm
+         hover:bg-orange-500 hover:text-white transition-all duration-300
+         border border-gray-200;
+}
+
+.filter-buttons button.active {
+  @apply bg-orange-500 text-white border-orange-500;
+}
+
+/* Projects Grid */
+.projects-grid {
+  @apply grid gap-8 mt-8;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+/* Design Layout Styles */
+.design-card {
+  @apply bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300;
+}
+
+.design-card .image-container {
+  @apply relative overflow-hidden;
+  aspect-ratio: 16/9;
+}
+
+.design-card .design-image {
+  @apply w-full h-full object-cover transition-transform duration-500;
+}
+
+.design-card:hover .design-image {
+  @apply scale-110;
+}
+
+.design-card .overlay {
+  @apply absolute inset-0 bg-black/60 flex items-center justify-center
+         opacity-0 transition-opacity duration-300;
+}
+
+.design-card:hover .overlay {
+  @apply opacity-100;
+}
+
+.design-card .view-btn {
+  @apply px-6 py-2 bg-white text-gray-900 rounded-full
+         hover:bg-orange-500 hover:text-white transition-colors
+         transform hover:scale-105 duration-300;
+}
+
+/* Website Layout Styles */
+.website-card {
+  @apply bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300;
+}
+
+.website-card .image-container {
+  @apply relative overflow-hidden;
+  aspect-ratio: 16/9;
+}
+
+.website-card .website-image {
+  @apply w-full h-full object-cover;
+}
+
+.website-card .overlay {
+  @apply absolute inset-0 bg-black/70 flex items-center justify-center gap-4
+         opacity-0 transition-opacity duration-300;
+}
+
+.website-card:hover .overlay {
+  @apply opacity-100;
+}
+
+.website-card .demo-btn,
+.website-card .code-btn {
+  @apply px-4 py-2 rounded-full border-2 border-white text-white
+         hover:bg-white hover:text-black transition-all duration-300
+         transform hover:scale-105;
+}
+
+/* Analysis Layout Styles */
+.analysis-card {
+  @apply bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300;
+}
+
+.analysis-card .header {
+  @apply flex justify-between items-start mb-6 pb-4 border-b border-gray-100;
+}
+
+.analysis-card .date {
+  @apply text-sm text-gray-500;
+}
+
+.analysis-card .deliverables {
+  @apply mt-6;
+}
+
+.analysis-card .deliverables h4,
+.analysis-card .tools h4 {
+  @apply font-semibold mb-3 text-gray-800;
+}
+
+.analysis-card .deliverables ul {
+  @apply space-y-2 ml-4 text-gray-600;
+}
+
+.analysis-card .doc-btn {
+  @apply mt-6 inline-block px-6 py-2 bg-orange-500 text-white rounded-full
+         hover:bg-orange-600 transition-colors transform hover:scale-105 duration-300;
+}
+
+/* Shared Styles */
+.content {
+  @apply p-6;
+}
+
+.title {
+  @apply text-xl font-bold mb-2 text-gray-800;
+}
+
+.category-badge {
+  @apply inline-block px-3 py-1 rounded-full text-sm 
+         bg-orange-100 text-orange-800 mb-4;
+}
+
+.description {
+  @apply text-gray-600 mb-4 leading-relaxed;
+}
+
+.tool-badge {
+  @apply inline-block px-3 py-1 rounded-full text-sm 
+         bg-gray-100 text-gray-700 mr-2 mb-2
+         hover:bg-gray-200 transition-colors;
+}
+
+.points {
+  @apply mt-4 space-y-2 ml-4 mb-4;
+}
+
+.points li {
+  @apply text-gray-600 list-disc;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    @apply mt-16;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  .filter-buttons {
+    @apply gap-2 mb-8;
+  }
+  
+  .filter-buttons button {
+    @apply px-4 py-1.5 text-sm;
+  }
+}
+
+/* Loading State */
+.loading {
+  @apply flex justify-center items-center min-h-[60vh] text-gray-500;
+}
+
+/* Error State */
+.error {
+  @apply text-center text-red-500 py-8;
+}
+
+/* Animation Classes */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 300ms, transform 300ms;
+} 

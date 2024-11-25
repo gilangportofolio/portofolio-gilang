@@ -1,0 +1,42 @@
+@media (max-width: 768px) {
+  /* Header Section */
+  .profile-section {
+    flex-direction: column;
+  }
+
+  /* Profile Image Container */
+  .profile-image-container {
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  /* Text Content */
+  .hero-title {
+    font-size: 1.875rem; /* text-3xl */
+  }
+
+  .hero-subtitle {
+    font-size: 1.5rem; /* text-2xl */
+  }
+
+  /* Skills Section */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Social Media Icons */
+  .social-icons-container {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-section {
+    padding: 5rem 1rem;
+  }
+} 
