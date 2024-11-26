@@ -73,49 +73,49 @@ const Pendidikan = () => {
                 <h3 className="text-xl md:text-2xl font-bold text-gray-800">
                   {edu.nama}
                 </h3>
-                <p className="text-orange-500 font-semibold mt-1">
-                  {edu.jurusan}
-                </p>
-                
-                <div className="mt-2 flex flex-row items-center justify-center md:justify-end gap-2">
-                  <p className="text-gray-600">
-                    {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-1">
+                  <p className="text-orange-500 font-semibold">
+                    {edu.jurusan}
                   </p>
-                  <span className="text-gray-400">•</span>
-                  <p className="text-gray-600">
-                    {edu.lokasi}
-                  </p>
+                  <div className="flex items-center gap-2 mt-2 md:mt-0">
+                    <p className="text-gray-600 font-medium">
+                      {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}
+                    </p>
+                    <span className="text-gray-400 font-medium">•</span>
+                    <p className="text-gray-600">
+                      {edu.lokasi}
+                    </p>
+                  </div>
                 </div>
-              </div>
+                {edu.deskripsi && (
+                  <p className="text-gray-700 mt-4 text-center md:text-left">{edu.deskripsi}</p>
+                )}
 
-              {edu.deskripsi && (
-                <p className="text-gray-700 mt-4 text-center md:text-left">{edu.deskripsi}</p>
-              )}
-
-              {edu.pendidikan_detail && edu.pendidikan_detail.length > 0 && (
-                <div className="space-y-3 mt-4">
-                  {edu.pendidikan_detail.map((detail) => (
-                    <motion.div
-                      key={detail.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex gap-3 items-start"
-                    >
-                      <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
-                      <div>
-                        <p className="font-medium text-gray-800">
-                          {detail.poin}
-                        </p>
-                        {detail.penjelasan && (
-                          <p className="text-gray-600 text-justify mt-1">
-                            {detail.penjelasan}
+                {edu.pendidikan_detail && edu.pendidikan_detail.length > 0 && (
+                  <div className="space-y-3 mt-4">
+                    {edu.pendidikan_detail.map((detail) => (
+                      <motion.div
+                        key={detail.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="flex gap-3 items-start"
+                      >
+                        <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
+                        <div>
+                          <p className="font-medium text-gray-800">
+                            {detail.poin}
                           </p>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
+                          {detail.penjelasan && (
+                            <p className="text-gray-600 text-justify mt-1">
+                              {detail.penjelasan}
+                            </p>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         ))}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import supabase from '../config/supabaseClient'
 import '../styles/Pengalaman.css'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 const Pengalaman = () => {
   const [experiences, setExperiences] = useState([])
@@ -22,7 +23,7 @@ const Pengalaman = () => {
         console.error('Error:', error)
         setError(error.message)
       } finally {
-        setLoading(false)
+        setTimeout(() => setLoading(false), 500)
       }
     }
 
@@ -63,7 +64,7 @@ const Pengalaman = () => {
     return normalizedStatus === normalizedFilter;
   });
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <LoadingSpinner />
   if (error) return <div>Error: {error}</div>
 
   return (
@@ -109,8 +110,19 @@ const Pengalaman = () => {
           <div key={index} className="experience-card">
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center">
-                  {/* Logo */}
+                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white border border-gray-200 overflow-hidden">
+                  {exp.logo_url ? (
+                    <img 
+                      src={exp.logo_url} 
+                      alt={`Logo ${exp.perusahaan}`}
+                      className="w-full h-full object-contain p-2"
+                    />
+                  ) : (
+                    // Fallback jika tidak ada logo
+                    <div className="w-full h-full bg-teal-500 flex items-center justify-center text-white font-bold">
+                      {exp.perusahaan.charAt(0)}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <h3 className="font-bold text-lg">{exp.perusahaan}</h3>

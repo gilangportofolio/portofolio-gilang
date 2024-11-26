@@ -5,6 +5,7 @@ import WebsiteLayout from '../components/portofolio/WebsiteLayout'
 import AnalysisLayout from '../components/portofolio/AnalysisLayout'
 import '../styles/Portofolio.css'
 import { useLocation } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 const Portofolio = () => {
   const location = useLocation()
@@ -32,7 +33,7 @@ const Portofolio = () => {
       } catch (error) {
         console.error('Error:', error)
       } finally {
-        setLoading(false)
+        setTimeout(() => setLoading(false), 500)
       }
     }
 
@@ -80,7 +81,7 @@ const Portofolio = () => {
     { id: 'business', label: 'Business Analysis' }  // Tambah kategori Business Analysis
   ]
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <LoadingSpinner />
 
   return (
     <section className="portofolio-section">

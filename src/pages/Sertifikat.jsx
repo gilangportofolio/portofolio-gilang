@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import supabase from '../config/supabaseClient'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 const Sertifikat = () => {
   const [sertifikats, setSertifikats] = useState([])
@@ -36,7 +37,7 @@ const Sertifikat = () => {
     ? sertifikats 
     : sertifikats.filter(cert => cert.tipe === selectedType)
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <LoadingSpinner />
   if (error) return <div>Error: {error}</div>
 
   return (
