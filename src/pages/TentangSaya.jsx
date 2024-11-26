@@ -110,12 +110,12 @@ const TentangSaya = () => {
 
       <div className="max-w-7xl mx-auto">
         {/* Header Section dengan Foto 1 */}
-        <div className="flex gap-8 mb-10 profile-section">
-          <motion.div
+        <div className="profile-section">
+          <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="profile-image-container"
+            className="w-[200px] h-[260px] md:w-[300px] md:h-[320px] flex-shrink-0" // Ukuran foto dikustomisasi di sini
           >
             <img
               src={ProfilImg}
@@ -123,111 +123,110 @@ const TentangSaya = () => {
               className="w-full h-full object-cover rounded-2xl border-2 border-orange-400 shadow-lg hover:shadow-2xl transition-all duration-300"
             />
           </motion.div>
-          
-          <div className="flex flex-col">
-            <motion.h1 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="hero-title"
-            >
-              <span className="bg-gradient-to-r from-orange-500 to-yellow-500 text-transparent bg-clip-text">
-                Hallo :)
-              </span>
-              <TypeAnimation
-                sequence={[
-                  "I'm Gilang Pratama Putra",
-                  8000,
-                  "",
-                  1000,
-                  "I'm Gilang Pratama Putra",
-                  8000,
-                  "",
-                  1000,
-                ]}
-                wrapper="span"
-                speed={50}
-                className="text-3xl md:text-4xl font-bold"
-                repeat={Infinity}
-                cursor={true}
-                deletionSpeed={65}
-              />
-            </motion.h1>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-gray-600 text-lg leading-relaxed text-justify font-medium"
-            >
-              <p>
-                Seorang yang penuh semangat dan selalu ingin berkembang di dunia teknologi dan manajemen. Saat ini, saya fokus untuk membangun karir di bidang System Analyst, Business Analyst, Product Owner, dan Project Manager. Namun, saya juga terbuka untuk berbagai peluang lain yang sesuai dengan keterampilan dan minat saya.
-              </p>
-            </motion.div>
+          <div className="flex-1">
+            <div className="flex flex-col text-content">
+              <motion.h1 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="hero-title"
+              >
+                <span className="bg-gradient-to-r from-orange-500 to-yellow-500 text-transparent bg-clip-text">
+                  Hallo :)
+                </span>
+                <TypeAnimation
+                  sequence={[
+                    " I'm Gilang Pratama Putra",
+                    8000,
+                    "",
+                    1000,
+                    " I'm Gilang Pratama Putra",
+                    8000,
+                    "",
+                    1000,
+                  ]}
+                  wrapper="span"
+                  speed={50}
+                  className="text-3xl md:text-4xl font-bold"
+                  repeat={Infinity}
+                  cursor={true}
+                  deletionSpeed={65}
+                />
+              </motion.h1>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="text-gray-600 text-lg leading-relaxed text-justify font-medium"
+              >
+                <p>
+                  Seorang yang penuh semangat dan selalu ingin berkembang di dunia teknologi dan manajemen. Saat ini, saya fokus untuk membangun karir di bidang System Analyst, Business Analyst, Product Owner, dan Project Manager. Namun, saya juga terbuka untuk berbagai peluang lain yang sesuai dengan keterampilan dan minat saya.
+                </p>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="mt-6"
-            >
-              <h3 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-orange-400 pb-2 inline-block">
-                Pengalaman
-              </h3>
-              <p className="text-gray-600 text-justify leading-relaxed font-medium">
-                Dengan latar belakang di bidang IT, saya telah mendapatkan pengalaman berharga melalui magang dan kerja praktik langsung. Pengalaman ini membantu saya untuk memahami bagaimana mengelola proyek dari awal hingga akhir, berkolaborasi dalam tim, serta mencari solusi kreatif untuk setiap tantangan yang muncul. Saya selalu berusaha untuk terus belajar, mengembangkan diri, dan bekerja dengan tim yang solid untuk menciptakan hasil terbaik.
-              </p>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+                className="mt-6"
+              >
+                <h3 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-orange-400 pb-2 inline-block">
+                  Pengalaman
+                </h3>
+                <p className="text-gray-600 text-justify leading-relaxed font-medium">
+                  Dengan latar belakang di bidang IT, saya telah mendapatkan pengalaman berharga melalui magang dan kerja praktik langsung. Pengalaman ini membantu saya untuk memahami bagaimana mengelola proyek dari awal hingga akhir, berkolaborasi dalam tim, serta mencari solusi kreatif untuk setiap tantangan yang muncul. Saya selalu berusaha untuk terus belajar, mengembangkan diri, dan bekerja dengan tim yang solid untuk menciptakan hasil terbaik.
+                </p>
+              </motion.div>
+            </div>
           </div>
         </div>
 
-        {/* Middle Section dengan Foto 2 */}
-        <div className="flex gap-8 mb-12">
-          <div className="flex-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <h3 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-orange-400 pb-2 inline-block">
-                Cara Saya Bekerja
-              </h3>
-              <p className="text-gray-600 text-justify leading-relaxed font-medium">
-              Saya senang dengan tantangan baru, terutama dalam hal mengelola tim dan proyek, serta mencari cara-cara baru untuk membuat proses kerja 
-              lebih efisien dan efektif. Dalam setiap peran yang saya jalani, saya berusaha untuk selalu berpikir kritis, berkomunikasi dengan jelas, 
-              dan beradaptasi dengan cepat terhadap perubahan.
-              </p>
-            </motion.div>
+        {/* Middle Section */}
+        <div className="flex flex-col md:flex-row items-start justify-between">
+          {/* Bagian teks (kiri) */}
+          <div className="w-full pr-8"> {/* Container untuk teks */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-orange-400 pb-2 inline-block">
+                  Cara Saya Bekerja
+                </h3>
+                <p className="text-gray-600 text-justify leading-relaxed font-medium">
+                  Saya senang dengan tantangan baru, terutama dalam hal mengelola tim dan proyek, serta mencari cara-cara baru untuk membuat proses kerja 
+                  lebih efisien dan efektif. Dalam setiap peran yang saya jalani, saya berusaha untuk selalu berpikir kritis, berkomunikasi dengan jelas, 
+                  dan beradaptasi dengan cepat terhadap perubahan.
+                </p>
+              </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="mt-6"
-            >
-              <h3 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-orange-400 pb-2 inline-block">
-              Minat & Pengembangan
-              </h3>
-              <p className="text-gray-600 text-justify leading-relaxed font-medium">
-              Di luar pekerjaan, saya adalah seseorang yang selalu ingin tahu lebih banyak tentang teknologi terbaru dan bagaimana hal itu bisa 
-              diterapkan untuk menyelesaikan masalah bisnis dan meningkatkan kualitas produk. Saya percaya bahwa pengembangan diri adalah perjalanan 
-              tanpa akhir, dan saya terbuka untuk berbagai peluang yang dapat memperkaya pengalaman saya.Jika Anda tertarik untuk berdiskusi atau bekerja
-              sama, saya selalu terbuka untuk peluang baru, baik itu posisi di dalam maupun luar bidang saya. Saya percaya setiap pengalaman adalah kesempatan untuk tumbuh dan belajar lebih banyak.
+              <div className="mt-6">
+                <h3 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-orange-400 pb-2 inline-block">
+                  Minat & Pengembangan
+                </h3>
+                <p className="text-gray-600 text-justify leading-relaxed font-medium">
+                  Di luar pekerjaan, saya adalah seseorang yang selalu ingin tahu lebih banyak tentang teknologi terbaru dan bagaimana hal itu bisa 
+                  diterapkan untuk menyelesaikan masalah bisnis dan meningkatkan kualitas produk. Saya percaya bahwa pengembangan diri adalah perjalanan 
+                  tanpa akhir, dan saya terbuka untuk berbagai peluang yang dapat memperkaya pengalaman saya.Jika Anda tertarik untuk berdiskusi atau bekerja
+                  sama, saya selalu terbuka untuk peluang baru, baik itu posisi di dalam maupun luar bidang saya. Saya percaya setiap pengalaman adalah kesempatan untuk tumbuh dan belajar lebih banyak.
 
-              </p>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Gambar (kanan) */}
+          <div className="w-full md:w-1/3 flex justify-center md:justify-end mt-8 md:mt-0">
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="w-[200px] h-[260px] md:w-[300px] md:h-[350px] flex-shrink-0" // Ukuran foto dikustomisasi di sini
+              >
+              <img
+                src={ProfilImg2}
+                alt="Gilang Working"
+                className="w-full h-full object-cover rounded-2xl border-2 border-orange-400 shadow-lg hover:shadow-2xl transition-all duration-300"
+              />
             </motion.div>
           </div>
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="w-60 h-80 flex-shrink-0"
-          >
-            <img
-              src={ProfilImg2}
-              alt="Gilang Working"
-              className="w-full h-full object-cover rounded-2xl border-2 border-orange-400 shadow-lg hover:shadow-2xl transition-all duration-300"
-            />
-          </motion.div>
         </div>
 
         {/* Hire Me Section dengan Social Media Icons */}
@@ -237,8 +236,8 @@ const TentangSaya = () => {
           transition={{ duration: 0.5, delay: 1 }}
           className="flex flex-col items-center gap-6"
         >
-          <p className="text-gray-600 text-center max-w-8xl leading-relaxed font-medium text-lg">
-          Jika tertarik untuk berdiskusi atau bekerja sama, saya selalu terbuka untuk peluang baru, baik itu posisi di dalam maupun luar bidang saya. Saya percaya setiap pengalaman adalah kesempatan untuk tumbuh dan belajar lebih banyak.
+          <p className="text-gray-600 text-center mt-8 max-w-8xl leading-relaxed font-medium text-lg">
+            Jika tertarik untuk berdiskusi atau bekerja sama, saya selalu terbuka untuk peluang baru, baik itu posisi di dalam maupun luar bidang saya. Saya percaya setiap pengalaman adalah kesempatan untuk tumbuh dan belajar lebih banyak.
           </p>
 
           <div className="relative">

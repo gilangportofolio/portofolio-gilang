@@ -13,7 +13,7 @@ function App() {
       <Header />
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Navigate to="/tentang-saya" replace />} />
+          <Route index element={<Navigate to="/tentang-saya" replace />} />
           <Route path="/tentang-saya" element={<TentangSaya />} />
           <Route path="/pendidikan" element={<Pendidikan />} />
           <Route path="/pengalaman" element={<Pengalaman />} />

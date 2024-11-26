@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import supabase from '../config/supabaseClient'
-import { AcademicCapIcon } from '@heroicons/react/24/solid'
+import LoadingSpinner from '../components/LoadingSpinner'
 import '../styles/Pendidikan.css'
 
 const Pendidikan = () => {
@@ -43,63 +44,80 @@ const Pendidikan = () => {
     fetchEducations()
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <LoadingSpinner />
   if (error) return <div>Error: {error}</div>
 
   return (
-    <section className="relative py-20 px-4 mt-16">
-      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full translate-x-1/4 -translate-y-1/4 opacity-50 -z-50"></div>
-      
-      <div className="max-w-6xl mx-auto education-timeline">
-        <div className="timeline-line"></div>
-        
+    <section className="py-20 px-4">
+      <div className="max-w-6xl mx-auto">
         {educations.map((edu, index) => (
-          <div key={edu.id} className="education-card animate-fadeIn" style={{ animationDelay: `${index * 0.2}s` }}>
-            <div className="timeline-dot">
-              <AcademicCapIcon className="w-6 h-6 text-orange-500" />
+          <motion.div
+            key={edu.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
+            className="bg-white rounded-2xl shadow-lg p-6 mb-8 hover:shadow-xl transition-shadow"
+          >
+            <div className="flex flex-col items-center md:items-start">
+              <div className="w-20 h-20 md:w-24 md:h-24 mb-4 md:mb-0">
+                <img
+                  src={edu.logo_url}
+                  alt={`Logo ${edu.nama}`}
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
-            
-            <div className="education-header">
-              <div className="education-title-container">
-                <div>
-                  <h3 className="education-title">
-                    {edu.nama}
-                    <span className="text-gray-600 font-normal">, {edu.lokasi}</span>
-                  </h3>
-                  {edu.jurusan && (
-                    <p className="education-subtitle">{edu.jurusan}</p>
-                  )}
+
+            <div className="flex-1">
+              <div className="text-center md:text-left">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-800">
+                  {edu.nama}
+                </h3>
+                <p className="text-orange-500 font-semibold mt-1">
+                  {edu.jurusan}
+                </p>
+                
+                <div className="mt-2 flex flex-row items-center justify-center md:justify-end gap-2">
+                  <p className="text-gray-600">
+                    {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}
+                  </p>
+                  <span className="text-gray-400">•</span>
+                  <p className="text-gray-600">
+                    {edu.lokasi}
+                  </p>
                 </div>
               </div>
-              <span className="education-year">
-                {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}
-              </span>
-            </div>
 
-            {edu.deskripsi && (
-              <p className="education-description">{edu.deskripsi}</p>
-            )}
+              {edu.deskripsi && (
+                <p className="text-gray-700 mt-4 text-center md:text-left">{edu.deskripsi}</p>
+              )}
 
-            {edu.pendidikan_detail && edu.pendidikan_detail.length > 0 && (
-              <div className="points-list">
-                {edu.pendidikan_detail.map((detail) => (
-                  <div key={detail.id} className="point-item">
-                    <div className="point-bullet"></div>
-                    <div>
-                      <h4 className="point-title text-justify">
-                        {detail.poin}
-                      </h4>
-                      {detail.penjelasan && (
-                        <p className="point-description text-justify">
-                          {detail.penjelasan}
+              {edu.pendidikan_detail && edu.pendidikan_detail.length > 0 && (
+                <div className="space-y-3 mt-4">
+                  {edu.pendidikan_detail.map((detail) => (
+                    <motion.div
+                      key={detail.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="flex gap-3 items-start"
+                    >
+                      <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-gray-800">
+                          {detail.poin}
                         </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+                        {detail.penjelasan && (
+                          <p className="text-gray-600 text-justify mt-1">
+                            {detail.penjelasan}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
         ))}
       </div>
     </section>

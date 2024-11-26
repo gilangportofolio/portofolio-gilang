@@ -2,41 +2,128 @@
   /* Header Section */
   .profile-section {
     flex-direction: column;
+    align-items: center;
+    gap: 2rem;
   }
 
   /* Profile Image Container */
   .profile-image-container {
-    width: 100%;
-    max-width: 240px;
+    width: 200px;
+    height: 260px;
     margin: 0 auto;
   }
 
   /* Text Content */
   .hero-title {
-    font-size: 1.875rem; /* text-3xl */
+    font-size: 1.5rem;
+    text-align: center;
   }
 
-  .hero-subtitle {
-    font-size: 1.5rem; /* text-2xl */
+  .text-content {
+    padding: 0 1rem;
+  }
+
+  /* Middle Section */
+  .middle-section {
+    flex-direction: column-reverse;
+    gap: 2rem;
   }
 
   /* Skills Section */
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
-  /* Social Media Icons */
-  .social-icons-container {
-    flex-wrap: wrap;
+  .skill-item {
+    padding: 0.75rem;
+  }
+
+  /* Spacing */
+  .page-section {
+    padding: 2rem 1rem;
   }
 }
 
+/* Untuk layar yang lebih kecil */
 @media (max-width: 480px) {
+  .profile-image-container {
+    width: 160px;
+    height: 200px;
+  }
+
   .skills-grid {
     grid-template-columns: 1fr;
   }
 
-  .page-section {
-    padding: 5rem 1rem;
+  .hero-title {
+    font-size: 1.25rem;
+  }
+}
+
+.middle-section {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .middle-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  
+  .profile-image-container {
+    position: sticky;
+    top: 2rem;
+    width: 300px;
+    height: 400px;
+  }
+} 
+
+/* Atur ukuran yang sama untuk semua foto */
+.profile-image-container {
+  width: 250px;    /* Ukuran yang sama untuk semua foto */
+  height: 320px;   /* Proporsional dengan width */
+  flex-shrink: 0;  /* Mencegah foto mengecil */
+}
+
+/* Atur jarak yang konsisten */
+.profile-section, .middle-section {
+  display: flex;
+  gap: 2rem;       /* Jarak 2rem (32px) antara foto dan teks */
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .profile-image-container {
+    width: 200px;
+    height: 260px;
+  }
+  
+  .profile-section, .middle-section {
+    flex-direction: column;
+    align-items: center;
+  }
+} 
+
+.profile-image-container {
+  width: 250px;
+  height: 500px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .profile-image-container {
+    width: 200px;
+    height: 260px;
+    margin: 0 auto;
+  }
+  
+  /* Reset padding pada mobile */
+  .w-full.md\:w-2\/3.pr-8 {
+    padding-right: 0;
   }
 } 
