@@ -41,7 +41,7 @@ const Sertifikat = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <section className="py-20 px-4 mb-8 ">
+    <section className=" max-w-7xl mx-auto px-4 mb-8 mt-16 ">
       <div className="max-w-6xl mx-auto">
         {/* Filter Buttons */}
         <div className="flex flex-wrap gap-2 mb-8 justify-center">

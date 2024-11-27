@@ -1,60 +1,50 @@
 .skills-section {
-  @apply max-w-6xl mx-auto mt-20;
-}
-
-.skills-title {
-  @apply text-2xl font-bold text-center mb-12;
+  @apply mt-20 max-w-7xl mx-auto px-4;
 }
 
 .skill-category {
-  @apply mb-12 bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-shadow;
-}
-
-.category-title {
-  @apply text-xl font-semibold mb-6 text-gray-800;
-}
-
-.skills-grid {
-  @apply grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4;
+  @apply bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow-md;
 }
 
 .skill-item {
-  @apply flex flex-col items-center 
-         shadow-sm hover:shadow-md transition-all duration-300 
-         hover:scale-105 cursor-pointer;
+  @apply transition-all duration-300;
 }
 
 .skill-icon {
-  @apply w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mb-3;
-  @apply border border-gray-200 p-2;
+  @apply flex items-center justify-center w-12 h-12;
 }
 
 .skill-icon svg {
-  @apply w-6 h-6;
+  @apply w-8 h-8;
 }
 
-.skill-name {
-  @apply text-sm text-center text-gray-700 font-medium;
+.skill-category h3 {
+  @apply text-xl font-semibold mb-6 text-gray-700;
 }
 
-.skill-item:hover .skill-icon {
-  @apply bg-gray-100 border-gray-300;
-  transform: scale(1.1);
-  transition: all 0.3s ease;
+@media (max-width: 768px) {
+  .skills-grid {
+    @apply grid-cols-4 gap-4;
+  }
 }
 
-.icon-office {
-  @apply bg-blue-50 border-blue-200;
+@media (max-width: 480px) {
+  .skills-grid {
+    @apply grid-cols-3;
+  }
 }
 
-.icon-dev {
-  @apply bg-gray-50 border-gray-200;
+.text-gradient {
+  background: linear-gradient(90deg, #f97316, #facc15, #f97316);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 3s linear infinite;
 }
 
-.icon-programming {
-  @apply bg-green-50 border-green-200;
-}
-
-.icon-social {
-  @apply bg-blue-50 border-blue-200;
+@keyframes gradient {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
 } 

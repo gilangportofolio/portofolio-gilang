@@ -6,6 +6,7 @@ import Pendidikan from './pages/Pendidikan'
 import Pengalaman from './pages/Pengalaman'
 import Sertifikat from './pages/Sertifikat'
 import Portofolio from './pages/Portofolio'
+import logo from '/logogram.svg'
 
 function App() {
   return (

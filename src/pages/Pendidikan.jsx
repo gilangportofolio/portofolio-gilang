@@ -48,7 +48,7 @@ const Pendidikan = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <section className="py-20 px-4">
+    <section className=" max-w-7xl mx-auto px-4 mb-8 mt-16 ">
       <div className="max-w-6xl mx-auto">
         {educations.map((edu, index) => (
           <motion.div
@@ -102,7 +102,7 @@ const Pendidikan = () => {
                       >
                         <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
                         <div>
-                          <p className="font-medium text-gray-800">
+                          <p className="font-medium text-justify text-gray-800">
                             {detail.poin}
                           </p>
                           {detail.penjelasan && (
