@@ -49,6 +49,8 @@ const Pengalaman = () => {
       case 'organisasi':
         return 'status-organisasi';
       case 'intern':
+      case 'internship':
+      case 'magang':
         return 'status-intern';
       default:
         return 'status-fulltime';
@@ -75,33 +77,45 @@ const Pengalaman = () => {
       <div className="filter-container">
         <button 
           onClick={() => setActiveFilter('all')}
-          className={`filter-button ${activeFilter === 'all' ? 'active' : ''}`}
+          className={`filter-button ${activeFilter === 'all' ? 'active' : ''} 
+            bg-emerald-500 text-black hover:bg-emerald-600 shadow-md border border-emerald-600`}
         >
           Semua
         </button>
         <button 
           onClick={() => setActiveFilter('fulltime')}
-          className={`filter-button ${activeFilter === 'fulltime' ? 'active' : ''}`}
+          className={`filter-button ${activeFilter === 'fulltime' ? 'active' : ''} 
+            bg-blue-500 text-black hover:bg-blue-600 shadow-md border border-blue-600`}
         >
           Full Time
         </button>
         <button 
           onClick={() => setActiveFilter('freelance')}
-          className={`filter-button ${activeFilter === 'freelance' ? 'active' : ''}`}
+          className={`filter-button ${activeFilter === 'freelance' ? 'active' : ''} 
+            bg-purple-500 text-black hover:bg-purple-600 shadow-md border border-purple-600`}
         >
           Freelance
         </button>
         <button 
           onClick={() => setActiveFilter('organisasi')}
-          className={`filter-button ${activeFilter === 'organisasi' ? 'active' : ''}`}
+          className={`filter-button ${activeFilter === 'organisasi' ? 'active' : ''} 
+            bg-orange-500 text-black hover:bg-orange-600 shadow-md border border-orange-600`}
         >
           Organisasi
         </button>
         <button 
           onClick={() => setActiveFilter('parttime')}
-          className={`filter-button ${activeFilter === 'parttime' ? 'active' : ''}`}
+          className={`filter-button ${activeFilter === 'parttime' ? 'active' : ''} 
+            bg-yellow-500 text-black hover:bg-yellow-600 shadow-md border border-yellow-600`}
         >
           Part Time
+        </button>
+        <button 
+          onClick={() => setActiveFilter('intern')}
+          className={`filter-button ${activeFilter === 'intern' ? 'active' : ''} 
+            bg-teal-500 text-black hover:bg-teal-600 shadow-md border border-teal-600`}
+        >
+          Intern
         </button>
       </div>
 

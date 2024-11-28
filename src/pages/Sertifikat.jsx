@@ -49,8 +49,10 @@ const Sertifikat = () => {
             <button
               key={type}
               onClick={() => setSelectedType(type)}
-              className={`filter-button ${
-                selectedType === type ? 'active' : ''
+              className={`px-4 py-2 rounded-full font-medium transition-all duration-300 ${
+                selectedType === type 
+                  ? 'bg-emerald-400 text-white' // Warna hijau yang lebih cerah untuk yang aktif
+                  : 'bg-white text-black border border-slate-300 hover:bg-emerald-50' // Outline style yang lebih ringan
               }`}
             >
               {type === 'all' ? 'Semua' : type}

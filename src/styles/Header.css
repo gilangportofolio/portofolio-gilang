@@ -1,14 +1,13 @@
 /* Base Header */
 header {
-  @apply fixed top-0 left-0 right-0 bg-white z-50;
+  @apply fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-emerald-100;
   width: 100%;
 }
 
 /* Container Navigation */
 .nav-container {
-  @apply relative flex items-center justify-between px-4 mx-auto;
+  @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
   height: 60px;
-  max-width: 1280px;
 }
 
 /* Mobile Menu Button */
@@ -91,8 +90,9 @@ header {
 
 /* Navigation Menu */
 .nav-menu {
-  @apply absolute left-1/2 -translate-x-1/2
-         flex items-center space-x-6 justify-center;
+  @apply flex items-center space-x-6 justify-center;
+  position: relative;
+  transform: none;
 }
 
 /* Orange Border Bottom */
@@ -107,16 +107,24 @@ header {
 }
 
 .dropdown-menu {
-  @apply absolute bg-white rounded-lg shadow-lg py-2 mt-1;
+  @apply absolute bg-white/95 backdrop-blur-sm rounded-lg shadow-lg py-2 mt-1 
+         transform opacity-0 scale-95 transition-all duration-200
+         origin-top border border-emerald-100;
   min-width: 200px;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
+  transform: translateX(-50%) scale(0.95);
+  visibility: hidden;
+}
+
+.dropdown-container:hover .dropdown-menu {
+  @apply opacity-100 scale-100;
+  visibility: visible;
 }
 
 .dropdown-item {
   @apply block w-full px-4 py-2 text-left text-gray-700 
-         hover:bg-gray-100 whitespace-nowrap;
+         hover:bg-gradient-to-r hover:from-yellow-50 hover:to-orange-50
+         transition-colors duration-200;
 }
 
 /* Admin Area Link */
@@ -153,4 +161,47 @@ main {
   .mobile-menu {
     @apply hidden;
   }
+}
+
+/* Tambahkan/update styles berikut */
+.nav-link {
+  @apply px-3 py-2 text-gray-700 hover:text-emerald-600 transition-colors duration-300 whitespace-nowrap;
+}
+
+.nav-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-emerald-600 transition-all duration-300;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  @apply w-full;
+}
+
+.nav-link.active {
+  @apply text-emerald-600 font-medium;
+}
+
+/* Admin icon animation */
+.admin-icon a {
+  @apply transition-transform duration-300 hover:scale-110;
+}
+
+/* Border bottom animation */
+.border-bottom-gradient {
+  height: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.border-bottom-gradient::after {
+  content: '';
+  @apply absolute top-0 left-0 w-full h-full;
+  background: linear-gradient(to right, transparent, white, transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 } 

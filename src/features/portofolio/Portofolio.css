@@ -1,0 +1,175 @@
+.wadah-portofolio {
+  @apply container mx-auto px-4 py-12;
+  max-width: 1280px;
+}
+
+.kepala-portofolio {
+  @apply text-center mb-12;
+}
+
+.deskripsi-portofolio {
+  @apply text-gray-600 mt-4;
+}
+
+.bagian-filter {
+  @apply flex flex-wrap justify-center gap-4 mb-12;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(232, 245, 233, 0.9);
+  backdrop-filter: blur(8px);
+  padding: 1rem 0;
+}
+
+.tombol-filter {
+  @apply px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300;
+  background-color: var(--color-white);
+  color: var(--color-dark);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.tombol-filter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tombol-filter.aktif {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  border: none;
+}
+
+.grid-portofolio {
+  @apply grid gap-8;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.kartu-portofolio {
+  @apply bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wadah-gambar {
+  @apply relative;
+  height: 200px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+.wadah-gambar:hover img {
+  transform: scale(1.05);
+}
+
+.wadah-gambar img {
+  @apply w-full h-full object-cover;
+  transition: transform 0.3s ease;
+  background-color: transparent;
+}
+
+.label-kategori {
+  @apply absolute top-4 right-4 px-4 py-1.5 rounded-full text-sm font-medium;
+  background: rgba(80, 200, 120, 0.9);
+  backdrop-filter: blur(4px);
+  color: var(--color-white);
+}
+
+.tombol-pratinjau {
+  @apply absolute inset-0 flex items-center justify-center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border: none; /* Tambahkan ini */
+}
+
+.wadah-gambar .tombol-pratinjau:hover {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-color: transparent !important;
+  background-image: none !important;
+}
+
+.wadah-konten {
+  @apply p-6 flex-1 flex flex-col;
+}
+
+.wadah-konten p {
+  @apply text-gray-600 mt-2;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em;
+}
+
+.wadah-konten h3 {
+  @apply text-lg font-semibold;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wadah-alat {
+  @apply flex flex-wrap gap-2 mt-4;
+}
+
+.label-alat {
+  @apply px-3 py-1 rounded-full text-xs font-medium;
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+}
+
+.wadah-aksi {
+  @apply flex items-center gap-4 mt-auto pt-4;
+}
+
+.tautan-situs {
+  @apply flex items-center gap-2 text-sm font-medium transition-colors duration-300;
+  color: var(--color-primary);
+}
+
+.tombol-detail {
+  @apply px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+}
+
+.wadah-halaman {
+  @apply flex justify-center items-center gap-4 mt-12;
+}
+
+.tombol-halaman {
+  @apply px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300;
+  background: var(--color-white);
+  color: var(--color-dark);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.info-halaman {
+  @apply text-sm text-gray-600;
+}
+
+.pesan-kosong {
+  @apply col-span-4 text-center py-12 text-gray-500;
+}
+
+@media (max-width: 1024px) {
+  .grid-portofolio {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-portofolio {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-portofolio {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}

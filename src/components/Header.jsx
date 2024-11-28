@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { FaChevronDown, FaUserCircle } from 'react-icons/fa'
 import { HiMenu } from 'react-icons/hi'
 import '../styles/Header.css'
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -62,26 +63,34 @@ const Header = () => {
             </button>
 
             {isDropdownOpen && (
-              <div className="dropdown-menu">
-                <Link to="/portofolio/all" className="dropdown-item">
-                  Semua Projek
-                </Link>
-                <Link to="/portofolio/website" className="dropdown-item">
-                  Website
-                </Link>
-                <Link to="/portofolio/sistem-analis" className="dropdown-item">
-                  Sistem Analis
-                </Link>
-                <Link to="/portofolio/bisnis-analis" className="dropdown-item">
-                  Bisnis Analis
-                </Link>
-                <Link to="/portofolio/desain-ui" className="dropdown-item">
-                  Desain UI
-                </Link>
-                <Link to="/portofolio/desain-visual" className="dropdown-item">
-                  Desain Visual
-                </Link>
-              </div>
+              <AnimatePresence>
+                <motion.div 
+                  className="dropdown-menu"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link to="/portofolio/all" className="dropdown-item">
+                    Semua Projek
+                  </Link>
+                  <Link to="/portofolio/website" className="dropdown-item">
+                    Website
+                  </Link>
+                  <Link to="/portofolio/sistem-analis" className="dropdown-item">
+                    Sistem Analis
+                  </Link>
+                  <Link to="/portofolio/bisnis-analis" className="dropdown-item">
+                    Bisnis Analis
+                  </Link>
+                  <Link to="/portofolio/desain-ui" className="dropdown-item">
+                    Desain UI
+                  </Link>
+                  <Link to="/portofolio/desain-visual" className="dropdown-item">
+                    Desain Visual
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
             )}
           </div>
         </div>
