@@ -79,7 +79,10 @@ const Sertifikat = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <>
+         <div className="relative min-h-screen">
+      <div className="fixed top-40 right-10 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 translate-x-1/2 -translate-y-1/2"></div>
+      <div className="fixed bottom-0 left-20 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 -translate-x-1/2 translate-y-1/2"></div>
+      
       <section className="max-w-7xl mx-auto px-4 mb-8 mt-16 w-[1280px]">
         <div className="w-full">
           {/* Filter Buttons */}
@@ -245,7 +248,7 @@ const Sertifikat = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

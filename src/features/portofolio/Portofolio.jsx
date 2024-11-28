@@ -41,6 +41,10 @@ const Portofolio = () => {
   }
 
   return (
+    <div className="relative min-h-screen">
+    <div className="fixed top-40 right-10 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 translate-x-1/2 -translate-y-1/2"></div>
+    <div className="fixed bottom-0 left-20 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 -translate-x-1/2 translate-y-1/2"></div>
+    
     <div className="wadah-portofolio">
       <div className="kepala-portofolio">
         <h1>Portofolio</h1>
@@ -102,6 +106,7 @@ const Portofolio = () => {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 };
