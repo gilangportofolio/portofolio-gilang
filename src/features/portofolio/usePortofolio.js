@@ -1,13 +1,51 @@
 import { useState, useEffect } from 'react';
 import supabase from '../../config/supabaseClient';
 
+export const getCategoryColor = (category) => {
+  const colorMap = {
+    'UI/UX': {
+      bg: 'rgba(147, 51, 234, 0.9)',  // Ungu
+      text: '#ffffff'
+    },
+    'Design Visual': {
+      bg: 'rgba(236, 72, 153, 0.9)',  // Pink
+      text: '#ffffff'
+    },
+    'Website': {
+      bg: 'rgba(59, 130, 246, 0.9)',  // Biru
+      text: '#ffffff'
+    },
+    'System Analyst': {
+      bg: 'rgba(245, 158, 11, 0.9)',  // Oranye
+      text: '#ffffff'
+    },
+    'Bisnis Analyst': {
+      bg: 'rgba(16, 185, 129, 0.9)',  // Hijau
+      text: '#ffffff'
+    },
+    'Dokumentasi': {
+      bg: 'rgba(107, 114, 128, 0.9)',  // Abu-abu
+      text: '#ffffff'
+    },
+    'Projek Lain': {
+      bg: 'rgba(220, 38, 38, 0.9)',   // Merah
+      text: '#ffffff'
+    },
+    'Semua': {
+      bg: 'var(--gradient-primary)',
+      text: '#ffffff'
+    }
+  };
+  return colorMap[category] || { bg: 'rgba(80, 200, 120, 0.9)', text: '#ffffff' };
+};
+
 const usePortofolio = () => {
   const [portofolios, setPortofolios] = useState([]);
   const [filteredPortofolios, setFilteredPortofolios] = useState([]);
   const [activeFilter, setActiveFilter] = useState('Semua');
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 12;
+  const ITEMS_PER_PAGE = 6;
 
   const normalizeCategory = (category) => {
     const categoryMap = {
@@ -64,37 +102,51 @@ const usePortofolio = () => {
     }
   };
 
+  const filterPortofolios = (category) => {
+    if (category === 'Semua') {
+      return portofolios;
+    }
+    return portofolios.filter(item => normalizeCategory(item.kategori) === category);
+  };
+
   const handleFilterChange = (category) => {
     setActiveFilter(category);
     setCurrentPage(1);
-    if (category === 'Semua') {
-      setFilteredPortofolios(portofolios);
-    } else {
-      const filtered = portofolios.filter(item => 
-        normalizeCategory(item.kategori) === category
-      );
-      setFilteredPortofolios(filtered);
-    }
+    const filtered = filterPortofolios(category);
+    setFilteredPortofolios(filtered);
+  };
+
+  const getPaginatedPortofolios = () => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredPortofolios.slice(startIndex, endIndex);
   };
 
   useEffect(() => {
     fetchPortofolios();
   }, []);
 
-  const paginatedPortofolios = filteredPortofolios.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  useEffect(() => {
+    const filtered = filterPortofolios(activeFilter);
+    setFilteredPortofolios(filtered);
+  }, [portofolios, activeFilter]);
+
+  useEffect(() => {
+    const maxPage = Math.ceil(filteredPortofolios.length / ITEMS_PER_PAGE);
+    if (currentPage > maxPage) {
+      setCurrentPage(1);
+    }
+  }, [filteredPortofolios, currentPage]);
 
   return {
-    paginatedPortofolios,
+    paginatedPortofolios: getPaginatedPortofolios(),
     activeFilter,
     isLoading,
     currentPage,
     setCurrentPage,
     handleFilterChange,
-    ITEMS_PER_PAGE,
-    totalPages: Math.ceil(filteredPortofolios.length / ITEMS_PER_PAGE)
+    totalPages: Math.ceil(filteredPortofolios.length / ITEMS_PER_PAGE),
+    filteredPortofolios
   };
 };
 

@@ -1,21 +1,29 @@
 /* Container utama */
 .pengalaman-section {
-  @apply max-w-7xl mx-auto px-4 mb-8 mt-16;
+  @apply max-w-7xl mx-auto px-4;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 /* Card wrapper */
 .experience-wrapper {
-  @apply w-full flex justify-center items-center gap-20;
+  @apply flex justify-center items-center gap-20;
+  width: 1280px !important;
+  max-width: 100%;
 }
 
 /* Card */
-/* Jarak antar card */
 .experience-card {
-    @apply bg-white p-8 rounded-lg border border-gray-200 
-           shadow-sm hover:shadow-md transition-shadow
-           mb-8; /* Menambah margin bottom */
-  }
-
+  @apply bg-white p-8 rounded-lg border border-gray-200 
+         shadow-sm hover:shadow-md transition-shadow
+         mb-8;
+  width: 1280px !important;
+  max-width: 100%;
+  position: relative;
+}
 
 /* Mengatur posisi card kiri-kanan */
 .experience-wrapper:nth-child(odd) .experience-card {
@@ -29,6 +37,8 @@
 /* Card Elements */
 .status-badge {
   @apply px-3 py-1 rounded-full text-sm font-medium;
+  display: inline-block;
+  width: auto !important;
 }
 
 .company-name {
@@ -77,35 +87,29 @@
   @apply mt-4 text-sm text-gray-500 italic border-l-2 border-purple-300 pl-4;
 }
 
-/* Status Colors */
+/* Status Colors - Perbaikan */
 .status-fulltime,
-.status-Full-Time,
-.status-full-time,
-.status-Full\ Time {
+.status-Full-Time {
   @apply bg-emerald-100 text-emerald-800;
 }
 
 .status-parttime,
-.status-Part-Time,
-.status-part-time,
-.status-Part\ Time,
-.status-Partime {
+.status-Part-Time {
   @apply bg-blue-100 text-blue-800;
 }
 
-.status-freelance,
-.status-Freelance {
+.status-freelance {
   @apply bg-purple-100 text-purple-800;
 }
 
-.status-organisasi,
-.status-Organisasi {
+.status-organisasi {
   @apply bg-orange-100 text-orange-800;
 }
 
-.status-intern,
-.status-Intern {
-  @apply bg-yellow-100 text-yellow-800;
+.status-intern {
+  @apply bg-yellow-100 text-yellow-800 !important;
+  background-color: rgb(254 249 195) !important;
+  color: rgb(133 77 14) !important;
 }
 
 /* Animations */
@@ -190,12 +194,14 @@
 
 /* Filter Buttons Container */
 .filter-container {
+  @apply max-w-7xl mx-auto px-4;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 8px;
   justify-content: center;
   margin-bottom: 2rem;
-  padding: 0 1rem;
+  width: 1280px !important;
+  max-width: 100%;
 }
 
 /* Filter Button Style */
@@ -204,40 +210,32 @@
   border-radius: 9999px;
   font-size: 0.875rem;
   transition: all 0.3s ease;
+  text-align: center;
+  width: 140px;
+  background: white;
+  border: 1px solid #e5e7eb;
   white-space: nowrap;
-  min-width: fit-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Active & Hover States */
+/* Active state */
 .filter-button.active {
-  background-color: #14b8a6;
-  color: white;
+  @apply bg-gray-100 text-gray-800;
 }
 
-.filter-button:not(.active) {
-  background-color: #f3f4f6;
-}
-
-.filter-button:hover:not(.active) {
-  background-color: #e5e7eb;
-}
-
-/* Mobile Responsive */
-@media (max-width: 640px) {
-  .filter-container {
-    gap: 0.25rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .filter-button {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-  }
+/* Hapus style yang mungkin override */
+.status-intern,
+.status-fulltime,
+.status-parttime,
+.status-freelance,
+.status-organisasi {
+  width: auto !important;
 }
 
 .status-intern {
-  background-color: rgb(20 184 166); /* warna teal-500 */
-  color: white;
+  background-color: initial;
+  color: initial;
 }
 
 .filter-button {
@@ -248,6 +246,86 @@
 }
 
 .filter-button.active {
-  transform: scale(1.05);
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-} 
+}
+
+.status-intern,
+.status-fulltime,
+.status-parttime,
+.status-freelance,
+.status-organisasi {
+  width: auto;
+  display: inline-block;
+}
+
+/* Container utama */
+.page-section {
+  @apply max-w-7xl mx-auto px-4 relative;
+  width: 1280px !important;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Timeline Container */
+.timeline-container {
+  @apply max-w-7xl mx-auto;
+  width: 1280px !important;
+  max-width: 100%;
+}
+
+/* Filter Container - Perbaikan */
+.filter-container {
+  @apply max-w-7xl mx-auto flex flex-wrap justify-center gap-2;
+  width: 1280px !important;
+  max-width: 100%;
+}
+
+/* Status-specific active states */
+.filter-button.active[data-status="fulltime"] {
+  @apply bg-emerald-100 text-emerald-800;
+}
+
+.filter-button.active[data-status="parttime"] {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.filter-button.active[data-status="freelance"] {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.filter-button.active[data-status="organisasi"] {
+  @apply bg-orange-100 text-orange-800;
+}
+
+.filter-button.active[data-status="intern"] {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+/* Filter button active states */
+.filter-button.active[data-filter="all"] {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.filter-button.active[data-filter="fulltime"] {
+  @apply bg-emerald-100 text-emerald-800;
+}
+
+.filter-button.active[data-filter="parttime"] {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.filter-button.active[data-filter="freelance"] {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.filter-button.active[data-filter="organisasi"] {
+  @apply bg-orange-100 text-orange-800;
+}
+
+.filter-button.active[data-filter="intern"] {
+  @apply bg-yellow-100 text-yellow-800;
+}
+ 

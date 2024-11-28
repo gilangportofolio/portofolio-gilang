@@ -69,14 +69,20 @@
 
   /* Section Padding */
   .education-section {
-    padding: 4rem 1rem;
-    margin-top: 3rem;
+    @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
+    width: 100%;
+    padding: 2rem 1rem;
+    overflow-x: hidden;
   }
 
   /* Background Decorations */
   .bg-decoration {
     width: 200px;
     height: 200px;
+  }
+
+  .page-section {
+    @apply py-12 px-4;
   }
 }
 
@@ -89,5 +95,9 @@
   .education-description,
   .point-description {
     font-size: 0.875rem;
+  }
+
+  .page-section {
+    @apply py-8 px-4;
   }
 } 

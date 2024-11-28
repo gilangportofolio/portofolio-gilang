@@ -90,21 +90,20 @@ const TentangSaya = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="page-section relative py-20 px-1">
+    <section className="page-section">
       {/* Background elements */}
       <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full translate-x-1/4 -translate-y-1/4 opacity-50 -z-50"></div>
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full -translate-x-1/4 translate-y-1/4 opacity-50 -z-50"></div>
-      <div className="absolute top-1/3 left-1/4 w-16 h-16 bg-orange-200 rounded-full blur-sm -z-50"></div>
-      <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-yellow-200 rounded-full blur-sm -z-50"></div>
-
-      <div className="max-w-7xl mx-auto">
-        {/* Header Section dengan Foto 1 */}
-        <div className="profile-section">
-        <motion.div 
+      
+      {/* Main content wrapper */}
+      <div className="max-w-7xl mx-auto flex flex-col gap-4">
+        {/* Profile Section */}
+        <div className="profile-section bg-white/80 backdrop-blur-sm rounded-lg border border-emerald-100 shadow-lg p-8">
+          <motion.div 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-[180px] h-[240px] md:w-[280px] md:h-[320px] flex-shrink-0"
+            className="w-[180px] h-[240px] md:w-[280px] md:h-[320px] flex-shrink-0 mr-8"
           >
             <img
               src={ProfilImg}
@@ -168,9 +167,9 @@ const TentangSaya = () => {
         </div>
 
         {/* Middle Section */}
-        <div className="profile-section mt-12"> {/* Tambahkan mt-12 untuk spacing */}
+        <div className="profile-section mt-4"> {/* Tambahkan mt-12 untuk spacing */}
           {/* Bagian teks (kiri) */}
-          <div className="flex-1 space-y-6">
+          <div className="flex-1 space-y-6 mr-8">
             <div>
               <h3 className="font-heading text-h3 mb-3">
                 Cara Saya Bekerja
@@ -266,7 +265,7 @@ const TentangSaya = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             className="w-[180px] h-[240px] md:w-[280px] md:h-[320px] flex-shrink-0"
-            >
+          >
             <img
               src={ProfilImg2}
               alt="Gilang Working"
@@ -279,17 +278,16 @@ const TentangSaya = () => {
         
 
       {/* Skills Section */}
-      <div className="skills-section">
+      <div className="skills-section p-8 w-full mt-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16 relative"
+          className="text-center mb-6"
         >
-          
-          <h1 className="font-heading text-2xl md:text-2xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent tracking-wider">
+          <h1 className="font-heading text-2xl md:text-2xl font-bold mb-2 bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent tracking-wider">
             Software & Skills
           </h1>
-          <div className="flex items-center justify-center gap-2 mb-6">
+          <div className="flex items-center justify-center gap-2 mb-4">
             <div className="h-[2px] w-20 bg-gradient-to-r from-orange-500 to-transparent"></div>
             <span className="text-orange-500">⚡</span>
             <div className="h-[2px] w-20 bg-gradient-to-l from-orange-500 to-transparent"></div>
@@ -300,11 +298,11 @@ const TentangSaya = () => {
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 text-center gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
           {skillCategories.map((category, idx) => (
             <motion.div 
               key={idx} 
-              className="skill-category"
+              className="skill-category bg-white/50 backdrop-blur-sm p-6 rounded-lg shadow-md"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}

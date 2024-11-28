@@ -27,7 +27,13 @@
   --color-dark: #1A1A1A;       /* Hitam */
   --color-red: #E63946;        /* Merah */
   --color-white: #FFFFFF;      /* Putih */
-  --color-background: #E8F5E9; /* Hijau ke putihan */
+  
+  /* Background System */
+  --color-bg-body: #F3F4F6;     /* Background untuk body */
+  --color-bg-main: #E8F5E9;     /* Background untuk main content */
+  --color-bg-card: #FFFFFF;     /* Background untuk card */
+  --color-bg-filter: rgba(232, 245, 233, 0.9); /* Background untuk filter */
+  --color-bg-overlay: rgba(255, 255, 255, 0.95); /* Background untuk overlay */
   
   /* Gradasi */
   --gradient-primary: linear-gradient(135deg, #50C878 0%, #3CB371 100%);
@@ -36,26 +42,74 @@
 }
 
 /* Reset dasar */
-*, *::before, *::after {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 html, body {
-  height: 100%;
   width: 100%;
-  overflow-x: hidden;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  overflow-x: hidden; /* Mencegah scroll horizontal */
+}
+
+body {
+  background: var(--color-bg-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 #root {
-  min-height: 100vh;
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+}
+
+main {
+  width: 100%;
+  padding: 0 1rem; /* Padding responsif */
+  max-width: 100%; /* Mencegah overflow */
+}
+
+/* Modern Scrollbar Style */
+::-webkit-scrollbar {
+  width: 8px; /* Lebar scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(155, 155, 155, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(155, 155, 155, 0.7);
+}
+
+/* Responsive containers */
+.container {
+  @apply max-w-7xl mx-auto px-4;
+  width: 100%;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem;
+  }
 }
 
 h1 {
@@ -70,15 +124,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--color-primary);
-  color: var(--color-white);
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: var(--color-red);
-  background: var(--gradient-hover);
-}
+
 button:focus,
 button:focus-visible {
   outline: none;
@@ -92,19 +141,6 @@ button:active {
   transition: transform 0.1s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: var(--color-dark);
-    background-color: var(--color-background);
-  }
-  a:hover {
-    color: var(--color-primary);
-  }
-  button {
-    background-color: var(--color-primary);
-  }
-}
-
 
 /* Layout styles */
 .page-container {
@@ -112,9 +148,10 @@ button:active {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1280px; /* atau sesuai kebutuhan */
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 1rem;
+  overflow: hidden;
 }
 
 .main-content {
@@ -210,152 +247,6 @@ button:active {
   user-select: text !important;
 }
 
-
-/* Pengalaman section styles */
-.pengalaman-timeline {
-  @apply absolute left-0 top-0 h-full w-0.5 bg-gray-200;
-  z-index: -1;
-}
-
-.pengalaman-card {
-  @apply grid grid-cols-[140px_1fr] items-start mb-12 last:mb-0 transition-all duration-300;
-}
-
-.pengalaman-status {
-  @apply flex justify-end pr-8;
-}
-
-.pengalaman-content-wrapper {
-  @apply relative pl-8 transition-all duration-300;
-}
-
-.pengalaman-bullet {
-  @apply absolute -left-[6px] top-[10px] w-3 h-3 bg-black rounded-full;
-  z-index: 1;
-  transition: all 0.3s ease;
-  background-color: var(--color-primary);
-}
-
-.pengalaman-content {
-  @apply relative;
-}
-
-.pengalaman-title {
-  @apply text-lg font-medium;
-  color: var(--color-primary);
-  transition: all 0.3s ease;
-}
-
-.pengalaman-position {
-  @apply text-gray-700 mt-1;
-}
-
-.pengalaman-detail {
-  @apply text-gray-600 mt-4;
-}
-
-.pengalaman-points {
-  @apply mt-4 space-y-2;
-}
-
-.pengalaman-point {
-  @apply flex gap-3;
-}
-
-.pengalaman-date {
-  @apply absolute top-0 right-0 text-black font-bold text-sm;
-}
-
-.pengalaman-note {
-  @apply text-sm text-gray-500 mt-4 italic;
-}
-
-/* Efek hover untuk card */
-.pengalaman-card:hover {
-  @apply rounded-lg;
-  background-color: rgba(80, 200, 120, 0.1);
-  transform: translateX(10px);
-  padding: 1rem;
-}
-
-/* Efek blur untuk card yang tidak di-hover */
-.max-w-4xl:hover .pengalaman-card:not(:hover) {
-  @apply opacity-50 blur-[1px];
-  transform: scale(0.98);
-}
-
-/* Efek hover untuk bullet */
-.pengalaman-card:hover .pengalaman-bullet {
-  @apply scale-150;
-  background-color: var(--color-red);
-  box-shadow: 0 0 15px rgba(251, 146, 60, 0.3);
-}
-
-/* Efek hover untuk title */
-.pengalaman-card:hover .pengalaman-title {
-  @apply text-orange-600;
-}
-
-/* Perbaiki responsive design */
-@media (max-width: 768px) {
-  .pengalaman-timeline {
-    left: 100px;
-  }
-  
-  .pengalaman-card {
-    @apply grid-cols-[100px_1fr];
-  }
-}
-
-/* Garis timeline kontinyu */
-.pengalaman-timeline-continuous {
-  @apply absolute left-[140px] top-0 bottom-0 w-0.5 bg-gray-200;
-  z-index: -1;
-  height: 100%;
-}
-
-/* Responsive adjustment */
-@media (max-width: 768px) {
-  .pengalaman-timeline-continuous {
-    left: 100px;
-  }
-}
-
-/* Status badge styles */
-.pengalaman-status-badge {
-  @apply inline-block px-4 py-1.5 text-base font-medium rounded-full;
-  @apply border border-gray-200; /* Tambahkan border */
-  @apply shadow-sm; /* Tambahkan sedikit shadow */
-}
-
-/* Variasi warna status yang diselaraskan */
-.pengalaman-status-badge[data-status="Full Time"] {
-  @apply bg-opacity-10;
-  background-color: var(--color-primary);
-  color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.pengalaman-status-badge[data-status="Intern"] {
-  background-color: rgba(230, 57, 70, 0.1);
-  color: var(--color-red);
-  border-color: var(--color-red);
-}
-
-.pengalaman-status-badge[data-status="Freelance"] {
-  @apply bg-purple-50 text-purple-700 border-purple-200;
-}
-
-.pengalaman-status-badge[data-status="Part Time"] {
-  @apply bg-green-50 text-green-700 border-green-200;
-}
-
-/* Hover effect untuk status badge */
-.pengalaman-status-badge:hover {
-  @apply shadow-md transform scale-105;
-  transition: all 0.2s ease;
-}
-
 /* Sertifikat styles */
 .sertifikat-card {
   @apply bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300;
@@ -381,19 +272,28 @@ button:active {
   animation: fadeInUp 0.5s ease-out forwards;
 }
 
+/* Filter container */
+.filter-container {
+  @apply flex flex-wrap justify-center gap-2 mx-auto;
+  width: 100%;
+  max-width: 7xl;
+}
+
 /* Styling untuk filter buttons */
 .filter-button {
-  @apply px-4 py-2 rounded-full transition-all duration-300;
+  @apply px-6 py-2 rounded-full transition-all duration-300 text-center;
+  width: 140px; /* Tetapkan lebar yang sama untuk semua button */
+  background-color: white; /* Default background */
+  color: #4B5563; /* Default text color */
+  border: 1px solid #E5E7EB;
 }
 
-.filter-button:hover {
-  background-color: rgba(80, 200, 120, 0.1);
-}
-
+/* Active state */
 .filter-button.active {
-  background: var(--gradient-primary);
-  color: var(--color-white);
+  color: white;
+  border: none;
 }
+
 
 /* Dropdown styles */
 .dropdown-menu {
@@ -430,3 +330,70 @@ button:active {
   transform: translateY(-50%);
 }
 
+/* Untuk Chrome, Safari, dan Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Untuk Firefox dan browser lainnya */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;  /* Untuk Internet Explorer dan Edge */
+}
+
+footer {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Di file CSS Anda */
+@layer utilities {
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* Animasi untuk modal */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-content {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+/* Style untuk scrollbar modal */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

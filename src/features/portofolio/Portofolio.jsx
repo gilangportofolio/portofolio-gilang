@@ -3,6 +3,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import PortofolioCard from './PortofolioCard';
 import usePortofolio from './usePortofolio';
 import './Portofolio.css';
+import { getCategoryColor } from './usePortofolio';
 
 const Portofolio = () => {
   const {
@@ -12,8 +13,17 @@ const Portofolio = () => {
     currentPage,
     setCurrentPage,
     handleFilterChange,
-    totalPages
+    totalPages,
+    filteredPortofolios
   } = usePortofolio();
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const categories = [
     'Semua',
@@ -40,22 +50,36 @@ const Portofolio = () => {
       </div>
 
       <div className="bagian-filter">
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`tombol-filter ${activeFilter === category ? 'aktif' : ''}`}
-            onClick={() => handleFilterChange(category)}
-          >
-            {category}
-          </button>
-        ))}
+        {categories.map((category) => {
+          const categoryColor = getCategoryColor(category);
+          return (
+            <button
+              key={category}
+              className={`tombol-filter ${activeFilter === category ? 'aktif' : ''}`}
+              style={
+                activeFilter === category 
+                  ? { 
+                      '--category-bg': categoryColor.bg,
+                      '--category-text': categoryColor.text 
+                    } 
+                  : {}
+              }
+              onClick={() => handleFilterChange(category)}
+            >
+              {category}
+            </button>
+          );
+        })}
       </div>
 
       <div className="grid-portofolio">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {paginatedPortofolios.length > 0 ? (
             paginatedPortofolios.map((item) => (
-              <PortofolioCard key={item.id} item={item} />
+              <PortofolioCard 
+                key={`${item.id}-${currentPage}`} 
+                item={item} 
+              />
             ))
           ) : (
             <div className="pesan-kosong">
@@ -65,25 +89,17 @@ const Portofolio = () => {
         </AnimatePresence>
       </div>
 
-      {paginatedPortofolios.length > 0 && (
-        <div className="wadah-halaman">
-          <button 
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            className="tombol-halaman"
-          >
-            Sebelumnya
-          </button>
-          
-          <span className="info-halaman">Halaman {currentPage} dari {totalPages}</span>
-          
-          <button 
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            className="tombol-halaman"
-          >
-            Selanjutnya
-          </button>
+      {filteredPortofolios.length > 0 && totalPages > 1 && (
+        <div className="wadah-pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`tombol-pagination ${currentPage === page ? 'aktif' : ''}`}
+            >
+              {page}
+            </button>
+          ))}
         </div>
       )}
     </div>

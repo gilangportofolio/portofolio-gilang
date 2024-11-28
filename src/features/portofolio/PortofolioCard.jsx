@@ -1,10 +1,29 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe, faInfoCircle, faEye } from '@fortawesome/free-solid-svg-icons';
 import ImagePreview from './ImagePreview';
+import DetailPortofolio from './DetailPortofolio';
+import ToolsList from './ToolsList';
 import './Portofolio.css';
+import { getCategoryColor } from './usePortofolio';
 
 const PortofolioCard = ({ item }) => {
   const [showPreview, setShowPreview] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const categoryColor = getCategoryColor(item.kategori);
+
+  const handleDetailClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowDetail(true);
+  };
+
+  const handleImageClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowPreview(true);
+  };
 
   return (
     <>
@@ -16,46 +35,48 @@ const PortofolioCard = ({ item }) => {
         transition={{ duration: 0.3 }}
         className="kartu-portofolio"
       >
-        <div className="wadah-gambar">
+        <div className="wadah-gambar" onClick={handleImageClick}>
           <img 
             src={item.images?.[0]?.url_gambar} 
             alt={item.judul}
             loading="lazy"
           />
-          <div className="label-kategori">{item.kategori}</div>
-          <button 
-            className="tombol-pratinjau"
-            onClick={() => setShowPreview(true)}
-            aria-label="Pratinjau gambar"
-          >
-            <i className="fas fa-eye"></i>
-          </button>
+          <div className="label-kategori" style={{ 
+            '--category-bg': categoryColor.bg,
+            '--category-text': categoryColor.text 
+          }}>
+            {item.kategori}
+          </div>
         </div>
         <div className="wadah-konten">
-          <h3>{item.judul}</h3>
-          <p>{item.deskripsi}</p>
-          <div className="wadah-alat">
-            {item.tools.map((tool, index) => (
-              <span key={index} className="label-alat">
-                {tool}
-              </span>
-            ))}
+          <div className="wadah-info">
+            <h3>{item.judul}</h3>
+            <p>{item.deskripsi}</p>
+            <ToolsList tools={item.tools} />
           </div>
           <div className="wadah-aksi">
-            {item.tautan && (
-              <a 
-                href={item.tautan} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="tautan-situs"
+            <div className="wadah-aksi-kiri">
+              {item.tautan && (
+                <a 
+                  href={item.tautan} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="tautan-situs"
+                >
+                  <FontAwesomeIcon icon={faGlobe} />
+                  Lihat Website
+                </a>
+              )}
+            </div>
+            <div className="wadah-aksi-kanan">
+              <button 
+                className="tombol-detail"
+                onClick={handleDetailClick}
               >
-                <i className="fas fa-globe"></i>
-                Lihat Website
-              </a>
-            )}
-            <button className="tombol-detail">
-              Detail
-            </button>
+                <FontAwesomeIcon icon={faInfoCircle} />
+                Detail
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -64,6 +85,13 @@ const PortofolioCard = ({ item }) => {
         <ImagePreview 
           images={item.images} 
           onClose={() => setShowPreview(false)} 
+        />
+      )}
+
+      {showDetail && (
+        <DetailPortofolio 
+          item={item} 
+          onClose={() => setShowDetail(false)} 
         />
       )}
     </>

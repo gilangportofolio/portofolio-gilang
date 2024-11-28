@@ -48,8 +48,11 @@ const Pendidikan = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <section className=" max-w-7xl mx-auto px-4 mb-8 mt-16 ">
-      <div className="max-w-6xl mx-auto">
+    <section className="page-section">
+      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full translate-x-1/4 -translate-y-1/4 opacity-50 -z-50"></div>
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full -translate-x-1/4 translate-y-1/4 opacity-50 -z-50"></div>
+      
+      <div className="max-w-7xl mx-auto flex flex-col gap-4">
         {educations.map((edu, index) => (
           <motion.div
             key={edu.id}

@@ -1,11 +1,23 @@
-/* Base Footer */
-.footer {
-  @apply  bg-white/95 backdrop-blur-sm z-50 border-b border-emerald-100 flex justify-between items-center px-6 py-4;
+footer {
+  @apply bg-white/95 backdrop-blur-sm border-2 border-emerald-100;
+  width: 100%;
 }
 
-/* Footer Title & Description */
-.footer-title {
-  @apply text-black text-sm font-semibold uppercase tracking-wide mb-2;
+/* Container Navigation - sama seperti header */
+.footer-container {
+  @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
+  height: 80px;
+}
+
+/* Media query untuk responsif */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    height: auto;
+    padding: 1rem;
+  }
 }
 
 /* Social Icons */

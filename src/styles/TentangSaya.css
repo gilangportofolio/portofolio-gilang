@@ -1,279 +1,110 @@
-/* Import font dari Google Fonts */
-:root {
-  --color-primary: #50C878;    /* Hijau Diamond - warna utama yang elegan */
-  --color-dark: #1A1A1A;       /* Hitam elegan untuk teks dan aksen */
-  --color-red: #E63946;        /* Merah yang bold untuk highlight */
-  --color-white: #FFFFFF;      /* Putih murni untuk background elements */
-  --color-background: #E8F5E9; /* Hijau ke putihan untuk background utama */
-  --color-text: #1A1A1A;       /* Hitam untuk teks utama */
-  
-  /* Gradients */
-  --gradient-main: linear-gradient(135deg, 
-    #50C878 0%, 
-    #3CB371 100%
-  );
-  --gradient-accent: linear-gradient(135deg, 
-    #E63946 0%, 
-    #FF4D5A 100%
-  );
-  --gradient-calm: linear-gradient(135deg, 
-    #50C878 0%, 
-    #E8F5E9 100%
-  );
-  --gradient-creative: linear-gradient(135deg, 
-    #50C878 0%, 
-    #1A1A1A 100%
-  );
-  
-  /* Shadows */
-  --shadow-sm: 0 2px 4px rgba(26, 26, 26, 0.1);
-  --shadow-md: 0 4px 6px rgba(26, 26, 26, 0.1);
-  --shadow-lg: 0 10px 30px rgba(26, 26, 26, 0.1);
-  
-  /* Borders */
-  --border-primary: rgba(80, 200, 120, 0.2);
-  --border-hover: rgba(230, 57, 70, 0.3);
+/* Base Styles */
+.page-section {
+  @apply flex-grow flex flex-col min-h-screen;
+  width: 100%;
+  padding: 2rem 1rem;
 }
 
-/* Media Queries dan style lainnya */
+/* Profile Section */
+.profile-section {
+  @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
+  width: 100%;
+  padding: 2rem 1rem;
+  background: #ffffffc7;
+  border-radius: 10px;
+  border: 1px solid rgba(80, 200, 120, 0.2);
+  box-shadow: 0 10px 30px rgba(26, 26, 26, 0.05);
+}
+
+/* Profile Image */
+.profile-image-container {
+  width: 300px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* Middle Section */
+.middle-section {
+  @apply flex-grow;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Typography */
+.hero-title {
+  @apply mb-6 text-4xl md:text-5xl font-bold leading-tight;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--color-primary);
+}
+
+.section-title {
+  @apply text-2xl md:text-3xl font-bold mb-4;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--color-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.body-text {
+  @apply text-base md:text-lg leading-relaxed;
+  font-family: 'Poppins', sans-serif;
+  color: var(--color-text);
+  line-height: 1.8;
+}
+
+/* Interactive Elements */
+.social-icon {
+  @apply bg-white p-4 rounded-xl transition-all duration-300 border-2 border-transparent;
+}
+
+.social-icon:hover {
+  @apply transform -translate-y-1 rotate-3 shadow-lg;
+  border-color: var(--color-secondary);
+}
+
+/* Responsive Breakpoints */
 @media (max-width: 768px) {
-  /* Header Section */
-  .profile-section {
+  .profile-section, .middle-section {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
   }
 
-  /* Profile Image Container */
   .profile-image-container {
     width: 200px;
-    height: 260px;
-    margin: 0 auto;
   }
 
-  /* Text Content */
   .hero-title {
-    font-size: 1.5rem;
-    text-align: center;
+    @apply text-3xl text-center;
   }
 
-  .text-content {
-    padding: 0 1rem;
+  .section-title {
+    @apply text-xl;
   }
 
-  /* Middle Section */
-  .middle-section {
-    flex-direction: column-reverse;
-    gap: 2rem;
-  }
-
-    /* Spacing */
-  .page-section {
-    padding: 2rem 1rem;
+  .body-text {
+    @apply text-base;
   }
 }
 
-/* Untuk layar yang lebih kecil */
 @media (max-width: 480px) {
   .profile-image-container {
     width: 160px;
-    height: 200px;
   }
 
   .skills-grid {
     grid-template-columns: 1fr;
   }
-
-  .hero-title {
-    font-size: 1.25rem;
-  }
 }
 
-.middle-section {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
+/* Sticky Profile pada Desktop */
 @media (min-width: 768px) {
-  .middle-section {
-    display: flex;
-    align-items: flex-start;
-    gap: 2rem;
-  }
-  
   .profile-image-container {
     position: sticky;
     top: 2rem;
-    width: 300px;
-    height: 400px;
   }
-} 
-
-/* Atur ukuran yang sama untuk semua foto */
-.profile-image-container {
-  width: 250px;    /* Ukuran yang sama untuk semua foto */
-  height: 320px;   /* Proporsional dengan width */
-  flex-shrink: 0;  /* Mencegah foto mengecil */
-}
-
-/* Atur jarak yang konsisten */
-.profile-section, .middle-section {
-  display: flex;
-  gap: 2rem;       /* Jarak 2rem (32px) antara foto dan teks */
-  align-items: flex-start;
-  margin-bottom: 2rem;
-}
-
-@media (max-width: 768px) {
-  .profile-image-container {
-    width: 200px;
-    height: 260px;
-  }
-  
-  .profile-section, .middle-section {
-    flex-direction: column;
-    align-items: center;
-  }
-} 
-
-.profile-image-container {
-  width: 250px;
-  height: 500px;
-  flex-shrink: 0;
-}
-
-@media (max-width: 768px) {
-  .profile-image-container {
-    width: 200px;
-    height: 260px;
-    margin: 0 auto;
-  }
-  
-  /* Reset padding pada mobile */
-  .w-full.md\:w-2\/3.pr-8 {
-    padding-right: 0;
-  }
-} 
-
-/* Typography Styles */
-.hero-title {
-  @apply mb-6;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: var(--color-primary);
-}
-
-.hero-title span {
-  @apply text-4xl md:text-5xl font-bold leading-tight;
-  background: var(--gradient-creative);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.section-title {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  @apply text-2xl md:text-3xl font-bold mb-4;
-  color: var(--color-primary);
-  position: relative;
-  display: inline-block;
-  font-weight: 700;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--gradient-creative);
-}
-
-.body-text {
-  font-family: 'Poppins', sans-serif;
-  @apply text-base md:text-lg leading-relaxed;
-  color: var(--color-text);
-  line-height: 1.8;
-}
-
-.highlight-text {
-  @apply font-medium;
-  background: var(--gradient-creative);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 600;
-}
-
-/* Responsive Typography */
-@media (max-width: 768px) {
-  .hero-title span {
-    @apply text-3xl;
-  }
-  
-  .section-title {
-    @apply text-xl;
-  }
-  
-  .body-text {
-    @apply text-base;
-  }
-} 
-
-/* Profile Section Styles */
-.profile-section {
-  background: #ffffffc7;
-  border-radius: 10px;
-  padding: 2.5rem;
-  border: 1px solid rgba(80, 200, 120, 0.2);
-  box-shadow: 0 10px 30px rgba(26, 26, 26, 0.05);
-}
-
-/* Button Styles */
-.hire-me-button {
-  background: var(--gradient-creative);
-  color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  border: none;
-}
-
-.hire-me-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(230, 126, 34, 0.2);
-}
-
-/* Social Media Icons */
-.social-icon {
-  background: white;
-  padding: 1rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.social-icon:hover {
-  transform: translateY(-3px) rotate(8deg);
-  border-color: var(--color-secondary);
-  box-shadow: 0 8px 20px rgba(44, 62, 80, 0.1);
-}
-
-/* Decorative Elements */
-.gradient-bg {
-  background: linear-gradient(135deg,
-    rgba(44, 62, 80, 0.05),
-    rgba(52, 152, 219, 0.05)
-  );
-}
-
-/* Animasi smooth untuk elemen interaktif */
-.animated-element {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
