@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { FaFilePdf } from 'react-icons/fa'
 import ImageLightbox from './ImageLightbox'
 
-function MediaCarousel({ media }) {
+function MediaCarousel({ media, onImageClick }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showLightbox, setShowLightbox] = useState(false)
 
@@ -45,7 +45,7 @@ function MediaCarousel({ media }) {
           <img
             src={media[currentIndex].url}
             alt={`Slide ${currentIndex + 1}`}
-            className="w-full h-full object-contain cursor-zoom-in"
+            className="w-full h-full object-contain cursor-zoom-in zoomable-image"
             onClick={() => setShowLightbox(true)}
           />
         )}
@@ -100,6 +100,7 @@ function MediaCarousel({ media }) {
         <ImageLightbox 
           url={media[currentIndex].url}
           onClose={() => setShowLightbox(false)}
+          className="modal-image-container"
         />
       )}
     </div>

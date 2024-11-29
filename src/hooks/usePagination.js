@@ -13,7 +13,7 @@ export const usePagination = ({
   return paginationRange
 }
 
-export const usePageTransition = (items, pageSize = 6) => {
+export const usePageTransition = (items, pageSize = 8) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [isTransitioning, setIsTransitioning] = useState(false)
 

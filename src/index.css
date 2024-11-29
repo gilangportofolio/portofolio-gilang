@@ -49,8 +49,9 @@
 }
 
 html, body {
-  width: 100%;
-  overflow-x: hidden; /* Mencegah scroll horizontal */
+  overflow-x: hidden;
+  position: relative;
+  height: 100%; /* Mencegah scroll horizontal */
 }
 
 body {
@@ -75,9 +76,24 @@ main {
   max-width: 100%; /* Mencegah overflow */
 }
 
+::-webkit-tap-highlight-color {
+  color: transparent;
+}
 /* Modern Scrollbar Style */
 ::-webkit-scrollbar {
   width: 8px; /* Lebar scrollbar */
+}
+/* Optimasi touch di mobile */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mencegah scrolling saat modal terbuka */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 ::-webkit-scrollbar-track {
@@ -201,11 +217,6 @@ button:active {
 .brand {
   @apply text-2xl font-bold text-gray-800;
   color: var(--color-primary);
-}
-
-* {
-  -webkit-user-select: text !important;
-  user-select: text !important;
 }
 
 /* Sertifikat styles */
@@ -341,11 +352,78 @@ footer {
 
 /* Responsive fixes untuk mobile */
 @media (max-width: 640px) {
-  .fixed {
+  .fixed:not(.modal-overlay) {
     @apply hidden;
   }
   
   .wadah-portofolio {
     @apply px-4;
   }
+}
+
+/* Mobile touch interactions */
+@media (max-width: 768px) {
+  /* Membuat card lebih mudah di-tap */
+  .project-card {
+    @apply relative cursor-pointer active:scale-[0.98] transition-transform;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Efek ripple saat tap */
+  .project-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:active::after {
+    opacity: 1;
+  }
+
+  /* Membuat tombol lebih mudah di-tap */
+  .tap-button {
+    @apply min-h-[44px] min-w-[44px] active:scale-[0.98];
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Untuk tampilan mobile tetap full width */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Tambahkan style baru untuk mendukung zoom pada gambar */
+.zoomable-image {
+  touch-action: pinch-zoom pan-x pan-y !important;
+  -webkit-touch-callout: default !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Tambahkan style baru untuk modal image */
+.modal-image-container {
+  touch-action: none;
+  -ms-touch-action: none;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+/* Update modal-content class yang sudah ada */
+.modal-content {
+  touch-action: pan-y pinch-zoom;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: modalFadeIn 0.2s ease-out;
 }

@@ -114,3 +114,17 @@ header {
     display: flex;
   }
 } 
+
+header, 
+.header-container {
+  position: fixed;
+  z-index: 50; /* Sesuaikan dengan hierarki yang diinginkan */
+}
+
+.modal-overlay {
+  z-index: 100; /* Lebih tinggi dari header */
+}
+
+.modal-content {
+  z-index: 101; /* Lebih tinggi dari overlay */
+}

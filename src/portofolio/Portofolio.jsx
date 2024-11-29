@@ -1,291 +1,258 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import supabase from '../config/supabaseClient'
 import LoadingSpinner from '../components/LoadingSpinner'
 import PortofolioDetail from './PortofolioDetail'
 import Pagination from '../components/Pagination'
-import { useFilter } from '../hooks/useFilter'
 import { usePageTransition } from '../hooks/usePagination'
+import './Portofolio.css'
+import { 
+  useFilter, 
+  CATEGORIES, 
+  CATEGORY_COLORS,
+  getToolStyle, 
+  fetchToolCategories 
+} from '../constants/categories';
 
 function Portofolio() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const [isMobile, setIsMobile] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [toolsWithCategories, setToolsWithCategories] = useState({});
 
   const { 
     activeFilter, 
     setActiveFilter, 
-    filteredItems: filteredProjects, 
+    filteredItems, 
     getCategoryStyle, 
     categories,
-    isTransitioning: isFilterTransitioning 
+    isTransitioning 
   } = useFilter(projects)
   
   const { 
     currentPage, 
     setCurrentPage, 
     currentItems: currentProjects, 
-    isTransitioning: isPageTransitioning,
     pageSize 
-  } = usePageTransition(filteredProjects)
-
-  const isTransitioning = isFilterTransitioning || isPageTransitioning
+  } = usePageTransition(filteredItems)
 
   useEffect(() => {
-    fetchPortofolio()
-  }, [])
+    const fetchData = async () => {
+      try {
+        // Fetch projects, categories, dan tools secara parallel
+        const [projectsResponse, toolsData] = await Promise.all([
+          supabase
+            .from('portofolios')
+            .select('*, images(id, url_gambar, tipe)')
+            .order('waktu_publish', { ascending: false }),
+          fetchToolCategories() // Fetch tools dari categories.js
+        ]);
+
+        if (projectsResponse.error) throw projectsResponse.error;
+        
+        setProjects(projectsResponse.data);
+        setToolsWithCategories(toolsData);
+      } catch (err) {
+        setError('Terjadi kesalahan saat mengambil data');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768)
+    const checkMobile = () => {
+      setIsMobile(
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        window.innerWidth <= 768
+      )
     }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
-
-  async function fetchPortofolio() {
-    try {
-      setLoading(true)
-      setError(null)
-      
-      const { data: portofolios, error: portofolioError } = await supabase
-        .from('portofolios')
-        .select(`
-          *,
-          images (
-            id,
-            url_gambar,
-            tipe
-          )
-        `)
-        .order('waktu_publish', { ascending: false })
-
-      if (portofolioError) throw portofolioError
-
-      setProjects(portofolios)
-    } catch (error) {
-      console.error('Error:', error)
-      setError('Terjadi kesalahan saat mengambil data portofolio')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const handleDetailClick = (project, e) => {
-    if (e) e.stopPropagation()
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     setSelectedProject(project)
     document.body.style.overflow = 'hidden'
   }
 
-  const handleCloseDetail = () => {
+  const handleCloseModal = () => {
     setSelectedProject(null)
-    document.body.style.overflow = 'unset'
   }
 
-  const handleTouchStart = (e) => {
-    setTouchStart(e.touches[0].clientY)
-  }
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.touches[0].clientY)
-  }
-
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 50) {
-      handleCloseDetail()
+  const handleImageClick = (project, e) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
     }
-    setTouchStart(0)
-    setTouchEnd(0)
+    setSelectedProject(project)
+    document.body.style.overflow = 'hidden'
   }
 
-  const touchHandlers = isMobile ? {
-    onTouchStart: handleTouchStart,
-    onTouchMove: handleTouchMove,
-    onTouchEnd: handleTouchEnd
-  } : {}
-
-  if (loading) {
-    return <LoadingSpinner />
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-8 text-red-500">
-        {error}
-        <button 
-          onClick={fetchPortofolio}
-          className="block mx-auto mt-4 px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600"
-        >
-          Coba Lagi
-        </button>
-      </div>
-    )
-  }
+  if (loading) return <LoadingSpinner />
+  if (error) return <div className="text-center py-8 text-red-500">{error}</div>
 
   return (
-    <div className="px-4 py-8 md:pt-32 pt-24 mx-auto max-w-7xl">
-      <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">Portofolio</h1>
-      <p className="text-center text-gray-600 mb-8 text-sm md:text-base px-2">
-        Kumpulan proyek dan karya yang telah saya kerjakan dalam berbagai bidang teknologi dan desain.
-      </p>
+    <div className="portofolio-container min-h-screen px-4 py-8 md:pt-32 pt-24 bg-gradient-to-br from-orange-50 to-white relative">
+      {/* Elemen dekoratif dengan warna kontras */}
+      <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
+      <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
+      <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
+      
+      {/* Content */}
+      <div className="mx-auto max-w-7xl relative z-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
+          Portofolio
+        </h1>
+        
+        {/* Filter buttons dengan border dan warna variatif */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {categories.map(category => (
+            <button
+              key={category}
+              onClick={() => setActiveFilter(category)}
+              className={`
+                px-4 py-2 rounded-lg text-sm font-medium 
+                transition-all duration-300 
+                border-2 hover:shadow-md
+                ${activeFilter === category 
+                  ? 'border-transparent' 
+                  : 'border-gray-200 hover:border-gray-300'
+                }
+              `}
+              style={{
+                ...getCategoryStyle(category),
+                transform: activeFilter === category ? 'scale(1.05)' : 'scale(1)'
+              }}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
 
-      {/* Filter Buttons */}
-      <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-6 md:mb-8 px-2">
-        {categories.map(category => (
-          <button
-            key={category}
-            onClick={() => setActiveFilter(category)}
-            className="px-3 py-1.5 md:px-4 md:py-2 rounded-full transition-colors duration-200 text-sm md:text-base"
-            style={getCategoryStyle(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      {/* Projects Grid */}
-      {filteredProjects.length === 0 ? (
-        <p className="text-center text-gray-500 text-sm md:text-base">
-          Tidak ada proyek yang ditemukan untuk kategori ini.
-        </p>
-      ) : (
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 transition-opacity duration-300 ${
-          isTransitioning ? 'opacity-0' : 'opacity-100'
-        }`}>
-          {currentProjects.map(project => {
-            const thumbnail = project.images?.find(img => img.tipe === 'thumbnail')
-
-            return (
+        {/* Projects Grid */}
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ${
+          isTransitioning ? 'opacity-50' : 'opacity-100'
+        } transition-opacity duration-150`}>
+          {currentProjects.map(project => (
+            <div 
+              key={project.id} 
+              className="project-card"
+            >
+              {/* Thumbnail */}
               <div 
-                key={project.id} 
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col min-h-[400px] md:min-h-[500px]"
+                className="thumbnail-container cursor-pointer"
+                onClick={(e) => handleImageClick(project, e)}
               >
-                {/* Image Section */}
-                <div 
-                  className="relative h-40 md:h-48 cursor-pointer bg-gray-100 
-                             active:opacity-75 touch-manipulation min-h-[44px]"
-                  onClick={(e) => handleDetailClick(project, e)}
-                  onTouchEnd={(e) => {
-                    e.preventDefault()
-                    handleDetailClick(project, e)
-                  }}
-                  role="button"
-                  tabIndex={0}
-                >
-                  {thumbnail ? (
-                    <img 
-                      src={thumbnail.url_gambar} 
-                      alt={project.judul}
-                      className="w-full h-full object-cover hover:opacity-90 transition-opacity duration-200"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <span className="text-4xl">🖼️</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Content Section */}
-                <div className="p-3 md:p-4 flex-1 flex flex-col">
-                  <div className="flex-1">
-                    <h3 className="text-lg md:text-xl font-bold min-h-[48px] md:min-h-[56px] line-clamp-2">
-                      {project.judul}
-                    </h3>
-                    <p className="text-gray-600 mb-3 md:mb-4 line-clamp-3 text-sm md:text-base min-h-[60px] md:min-h-[72px]">
-                      {project.deskripsi || "Tidak ada deskripsi"}
-                    </p>
-                    
-                    {/* Tools Section */}
-                    <div className="mb-3 md:mb-4 min-h-[70px] md:min-h-[80px]">
-                      <p className="font-medium mb-1.5 md:mb-2 text-sm md:text-base">Tools yang digunakan:</p>
-                      <div className="flex flex-wrap gap-1.5 md:gap-2">
-                        {project.tools?.length > 0 ? (
-                          <>
-                            {project.tools.slice(0, 6).map((tool, index) => (
-                              <span 
-                                key={index}
-                                className="bg-gray-100 px-2 py-1 rounded-md text-sm text-gray-600"
-                              >
-                                {tool}
-                              </span>
-                            ))}
-                            {project.tools.length > 6 && (
-                              <button 
-                                className="bg-gray-100 px-2 py-1 rounded-md text-sm text-emerald-500 hover:bg-gray-200"
-                                onClick={() => handleDetailClick(project)}
-                              >
-                                +{project.tools.length - 6} lainnya
-                              </button>
-                            )}
-                          </>
-                        ) : (
-                          <span className="text-gray-400">Tidak ada tools yang digunakan</span>
-                        )}
-                      </div>
-                    </div>
+                {project.images?.find(img => img.tipe === 'thumbnail') ? (
+                  <img 
+                    src={project.images.find(img => img.tipe === 'thumbnail').url_gambar}
+                    alt={project.judul}
+                    className="w-full h-48 object-cover hover:opacity-90 transition-opacity"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
+                    <span className="text-4xl">🖼️</span>
                   </div>
+                )}
+              </div>
 
-                  {/* Buttons Section */}
-                  <div className="grid grid-cols-2 gap-2 mt-auto">
-                    {project.tautan ? (
-                      <>
-                        <a 
-                          href={project.tautan}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-3 py-1.5 md:px-4 md:py-2 text-center 
-                                     border border-emerald-500 text-emerald-500 rounded-md 
-                                     hover:bg-emerald-50 active:bg-emerald-100
-                                     transition-colors duration-200 text-sm md:text-base 
-                                     touch-manipulation min-h-[44px]"
-                          onClick={(e) => e.stopPropagation()}
-                          onTouchEnd={(e) => e.stopPropagation()}
-                        >
-                          <span className="mr-1 md:mr-2">🌐</span>
-                          Website
-                        </a>
-                        <button 
-                          className="px-3 py-1.5 md:px-4 md:py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition-colors duration-200 text-sm md:text-base"
-                          onClick={() => handleDetailClick(project)}
-                        >
-                          Detail
-                        </button>
-                      </>
-                    ) : (
-                      <button 
-                        className="col-span-2 px-3 py-1.5 md:px-4 md:py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition-colors duration-200 text-sm md:text-base"
-                        onClick={() => handleDetailClick(project)}
+              {/* Content */}
+              <div className="project-content p-4 flex-1 flex flex-col">
+                <h3 className="text-lg font-bold mb-2 line-clamp-2">{project.judul}</h3>
+                <p className="text-gray-600 mb-3 line-clamp-5 text-sm leading-relaxed">
+                  {project.deskripsi}
+                </p>
+                
+                {/* Tools */}
+                <div className="tools-container mt-auto">
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {project.tools?.slice(0, 4).map((tool, index) => (
+                      <span 
+                        key={index} 
+                        className="tool-tag"
+                        style={getToolStyle(tool)}
                       >
-                        Detail
+                        {tool}
+                      </span>
+                    ))}
+                    {project.tools?.length > 4 && (
+                      <button
+                        onClick={(e) => handleDetailClick(project, e)}
+                        className="tool-tag-more"
+                        style={{
+                          backgroundColor: `${CATEGORY_COLORS[project.kategori]?.bg}20` || '#f8f9fa',
+                          color: CATEGORY_COLORS[project.kategori]?.bg || '#374151'
+                        }}
+                      >
+                        +{project.tools.length - 4} more
                       </button>
                     )}
                   </div>
                 </div>
+
+                {/* Action Buttons */}
+                <div className="project-buttons mt-auto">
+                  <div className="flex gap-2 justify-end">
+                    {project.tautan && (
+                      <a 
+                        href={project.tautan}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="live-demo-btn flex items-center gap-2"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                          <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" />
+                        </svg>
+                        Live Demo
+                      </a>
+                    )}
+                    <button 
+                      onClick={(e) => handleDetailClick(project, e)}
+                      className="detail-btn flex items-center gap-2"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                        <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 01-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 01-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 01-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584zM12 18a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+                      </svg>
+                      Detail
+                    </button>
+                  </div>
+                </div>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
-      )}
 
-      {/* Pagination */}
-      <Pagination 
-        currentPage={currentPage}
-        totalCount={filteredProjects.length}
-        pageSize={pageSize}
-        onPageChange={setCurrentPage}
-      />
-
-      {/* Modal Detail */}
-      {selectedProject && (
-        <PortofolioDetail 
-          project={selectedProject} 
-          onClose={handleCloseDetail} 
+        {/* Pagination */}
+        <Pagination 
+          currentPage={currentPage}
+          totalCount={filteredItems.length}
+          pageSize={pageSize}
+          onPageChange={setCurrentPage}
         />
-      )}
+
+        {selectedProject && (
+          <PortofolioDetail 
+            project={selectedProject} 
+            onClose={() => {
+              setSelectedProject(null)
+              document.body.style.overflow = 'auto'
+            }} 
+          />
+        )}
+      </div>
     </div>
   )
 }
