@@ -5,7 +5,7 @@ import TentangSaya from './pages/TentangSaya'
 import Pendidikan from './pages/Pendidikan'
 import Pengalaman from './pages/Pengalaman'
 import Sertifikat from './pages/Sertifikat'
-import Portofolio from './features/portofolio/Portofolio'
+import Portofolio from './portofolio/Portofolio'
 import logo from '/logogram.svg'
 
 function App() {

@@ -94,7 +94,7 @@ const TentangSaya = () => {
       <div className="fixed top-40 right-10 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 translate-x-1/2 -translate-y-1/2"></div>
       <div className="fixed bottom-0 left-20 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 -translate-x-1/2 translate-y-1/2"></div>
       
-      <section className="page-section">
+      <section className="page-section pt-40">
         {/* Main content wrapper */}
         <div className="max-w-7xl mx-auto flex flex-col gap-4">
           {/* Profile Section */}

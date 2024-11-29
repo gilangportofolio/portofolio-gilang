@@ -16,11 +16,44 @@ const Header = () => {
     setIsMobileMenuOpen(false)
   }, [location])
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('.mobile-menu') && 
+          !event.target.closest('.mobile-menu-button')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isMobileMenuOpen]);
+
   const isActive = (path) => location.pathname === path
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (isPortfolioOpen) setIsPortfolioOpen(false);
+  };
+
+  const togglePortfolioDropdown = (e) => {
+    e.stopPropagation();
+    setIsPortfolioOpen(!isPortfolioOpen);
+  };
+
   return (
-    <header>
-      <nav className="nav-container py-3">
+    <header className="safe-area-top">
+      <nav className="nav-container">
         <div className="nav-menu">
           <Link 
             to="/tentang-saya" 
@@ -108,17 +141,31 @@ const Header = () => {
           </a>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button dengan aria-label */}
         <button 
-          className="mobile-menu-button absolute right-4"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="mobile-menu-button"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
         >
-          <HiMenu size={24} />
+          <HiMenu size={28} />
         </button>
 
-        {/* Mobile Menu */}
-        <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : 'closed'}`}>
-          <Link to="/tentang-saya" className="mobile-nav-link">
+        {/* Mobile Menu Overlay */}
+        <div 
+          className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+
+        {/* Mobile Menu dengan gesture handling */}
+        <div 
+          className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Link 
+            to="/tentang-saya" 
+            className="mobile-nav-link"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             Tentang Saya
           </Link>
           <Link to="/pendidikan" className="mobile-nav-link">
@@ -135,7 +182,7 @@ const Header = () => {
           <div className="mobile-dropdown">
             <button 
               className="mobile-dropdown-header"
-              onClick={() => setIsPortfolioOpen(!isPortfolioOpen)}
+              onClick={togglePortfolioDropdown}
             >
               <span>Portofolio</span>
               <svg 
@@ -149,7 +196,11 @@ const Header = () => {
             </button>
             
             <div className={`mobile-dropdown-content ${isPortfolioOpen ? 'open' : ''}`}>
-              <Link to="/portofolio/all" className="mobile-dropdown-item">
+              <Link 
+                to="/portofolio/all" 
+                className="mobile-dropdown-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Semua Projek
               </Link>
               <Link to="/portofolio/website" className="mobile-dropdown-item">
@@ -176,6 +227,7 @@ const Header = () => {
             className="mobile-admin-link"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             <FaUserCircle size={20} />
             <span>Admin Area</span>

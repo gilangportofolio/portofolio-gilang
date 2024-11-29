@@ -83,7 +83,7 @@ const Sertifikat = () => {
       <div className="fixed top-40 right-10 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 translate-x-1/2 -translate-y-1/2"></div>
       <div className="fixed bottom-0 left-20 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 -translate-x-1/2 translate-y-1/2"></div>
       
-      <section className="max-w-7xl mx-auto px-4 mb-8 mt-16 w-[1280px]">
+      <section className="max-w-7xl mx-auto px-4 mb-8 mt-16 md:w-[1280px] w-full pt-20">
         <div className="w-full">
           {/* Filter Buttons */}
           <div className="flex flex-wrap gap-2 mb-8 justify-center w-full">
@@ -107,20 +107,20 @@ const Sertifikat = () => {
           </div>
 
           {/* Sertifikat Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
             {getCurrentItems().map(cert => (
               <div 
                 key={cert.id} 
-                className="sertifikat-card h-[280px] cursor-pointer hover:shadow-lg transition-shadow"
+                className="sertifikat-card min-h-[280px] cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => openModal(cert)}
               >
-                <div className="p-6 h-full flex flex-col">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
+                <div className="p-4 md:p-6 h-full flex flex-col">
+                  <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                    <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
                       {cert.judul}
                     </h3>
                     {cert.tipe && (
-                      <span className={`px-3 py-1 text-sm rounded-full ${getStatusClass(cert.tipe)} shrink-0`}>
+                      <span className={`px-2 md:px-3 py-1 text-sm rounded-full ${getStatusClass(cert.tipe)} shrink-0`}>
                         {cert.tipe}
                       </span>
                     )}
@@ -179,9 +179,9 @@ const Sertifikat = () => {
 
       {/* Modal Detail Sertifikat */}
       {isModalOpen && selectedSertifikat && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 md:p-4">
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto m-2">
+            <div className="p-4 md:p-6">
               {/* Header Modal */}
               <div className="flex justify-between items-start mb-4">
                 <h2 className="text-2xl font-bold text-gray-800">

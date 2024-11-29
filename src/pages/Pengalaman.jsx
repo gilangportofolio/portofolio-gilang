@@ -70,123 +70,121 @@ const Pengalaman = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <section className="page-section">
-      {/* Background elements */}
-      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full translate-x-1/4 -translate-y-1/4 opacity-50 -z-50"></div>
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full -translate-x-1/4 translate-y-1/4 opacity-50 -z-50"></div>
-      
-      {/* Main content wrapper */}
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="page-section pt-40">
+      <div className="container-pengalaman">
         {/* Filter Buttons Container */}
-        <div className="max-w-7xl mx-auto">
-          <div className="filter-container mb-8">
-            <button 
-              onClick={() => setActiveFilter('all')}
-              data-filter="all"
-              className={`filter-button ${activeFilter === 'all' ? 'active' : ''}`}
-            >
-              Semua
-            </button>
-            <button 
-              onClick={() => setActiveFilter('fulltime')}
-              data-filter="fulltime"
-              className={`filter-button ${activeFilter === 'fulltime' ? 'active' : ''}`}
-            >
-              Full Time
-            </button>
-            <button 
-              onClick={() => setActiveFilter('freelance')}
-              data-filter="freelance"
-              className={`filter-button ${activeFilter === 'freelance' ? 'active' : ''}`}
-            >
-              Freelance
-            </button>
-            <button 
-              onClick={() => setActiveFilter('organisasi')}
-              data-filter="organisasi"
-              className={`filter-button ${activeFilter === 'organisasi' ? 'active' : ''}`}
-            >
-              Organisasi
-            </button>
-            <button 
-              onClick={() => setActiveFilter('parttime')}
-              data-filter="parttime"
-              className={`filter-button ${activeFilter === 'parttime' ? 'active' : ''}`}
-            >
-              Part Time
-            </button>
-            <button 
-              onClick={() => setActiveFilter('intern')}
-              data-filter="intern"
-              className={`filter-button ${activeFilter === 'intern' ? 'active' : ''}`}
-            >
-              Intern
-            </button>
-          </div>
+        <div className="filter-container sticky top-[80px] z-10">
+          <button 
+            onClick={() => setActiveFilter('all')}
+            className={`filter-button ${activeFilter === 'all' ? 'active' : ''}`}
+          >
+            Semua
+          </button>
+          <button 
+            onClick={() => setActiveFilter('fulltime')}
+            data-filter="fulltime"
+            className={`filter-button ${activeFilter === 'fulltime' ? 'active' : ''}`}
+          >
+            Full Time
+          </button>
+          <button 
+            onClick={() => setActiveFilter('freelance')}
+            data-filter="freelance"
+            className={`filter-button ${activeFilter === 'freelance' ? 'active' : ''}`}
+          >
+            Freelance
+          </button>
+          <button 
+            onClick={() => setActiveFilter('organisasi')}
+            data-filter="organisasi"
+            className={`filter-button ${activeFilter === 'organisasi' ? 'active' : ''}`}
+          >
+            Organisasi
+          </button>
+          <button 
+            onClick={() => setActiveFilter('parttime')}
+            data-filter="parttime"
+            className={`filter-button ${activeFilter === 'parttime' ? 'active' : ''}`}
+          >
+            Part Time
+          </button>
+          <button 
+            onClick={() => setActiveFilter('intern')}
+            data-filter="intern"
+            className={`filter-button ${activeFilter === 'intern' ? 'active' : ''}`}
+          >
+            Intern
+          </button>
         </div>
 
         {/* Timeline Container */}
         <div className="timeline-container">
           {filteredExperiences.map((exp, index) => (
-            <div key={index} className="experience-card">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white border border-gray-200 overflow-hidden">
+            <div key={index} className="experience-wrapper">
+              <div className="experience-card">
+                {/* Status Badge - hanya tampil jika filter 'all' */}
+                {activeFilter === 'all' && (
+                  <div className="status-container">
+                    <span className={`status-badge ${getStatusClass(exp.status)}`}>
+                      {exp?.status || 'Full Time'}
+                    </span>
+                  </div>
+                )}
+
+                {/* Logo dan Info Container */}
+                <div className="info-container">
+                  <div className="company-logo">
                     {exp.logo_url ? (
                       <img 
                         src={exp.logo_url} 
                         alt={`Logo ${exp.perusahaan}`}
-                        className="w-full h-full object-contain p-2"
+                        className="logo-image"
                       />
                     ) : (
-                      <div className="w-full h-full bg-teal-500 flex items-center justify-center text-white font-bold">
+                      <div className="logo-placeholder">
                         {exp.perusahaan.charAt(0)}
                       </div>
                     )}
                   </div>
-                  <div>
-                    <h3 className="font-bold text-lg">{exp.perusahaan}</h3>
-                    <p className="text-gray-600">{exp.posisi}</p>
+
+                  <div className="company-details">
+                    <h3 className="company-name">{exp.perusahaan}</h3>
+                    <p className="position-title">{exp.posisi}</p>
+                    <div className="date-info">
+                      <span className="date-text">
+                        {new Date(exp.mulai).toLocaleDateString('id-ID', { 
+                          month: 'long', 
+                          year: 'numeric' 
+                        })} — {
+                          exp.akhir ? 
+                          new Date(exp.akhir).toLocaleDateString('id-ID', { 
+                            month: 'long', 
+                            year: 'numeric' 
+                          }) : 
+                          'Sekarang'
+                        }
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-end">
-                  <span className={`status-badge ${getStatusClass(exp.status)}`}>
-                    {exp?.status || 'Full Time'}
-                  </span>
-                  <span className="text-sm text-gray-500 mt-1">
-                    {new Date(exp.mulai).toLocaleDateString('id-ID', { 
-                      month: 'long', 
-                      year: 'numeric' 
-                    })} - {
-                      exp.akhir ? 
-                      new Date(exp.akhir).toLocaleDateString('id-ID', { 
-                        month: 'long', 
-                        year: 'numeric' 
-                      }) : 
-                      'Sekarang'
-                    }
-                  </span>
+
+                {/* Experience Content dengan auto bullet */}
+                <div className="experience-content">
+                  {exp.detail && (
+                    <p className="experience-detail">{exp.detail}</p>
+                  )}
+
+                  {exp.poin && exp.poin.length > 0 && (
+                    <ul className="points-list">
+                      {exp.poin.map((point, idx) => (
+                        <li key={idx} className="point-item">
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
-
-              {exp.detail && (
-                <p className="text-gray-700 mb-3">{exp.detail}</p>
-              )}
-
-              {exp.poin && exp.poin.length > 0 && (
-                <ul className="space-y-2 ml-4">
-                  {exp.poin.map((point, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span>•</span>
-                      <p className="text-gray-600">{point}</p>
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {exp.keterangan && (
-                <p className="text-sm text-gray-500 mt-3 italic">{exp.keterangan}</p>
-              )}
             </div>
           ))}
         </div>

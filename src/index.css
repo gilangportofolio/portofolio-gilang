@@ -198,48 +198,9 @@ button:active {
   @apply bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110;
 }
 
-.mobile-menu {
-  @apply fixed top-0 left-0 w-full h-full bg-white z-50;
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
-  background-color: var(--color-background);
-}
-
-.mobile-menu.open {
-  transform: translateX(0);
-}
-
-.mobile-menu.closed {
-  transform: translateX(100%);
-}
-
 .brand {
   @apply text-2xl font-bold text-gray-800;
   color: var(--color-primary);
-}
-
-@media (max-width: 768px) {
-  .nav-menu {
-    @apply hidden;
-  }
-  
-  .admin-icon {
-    @apply hidden;
-  }
-  
-  .mobile-menu-button {
-    @apply block;
-  }
-}
-
-@media (min-width: 769px) {
-  .mobile-menu-button {
-    @apply hidden;
-  }
-  
-  .nav-menu {
-    @apply flex;
-  }
 }
 
 * {
@@ -272,28 +233,6 @@ button:active {
   animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* Filter container */
-.filter-container {
-  @apply flex flex-wrap justify-center gap-2 mx-auto;
-  width: 100%;
-  max-width: 7xl;
-}
-
-/* Styling untuk filter buttons */
-.filter-button {
-  @apply px-6 py-2 rounded-full transition-all duration-300 text-center;
-  width: 140px; /* Tetapkan lebar yang sama untuk semua button */
-  background-color: white; /* Default background */
-  color: #4B5563; /* Default text color */
-  border: 1px solid #E5E7EB;
-}
-
-/* Active state */
-.filter-button.active {
-  color: white;
-  border: none;
-}
-
 
 /* Dropdown styles */
 .dropdown-menu {
@@ -322,23 +261,15 @@ button:active {
   display: inline-block;
 }
 
-/* Tambahkan style untuk admin icon */
-.admin-icon {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 /* Untuk Chrome, Safari, dan Opera */
 ::-webkit-scrollbar {
   display: none;
 }
 
 /* Untuk Firefox dan browser lainnya */
-* {
+*:not(.fa):not(.fas):not(.far):not(.fab) {
   scrollbar-width: none;
-  -ms-overflow-style: none;  /* Untuk Internet Explorer dan Edge */
+  -ms-overflow-style: none;
 }
 
 footer {
@@ -360,6 +291,16 @@ footer {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+  
+  /* Responsive padding & margin utilities */
+  .responsive-container {
+    @apply px-4 md:px-6 lg:px-8;
+  }
+  
+  /* Responsive text utilities */
+  .responsive-text {
+    @apply text-sm md:text-base lg:text-lg;
   }
 }
 
@@ -396,4 +337,15 @@ footer {
 
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Responsive fixes untuk mobile */
+@media (max-width: 640px) {
+  .fixed {
+    @apply hidden;
+  }
+  
+  .wadah-portofolio {
+    @apply px-4;
+  }
 }
