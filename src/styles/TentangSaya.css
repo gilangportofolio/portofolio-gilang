@@ -1,149 +1,52 @@
 /* Base Styles */
 .page-section {
-  @apply flex-grow flex flex-col min-h-screen;
-  width: 100%;
-  padding: 2rem 1rem;
+  @apply flex-grow flex flex-col min-h-screen w-full p-4 md:p-8;
 }
 
 /* Profile Section */
 .profile-section {
-  @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
-  width: 100%;
-  padding: 2rem 1rem;
-  background: #ffffffc7;
-  border-radius: 10px;
-  border: 1px solid rgba(80, 200, 120, 0.2);
-  box-shadow: 0 10px 30px rgba(26, 26, 26, 0.05);
+  @apply relative flex flex-col md:flex-row items-center justify-between px-4 mx-auto max-w-7xl w-full 
+         p-4 md:p-8 bg-white/80 backdrop-blur-sm rounded-lg border border-emerald-100 shadow-lg;
 }
 
-/* Profile Image */
+/* Profile Image Container */
 .profile-image-container {
-  width: 300px;
-  height: auto;
-  flex-shrink: 0;
+  @apply w-[160px] md:w-[280px] h-[240px] md:h-[320px] flex-shrink-0 mx-auto md:mx-0 mb-6 md:mb-0;
 }
 
-/* Middle Section */
-.middle-section {
-  @apply flex-grow;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+.profile-image-container img {
+  @apply w-full h-full object-cover rounded-2xl border-2 shadow-lg hover:shadow-2xl transition-all duration-300;
 }
 
-/* Typography */
-.hero-title {
-  @apply mb-6 text-4xl md:text-5xl font-bold leading-tight;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: var(--color-primary);
+/* Content Container */
+.content-container {
+  @apply flex-1 w-full text-center md:text-left;
 }
 
-.section-title {
-  @apply text-2xl md:text-3xl font-bold mb-4;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: var(--color-primary);
-  position: relative;
-  display: inline-block;
+/* Social Media Container */
+.social-media-container {
+  @apply flex flex-col md:flex-row items-center gap-4 mt-6 w-full;
 }
 
-.body-text {
-  @apply text-base md:text-lg leading-relaxed;
-  font-family: 'Poppins', sans-serif;
-  color: var(--color-text);
-  line-height: 1.8;
+.social-icons-wrapper {
+  @apply flex flex-wrap justify-center md:justify-start gap-3 mt-4 md:mt-0;
 }
 
-/* Interactive Elements */
-.social-icon {
-  @apply bg-white p-4 rounded-xl transition-all duration-300 border-2 border-transparent;
+/* Button Styles */
+.connect-button {
+  @apply w-full md:w-auto;
 }
 
-.social-icon:hover {
-  @apply transform -translate-y-1 rotate-3 shadow-lg;
-  border-color: var(--color-secondary);
+/* Text Styles */
+.text-content {
+  @apply w-full text-center md:text-left;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 768px) {
-  .profile-section, .middle-section {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .profile-image-container {
-    width: 200px;
-  }
-
-  .hero-title {
-    @apply text-3xl text-center;
-  }
-
-  .section-title {
-    @apply text-xl;
-  }
-
-  .body-text {
-    @apply text-base;
-  }
+/* Skills Section */
+.skills-section {
+  @apply mt-8 w-full;
 }
 
-@media (max-width: 480px) {
-  .profile-image-container {
-    width: 160px;
-  }
-
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Sticky Profile pada Desktop */
-@media (min-width: 768px) {
-  .profile-image-container {
-    position: sticky;
-    top: 2rem;
-  }
-}
-
-/* Container dan elemen dekoratif - sama seperti Portofolio */
-
-
-/* Background patterns - sama seperti Portofolio */
-.tentang-container::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    linear-gradient(120deg, #10b98133 0%, transparent 20%),
-    linear-gradient(240deg, #0ea5e933 0%, transparent 20%);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-.tentang-container::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(#10b981 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity: 0.03;
-  pointer-events: none;
-}
-
-/* Elemen dekoratif - sama seperti Portofolio */
-.decorative-blob {
-  position: absolute;
-  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  filter: blur(64px);
-  z-index: -1;
+.skills-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FaChevronDown, FaUserCircle } from 'react-icons/fa'
 import { HiMenu } from 'react-icons/hi'
-import '../styles/Header.css'
+import '../styles/Hp.css'
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {

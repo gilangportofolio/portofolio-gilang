@@ -32,6 +32,16 @@ function PortofolioDetail({ project, onClose }) {
     fetchTools()
   }, [])
 
+  useEffect(() => {
+    // Tambahkan class ke body saat modal dibuka
+    document.body.classList.add('modal-open');
+    
+    // Cleanup: hapus class saat modal ditutup
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, []);
+
   const swipeHandlers = isMobile ? useSwipeGesture(onClose) : {}
 
   const handleImageClick = (image) => {

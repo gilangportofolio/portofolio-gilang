@@ -7,11 +7,12 @@
 }
 
 .skill-item {
-  @apply transition-all duration-300;
+  @apply flex flex-col items-center justify-center transition-all duration-300 hover:scale-105;
 }
 
 .skill-icon {
-  @apply flex items-center justify-center w-12 h-12;
+  @apply flex items-center justify-center w-14 h-14 bg-white rounded-lg shadow-md 
+  hover:shadow-lg transition-all duration-300 mb-2;
 }
 
 .skill-icon svg {
@@ -19,21 +20,63 @@
 }
 
 .skill-category h3 {
-  @apply text-xl font-semibold mb-6 text-gray-700;
+  @apply text-xl font-semibold mb-6 text-gray-700 text-center;
 }
 
+/* Grid layout untuk skills */
+.skills-grid {
+  @apply grid grid-cols-2 gap-6;
+  display: grid;
+  place-items: center;
+}
+
+/* Nama skill di bawah icon */
+.skill-name {
+  @apply text-sm font-medium text-gray-600 text-center mt-1;
+  width: 100%;
+  text-align: center !important;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .skills-grid {
-    @apply grid-cols-4 gap-4;
+    @apply gap-4;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+  }
+  
+  .skill-item {
+    @apply flex flex-col items-center justify-center;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .skill-icon {
+    @apply w-12 h-12;
+    margin: 0 auto;
+  }
+  
+  .skill-icon svg {
+    @apply w-6 h-6;
   }
 }
 
 @media (max-width: 480px) {
   .skills-grid {
-    @apply grid-cols-3;
+    @apply gap-3;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+  }
+  
+  .skill-name {
+    text-align: center !important;
+    display: block;
+    width: 100%;
   }
 }
 
+/* Gradient text animation */
 .text-gradient {
   background: linear-gradient(90deg, #f97316, #facc15, #f97316);
   background-size: 200% auto;

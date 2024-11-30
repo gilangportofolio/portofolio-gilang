@@ -1,7 +1,8 @@
 /* Base Header */
 header {
-  @apply fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50;
+  @apply fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm;
   width: 100%;
+  z-index: 100;
 }
 
 /* Container Navigation */
@@ -115,16 +116,47 @@ header {
   }
 } 
 
-header, 
-.header-container {
-  position: fixed;
-  z-index: 50; /* Sesuaikan dengan hierarki yang diinginkan */
+/* Footer Styles */
+footer {
+  @apply w-full bg-white/80 backdrop-blur-sm border-t border-gray-200 mt-20;
 }
 
-.modal-overlay {
-  z-index: 100; /* Lebih tinggi dari header */
+.footer-container {
+  @apply max-w-7xl mx-auto px-4 py-6;
 }
 
-.modal-content {
-  z-index: 101; /* Lebih tinggi dari overlay */
+.footer-content {
+  @apply flex flex-col md:flex-row justify-between items-center gap-4;
+}
+
+.brand-section {
+  @apply flex flex-col items-center md:items-start;
+}
+
+.made-with-love {
+  @apply mt-4 md:mt-0;
+}
+
+/* Hover effects */
+.brand-section h2 {
+  @apply transition-all duration-300;
+}
+
+.brand-section:hover h2 {
+  @apply scale-105;
+}
+
+.made-with-love p {
+  @apply transition-all duration-300 hover:text-gray-800;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    @apply text-center;
+  }
+  
+  .made-with-love {
+    @apply mt-2;
+  }
 }

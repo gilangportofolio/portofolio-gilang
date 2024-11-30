@@ -80,21 +80,15 @@ const Pendidikan = () => {
                   {edu.nama}
                 </h3>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-1">
-                  <p className="text-orange-500 font-semibold">
+                  <p className="text-orange-500 font-semibold text-center md:text-left">
                     {edu.jurusan}
                   </p>
-                  <div className="flex items-center gap-2 mt-2 md:mt-0">
-                    <p className="text-gray-600 font-medium">
-                      {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}
-                    </p>
-                    <span className="text-gray-400 font-medium">•</span>
-                    <p className="text-gray-600">
-                      {edu.lokasi}
-                    </p>
-                  </div>
+                  <p className="text-gray-1000 font-normal text-center md:text-right mt-2 md:mt-0">
+                    {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'} - {edu.lokasi}
+                  </p>
                 </div>
                 {edu.deskripsi && (
-                  <p className="text-gray-700 mt-4 text-center md:text-left">{edu.deskripsi}</p>
+                  <p className="font-gray-900 mt-4 text-justify md:text-justify">{edu.deskripsi}</p>
                 )}
 
                 {edu.pendidikan_detail && edu.pendidikan_detail.length > 0 && (
@@ -106,7 +100,7 @@ const Pendidikan = () => {
                         animate={{ opacity: 1 }}
                         className="flex gap-3 items-start"
                       >
-                        <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
+                        <div className="w-2 h-2 rounded-full bg-gray-800 mt-2 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-justify text-gray-800">
                             {detail.poin}

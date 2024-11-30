@@ -71,9 +71,9 @@ body {
 }
 
 main {
+  flex: 1 0 auto;
   width: 100%;
-  /* padding: 0 1rem; Padding responsif */
-  max-width: 100%; /* Mencegah overflow */
+  max-width: 100%;
 }
 
 ::-webkit-tap-highlight-color {
@@ -89,12 +89,6 @@ main {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Mencegah scrolling saat modal terbuka */
-body.modal-open {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-}
 
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -111,14 +105,22 @@ body.modal-open {
 
 /* Responsive containers */
 .container {
-  @apply max-w-7xl mx-auto px-4;
   width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* Media Queries */
 @media (max-width: 768px) {
   .container {
-    padding: 0 0.75rem;
+    padding: 0 1rem;
+  }
+  
+  footer {
+    padding: 1rem;
+    position: relative;
+    bottom: 0;
   }
 }
 
@@ -160,14 +162,10 @@ button:active {
 
 /* Layout styles */
 .page-container {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  overflow: hidden;
 }
 
 .main-content {
@@ -291,8 +289,13 @@ button:active {
 }
 
 footer {
-  margin-top: auto;
+  flex-shrink: 0;
   width: 100%;
+  background: var(--color-bg-card);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  margin-top: auto;
+  z-index: 10;
 }
 
 /* Di file CSS Anda */
@@ -334,40 +337,6 @@ footer {
   }
 }
 
-.modal-content {
-  animation: modalFadeIn 0.2s ease-out;
-}
-
-/* Style untuk scrollbar modal */
-.modal-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
-}
-
-.modal-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Responsive fixes untuk mobile */
-@media (max-width: 640px) {
-  .fixed:not(.modal-overlay) {
-    display: block !important;
-  }
-  
-  .wadah-portofolio {
-    @apply px-4;
-  }
-}
-
 /* Mobile touch interactions */
 @media (max-width: 768px) {
   /* Membuat card lebih mudah di-tap */
@@ -403,12 +372,6 @@ footer {
 }
 
 /* Untuk tampilan mobile tetap full width */
-@media (max-width: 768px) {
-  .modal-content {
-    width: 100%;
-    max-width: 100%;
-  }
-}
 
 /* Tambahkan style baru untuk mendukung zoom pada gambar */
 .zoomable-image {
@@ -418,22 +381,7 @@ footer {
   user-select: none !important;
 }
 
-/* Tambahkan style baru untuk modal image */
-.modal-image-container {
-  touch-action: none;
-  -ms-touch-action: none;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-
-/* Update modal-content class yang sudah ada */
-.modal-content {
-  touch-action: pan-y pinch-zoom;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  animation: modalFadeIn 0.2s ease-out;
-}
+/*
 
 /* Tambahkan styles untuk sertifikat */
 .sertifikat-card {
@@ -454,88 +402,9 @@ footer {
   .sertifikat-card:active {
     transform: scale(0.98);
   }
-  
-  .modal-content {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
-/* Pastikan modal bisa di-scroll di mobile */
-.modal-content {
-  overscroll-behavior: contain;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Style khusus untuk modal sertifikat */
-.modal-overlay {
-  position: fixed !important;
-  display: flex !important;
-  z-index: 99999 !important;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  padding: 1rem;
-  touch-action: manipulation;
-  overflow-y: auto;
-}
-
-.sertifikat-modal-content {
-  position: relative !important;
-  z-index: 100000 !important;
-  background: white;
-  width: fit-content;
-  min-width: 320px;
-  max-width: 800px;
-  margin: auto;
-  border-radius: 0.5rem;
-  overflow-y: auto;
-  touch-action: pan-y pinch-zoom;
-  -webkit-overflow-scrolling: touch;
-  animation: modalFadeIn 0.2s ease-out;
-}
-
-@media (max-width: 768px) {
-  .sertifikat-modal-content {
-    width: 90%;
-    margin: 2rem auto;
-    position: relative !important;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-.modal-content {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-
-.modal-header {
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 1;
-  width: 100%;
-}
-
-.modal-header button {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-}
-
-.modal-header h2 {
-  padding-right: 2.5rem; /* Memberikan ruang untuk tombol close */
-  line-height: 1.4;
-  margin-bottom: 0.5rem;
-}
-
+/* 
 /* Style dari Portofolio untuk digunakan global */
 .portofolio-container,
 .tentang-container,
@@ -592,5 +461,8 @@ footer {
 
 /* Content wrapper yang sama dengan Portofolio */
 .content-wrapper {
-  @apply mx-auto max-w-7xl relative z-10;
+  flex: 1 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }

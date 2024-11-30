@@ -17,6 +17,22 @@ export default {
         'h5': '1.067rem',  // 17.12px
         'small': '0.937rem' // 15.04px
       },
+      transitionProperty: {
+        'colors': 'color',
+      },
+      transitionDuration: {
+        '500': '500ms',
+      },
+      animation: {
+        'text-color': 'textColor 9s infinite',
+      },
+      keyframes: {
+        textColor: {
+          '0%, 33%': { color: '#3B82F6' },  // blue-500
+          '34%, 66%': { color: '#10B981' }, // green-500
+          '67%, 100%': { color: '#F59E0B' } // orange-500
+        }
+      }
     },
   },
   plugins: [],
