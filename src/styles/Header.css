@@ -1,6 +1,6 @@
 /* Base Header */
 header {
-  @apply fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-emerald-100;
+  @apply fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50;
   width: 100%;
 }
 

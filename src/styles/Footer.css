@@ -1,41 +1,51 @@
 footer {
-  @apply bg-white/95 backdrop-blur-sm border-2 border-emerald-100;
+  @apply bg-white/95 backdrop-blur-sm border-t ;
   width: 100%;
 }
 
-/* Container Navigation - sama seperti header */
 .footer-container {
-  @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
-  height: 80px;
+  @apply relative flex items-center justify-between
+         px-6 mx-auto max-w-7xl py-6 md:py-8;
 }
 
-/* Media query untuk responsif */
+/* Social Icons Container */
+.social-icons {
+  @apply flex items-center justify-center gap-8;
+}
+
+/* Individual Social Icon */
+.social-icon-link {
+  @apply p-3 rounded-full transition-all duration-300 hover:scale-110;
+}
+
+.social-icon-link.linkedin {
+  @apply text-[#0A66C2] hover:bg-[#0A66C2]/10;
+}
+
+.social-icon-link.youtube {
+  @apply text-[#FF0000] hover:bg-[#FF0000]/10;
+}
+
+.social-icon-link.instagram {
+  @apply text-[#E4405F] hover:bg-[#E4405F]/10;
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .footer-container {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-    height: auto;
-    padding: 1rem;
+    @apply flex-col gap-6;
   }
-}
 
-/* Social Icons */
-.social-icons {
-  @apply flex gap-4;
-}
-
-.social-icon {
-  @apply text-black hover:text-gray-300 transition-colors duration-200;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .footer {
-    @apply flex-col gap-4;
+  /* Mengatur urutan di mobile */
+  .social-section {
+    @apply order-first; /* Memindahkan social section ke atas */
   }
-  
+
+  .brand-section {
+    @apply order-last text-center; /* Memindahkan brand section ke bawah */
+  }
+
   .social-icons {
-    @apply justify-center;
+    @apply gap-10; /* Lebih besar gap di mobile */
   }
 } 

@@ -72,7 +72,7 @@ body {
 
 main {
   width: 100%;
-  padding: 0 1rem; /* Padding responsif */
+  /* padding: 0 1rem; Padding responsif */
   max-width: 100%; /* Mencegah overflow */
 }
 
@@ -222,6 +222,13 @@ button:active {
 /* Sertifikat styles */
 .sertifikat-card {
   @apply bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  position: relative;
+  isolation: isolate;
+  cursor: pointer;
 }
 
 .sertifikat-card:hover {
@@ -273,9 +280,9 @@ button:active {
 }
 
 /* Untuk Chrome, Safari, dan Opera */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 /* Untuk Firefox dan browser lainnya */
 *:not(.fa):not(.fas):not(.far):not(.fab) {
@@ -353,7 +360,7 @@ footer {
 /* Responsive fixes untuk mobile */
 @media (max-width: 640px) {
   .fixed:not(.modal-overlay) {
-    @apply hidden;
+    display: block !important;
   }
   
   .wadah-portofolio {
@@ -426,4 +433,164 @@ footer {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   animation: modalFadeIn 0.2s ease-out;
+}
+
+/* Tambahkan styles untuk sertifikat */
+.sertifikat-card {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  position: relative;
+  isolation: isolate;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .sertifikat-card {
+    transition: transform 0.2s;
+  }
+  
+  .sertifikat-card:active {
+    transform: scale(0.98);
+  }
+  
+  .modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Pastikan modal bisa di-scroll di mobile */
+.modal-content {
+  overscroll-behavior: contain;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Style khusus untuk modal sertifikat */
+.modal-overlay {
+  position: fixed !important;
+  display: flex !important;
+  z-index: 99999 !important;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1rem;
+  touch-action: manipulation;
+  overflow-y: auto;
+}
+
+.sertifikat-modal-content {
+  position: relative !important;
+  z-index: 100000 !important;
+  background: white;
+  width: fit-content;
+  min-width: 320px;
+  max-width: 800px;
+  margin: auto;
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  touch-action: pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@media (max-width: 768px) {
+  .sertifikat-modal-content {
+    width: 90%;
+    margin: 2rem auto;
+    position: relative !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.modal-content {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+  width: 100%;
+}
+
+.modal-header button {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+.modal-header h2 {
+  padding-right: 2.5rem; /* Memberikan ruang untuk tombol close */
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+/* Style dari Portofolio untuk digunakan global */
+.portofolio-container,
+.tentang-container,
+.pengalaman-container,
+.sertifikat-container {
+  position: relative;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Background patterns dari Portofolio */
+.portofolio-container::before,
+.tentang-container::before,
+.pengalaman-container::before,
+.sertifikat-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(120deg, #10b98133 0%, transparent 20%),
+    linear-gradient(240deg, #0ea5e933 0%, transparent 20%);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.portofolio-container::after,
+.tentang-container::after,
+.pengalaman-container::after,
+.sertifikat-container::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#10b981 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* Layout container yang sama dengan Portofolio */
+.portofolio-container,
+.tentang-container,
+.pengalaman-container,
+.sertifikat-container {
+  @apply min-h-screen px-4 py-8 md:pt-32 pt-24 bg-gradient-to-br from-orange-50 to-white relative;
+}
+
+/* Content wrapper yang sama dengan Portofolio */
+.content-wrapper {
+  @apply mx-auto max-w-7xl relative z-10;
 }

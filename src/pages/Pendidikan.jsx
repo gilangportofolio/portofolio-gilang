@@ -48,11 +48,12 @@ const Pendidikan = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <div className="relative min-h-screen">
-    <div className="fixed top-40 right-10 w-[300px] h-[300px] bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 translate-x-1/2 -translate-y-1/2"></div>
-    <div className="fixed bottom-0 left-20 w-[300px] h-[300px] bg-gradient-to-tr from-yellow-300 to-orange-300 rounded-full opacity-50 -z-50 -translate-x-1/2 translate-y-1/2"></div>
-    
-    <section className="page-section pt-40">
+    <div className="pendidikan-container min-h-screen px-4 py-8 md:pt-32 pt-24 bg-gradient-to-br from-orange-50 to-white relative">
+      <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
+      <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
+      <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
+
+<section className="page-section">
  
       <div className="max-w-7xl mx-auto flex flex-col ">
         {educations.map((edu, index) => (

@@ -116,7 +116,7 @@ function Portofolio() {
           Portofolio
         </h1>
         
-        {/* Filter buttons dengan border dan warna variatif */}
+        {/* Filter buttons dengan border tipis abu-abu */}
         <div className="flex flex-wrap justify-center gap-2 mb-10">
           {categories.map(category => (
             <button
@@ -125,15 +125,16 @@ function Portofolio() {
               className={`
                 px-4 py-2 rounded-lg text-sm font-medium 
                 transition-all duration-300 
-                border-2 hover:shadow-md
+                border hover:shadow-md
                 ${activeFilter === category 
                   ? 'border-transparent' 
-                  : 'border-gray-200 hover:border-gray-300'
+                  : 'border-gray-300 hover:border-gray-400'
                 }
               `}
               style={{
                 ...getCategoryStyle(category),
-                transform: activeFilter === category ? 'scale(1.05)' : 'scale(1)'
+                transform: activeFilter === category ? 'scale(1.05)' : 'scale(1)',
+                borderWidth: '1px'
               }}
             >
               {category}
