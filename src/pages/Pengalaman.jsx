@@ -124,7 +124,9 @@ const Pengalaman = () => {
 
                 <div className="experience-content">
                   {exp.detail && (
-                    <p className="experience-detail">{exp.detail}</p>
+                    <p className="experience-detail">
+                      {exp.detail}
+                    </p>
                   )}
 
                   {exp.poin && exp.poin.length > 0 && (
@@ -135,6 +137,12 @@ const Pengalaman = () => {
                         </li>
                       ))}
                     </ul>
+                  )}
+
+                  {exp.keterangan && (
+                    <p className="experience-note">
+                      {exp.keterangan}
+                    </p>
                   )}
                 </div>
               </div>

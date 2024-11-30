@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://gilangportofolio.github.io/portofolio-gilang",
+  "homepage": "https://gilang.is-a.dev",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

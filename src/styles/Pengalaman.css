@@ -104,7 +104,7 @@
 
 /* Points list dengan auto bullet */
 .points-list {
-  @apply space-y-2 list-disc pl-5; /* Tambahkan padding left dan list style */
+  @apply space-y-2 list-disc pl-5 mb-4; /* Tambah margin bottom */
 }
 
 .point-item {
@@ -200,5 +200,14 @@
 /* Experience wrapper spacing */
 .experience-wrapper {
   @apply mb-4;
+}
+
+/* Detail dan Keterangan text styling */
+.experience-detail {
+  @apply text-gray-900 text-justify leading-relaxed mb-4;
+}
+
+.experience-note {
+  @apply text-gray-600 text-justify leading-relaxed mt-4;
 }
  
