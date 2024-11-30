@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Noto%20Serif%20Ottoman%20Siyaq:700|Halant:400');
+@import 'styles/zindex.css';
 
 @tailwind base;
 @tailwind components;
@@ -257,7 +258,6 @@ button:active {
   left: 50%;
   transform: translateX(-50%);
   min-width: 200px;
-  z-index: 50;
   @apply bg-white rounded-lg shadow-lg py-2 mt-1;
 }
 
@@ -295,7 +295,6 @@ footer {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
   margin-top: auto;
-  z-index: 10;
 }
 
 /* Di file CSS Anda */
@@ -409,18 +408,19 @@ footer {
 .portofolio-container,
 .tentang-container,
 .pengalaman-container,
+.pendidikan-container,
 .sertifikat-container {
   position: relative;
   background-color: #f8fafc;
   min-height: 100vh;
   overflow: hidden;
-  z-index: 1;
 }
 
 /* Background patterns dari Portofolio */
 .portofolio-container::before,
 .tentang-container::before,
 .pengalaman-container::before,
+.pendidikan-container::before,
 .sertifikat-container::before {
   content: '';
   position: fixed;
@@ -438,6 +438,7 @@ footer {
 .portofolio-container::after,
 .tentang-container::after,
 .pengalaman-container::after,
+.pendidikan-container::after,
 .sertifikat-container::after {
   content: '';
   position: fixed;
@@ -455,8 +456,9 @@ footer {
 .portofolio-container,
 .tentang-container,
 .pengalaman-container,
+.pendidikan-container,
 .sertifikat-container {
-  @apply min-h-screen px-4 py-8 md:pt-32 pt-24 bg-gradient-to-br from-orange-50 to-white relative;
+  @apply min-h-screen px-4 py-8 md:pt-24 pt-12 bg-gradient-to-br from-orange-50 to-white relative;
 }
 
 /* Content wrapper yang sama dengan Portofolio */
@@ -464,5 +466,4 @@ footer {
   flex: 1 0 auto;
   width: 100%;
   position: relative;
-  z-index: 1;
 }

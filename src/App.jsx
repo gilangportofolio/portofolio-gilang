@@ -11,17 +11,18 @@ import logo from '/logogram.svg'
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-1 mt-[60px]">
         <ErrorBoundary>
           <Routes>
-            <Route index element={<Navigate to="/tentang-saya" replace />} />
+            <Route path="/" element={<Navigate to="/tentang-saya" replace />} />
             <Route path="/tentang-saya" element={<TentangSaya />} />
             <Route path="/pendidikan" element={<Pendidikan />} />
             <Route path="/pengalaman" element={<Pengalaman />} />
             <Route path="/sertifikat" element={<Sertifikat />} />
             <Route path="/portofolio/*" element={<Portofolio />} />
+            <Route path="*" element={<Navigate to="/tentang-saya" replace />} />
           </Routes>
         </ErrorBoundary>
       </main>

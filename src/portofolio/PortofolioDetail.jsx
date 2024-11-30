@@ -2,6 +2,7 @@ import MediaCarousel from '../components/MediaCarousel'
 import { useState, useEffect } from 'react'
 import { useSwipeGesture } from '../hooks/useSwipeGesture'
 import { getToolStyle, fetchToolCategories } from '../constants/categories'
+import ImageLightbox from '../components/ImageLightbox'
 
 function PortofolioDetail({ project, onClose }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
@@ -59,7 +60,7 @@ function PortofolioDetail({ project, onClose }) {
 
   return (
     <div 
-      className="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-[9999] 
+      className="modal-overlay fixed inset-0 bg-black bg-opacity-50 
                  flex items-center justify-center p-4 touch-manipulation"
       onClick={(e) => {
         e.preventDefault()
@@ -69,9 +70,13 @@ function PortofolioDetail({ project, onClose }) {
     >
       <div 
         className="modal-content bg-white rounded-lg w-full max-w-4xl max-h-[90vh] 
-                   overflow-y-auto relative overscroll-contain"
+                   overflow-y-auto relative overscroll-contain touch-pan-y"
         onClick={handleModalClick}
         onTouchEnd={(e) => e.stopPropagation()}
+        style={{ 
+          WebkitOverflowScrolling: 'touch',
+          msOverflowStyle: '-ms-autohiding-scrollbar'
+        }}
       >
         <div className="absolute top-0 left-0 right-0 flex justify-center">
           <div className="w-12 h-1 bg-gray-300 rounded-full my-2" />
@@ -89,7 +94,14 @@ function PortofolioDetail({ project, onClose }) {
         
         <div className="p-4">
           {project.images?.length > 0 && (
-            <div onClick={(e) => e.stopPropagation()}>
+            <div 
+              onClick={(e) => e.stopPropagation()}
+              className="touch-manipulation"
+              style={{
+                WebkitUserSelect: 'none',
+                userSelect: 'none'
+              }}
+            >
               <MediaCarousel 
                 media={project.images.map(image => ({
                   type: image.tipe,
@@ -157,32 +169,10 @@ function PortofolioDetail({ project, onClose }) {
       </div>
 
       {selectedImage && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-90 z-[10000] flex items-center justify-center"
-          onClick={handleCloseImage}
-        >
-          <div 
-            className="relative w-full h-full flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button 
-              className="absolute top-4 right-4 text-white text-xl p-2"
-              onClick={handleCloseImage}
-            >
-              ✕
-            </button>
-            <img
-              src={selectedImage.url}
-              alt="Detail"
-              className="max-w-full max-h-full object-contain"
-              style={{
-                touchAction: 'pinch-zoom',
-                WebkitTouchAction: 'pinch-zoom'
-              }}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-        </div>
+        <ImageLightbox 
+          url={selectedImage.url}
+          onClose={handleCloseImage}
+        />
       )}
     </div>
   )

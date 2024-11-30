@@ -84,7 +84,7 @@ const Pendidikan = () => {
                     {edu.jurusan}
                   </p>
                   <p className="text-gray-1000 font-normal text-center md:text-right mt-2 md:mt-0">
-                    {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'} - {edu.lokasi}
+                    {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}, {edu.lokasi}
                   </p>
                 </div>
                 {edu.deskripsi && (

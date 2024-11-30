@@ -118,7 +118,7 @@ const TentangSaya = () => {
       <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
       <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
       
-      <section className="page-section">
+      <section className="page-section relative">
         {/* Main content wrapper */}
         <div className="max-w-7xl mx-auto flex flex-col gap-4">
           {/* Profile Section */}
@@ -182,7 +182,7 @@ const TentangSaya = () => {
                   transition={{ duration: 0.5, delay: 0.8 }}
                   className="mt-6"
                 >
-                  <h3 className="font-heading text-h3 mb-3 text-gray-800">
+                  <h3 className="font-heading text-left text-h3 mb-3 text-gray-800">
                     Pengalaman 
                   </h3>
                   <p className="font-sans text-gray-600 text-justify leading-relaxed font-medium">

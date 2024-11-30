@@ -6,11 +6,12 @@
   "homepage": "https://gilang.is-a.dev",
   "scripts": {
     "dev": "vite",
+    "clean": "if exist dist rd /s /q dist",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "npm run clean && npm run build",
+    "deploy": "gh-pages -d dist --branch gh-pages"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.7.1",

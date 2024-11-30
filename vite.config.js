@@ -12,6 +12,8 @@ export default defineConfig({
     brotliSize: true,
   })],
   build: {
+    cache: false,
+    clean: true,
     rollupOptions: {
       output: {
         manualChunks: {

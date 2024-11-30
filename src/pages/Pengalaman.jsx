@@ -48,12 +48,14 @@ const Pengalaman = () => {
       <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
       <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
 
-      <div className="mx-auto max-w-7xl relative z-10">
+      <div className="mx-auto max-w-7xl relative">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
           Pengalaman
         </h1>
-
-        <div className="filter-container sticky top-[80px] z-10 flex flex-wrap justify-center gap-2 mb-12">
+        <h2 className="text-gray-700 text-center mb-4 md:mb-8 text-sm md:text-base px-4">
+          Berikut adalah pengalaman saya yang dimulai dari tahun 2012 - sekarang 
+        </h2>
+        <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8">
           {categories.map(category => (
             <button
               key={category}
@@ -78,7 +80,7 @@ const Pengalaman = () => {
           ))}
         </div>
 
-        <div className="timeline-container space-y-6">
+        <div className="timeline-container space-y-4 md:space-y-6">
           {filteredExperiences.map((exp, index) => (
             <div key={index} className="experience-wrapper">
               <div className="experience-card">

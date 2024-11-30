@@ -5,10 +5,13 @@
 }
 /* Filter styles */
 .filter-container {
-  @apply sticky top-[80px] z-10 flex flex-wrap justify-center gap-2;
+  @apply sticky top-[80px] flex flex-wrap justify-center gap-2;
   margin-bottom: 2rem;
   border-bottom: none;
   box-shadow: none;
+
+  backdrop-filter: blur(8px);
+  padding: 0.5rem 0;
 }
 
 .filter-button {
@@ -35,7 +38,6 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  z-index: 10;
 }
 
 .status-Full-Time {
@@ -90,11 +92,11 @@
 }
 
 .position-title {
-  @apply text-base text-gray-600 mb-1;
+  @apply text-base text-gray-800 mb-1;
 }
 
 .date-info {
-  @apply text-sm text-gray-500;
+  @apply text-sm text-gray-700;
 }
 
 /* Content */
@@ -191,9 +193,10 @@
   }
 }
 
+
 /* Jika masih ada garis, cek parent container */
 .mx-auto.max-w-7xl {
-  @apply relative z-10;
+  @apply relative;
   border-bottom: none;
 }
 
@@ -209,5 +212,13 @@
 
 .experience-note {
   @apply text-gray-600 text-justify leading-relaxed mt-4;
+}
+
+.logo-placeholder-mobile {
+  @apply w-full h-full bg-gray-200 rounded-lg flex items-center justify-center text-xl font-bold text-gray-600;
+}
+
+.status-badge-mobile {
+  @apply px-2 py-1 rounded-md text-sm w-fit;
 }
  

@@ -12,6 +12,13 @@ const Header = () => {
   const location = useLocation()
 
   useEffect(() => {
+    console.log('Path changed, resetting menus');
+    setIsDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+    setIsPortfolioOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
     setIsDropdownOpen(false)
     setIsMobileMenuOpen(false)
   }, [location])
@@ -39,11 +46,22 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    console.log('Dropdown state:', {
+      isDropdownOpen,
+      isMobileMenuOpen,
+      isPortfolioOpen,
+      currentPath: location.pathname
+    });
+  }, [isDropdownOpen, isMobileMenuOpen, isPortfolioOpen, location]);
+
   const isActive = (path) => location.pathname === path
 
   const toggleMobileMenu = () => {
+    console.log('Toggling mobile menu from:', isMobileMenuOpen, 'to:', !isMobileMenuOpen);
     setIsMobileMenuOpen(!isMobileMenuOpen);
     if (isPortfolioOpen) setIsPortfolioOpen(false);
+    if (isDropdownOpen) setIsDropdownOpen(false);
   };
 
   const togglePortfolioDropdown = (e) => {
@@ -51,8 +69,27 @@ const Header = () => {
     setIsPortfolioOpen(!isPortfolioOpen);
   };
 
+  const handleDropdownClick = (e) => {
+    console.log('Dropdown clicked:', {
+      target: e.target,
+      currentTarget: e.currentTarget,
+      eventType: e.type
+    });
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  useEffect(() => {
+    const cleanup = () => {
+      console.log('Cleaning up mobile menu state');
+      setIsMobileMenuOpen(false);
+    };
+
+    // Cleanup saat component unmount
+    return cleanup;
+  }, []);
+
   return (
-    <header className="safe-area-top">
+    <header className="fixed top-0 left-0 right-0 bg-white backdrop-blur-sm">
       <nav className="nav-container">
         <div className="nav-menu">
           <Link 
@@ -80,13 +117,16 @@ const Header = () => {
             Sertifikat
           </Link>
           
-          {/* Portofolio Dropdown */}
-          <div className="dropdown-container">
+          {/* Portofolio Dropdown dengan debug */}
+          <div 
+            className="dropdown-container relative"
+            onClick={(e) => console.log('Container clicked:', e.currentTarget)}
+          >
             <button 
               className={`nav-link flex items-center ${
                 location.pathname.includes('/portofolio') ? 'active' : ''
               }`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              onClick={handleDropdownClick}
             >
               <span>Portofolio</span>
               <FaChevronDown 
@@ -95,14 +135,16 @@ const Header = () => {
               />
             </button>
 
-            {isDropdownOpen && (
-              <AnimatePresence>
+            <AnimatePresence>
+              {isDropdownOpen && (
                 <motion.div 
                   className="dropdown-menu"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
+                  onAnimationStart={() => console.log('Dropdown animation started')}
+                  onAnimationComplete={() => console.log('Dropdown animation completed')}
                 >
                   <Link to="/portofolio/all" className="dropdown-item">
                     Semua Projek
@@ -123,8 +165,8 @@ const Header = () => {
                     Desain Visual
                   </Link>
                 </motion.div>
-              </AnimatePresence>
-            )}
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -146,15 +188,21 @@ const Header = () => {
           className="mobile-menu-button"
           onClick={toggleMobileMenu}
           aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
         >
           <HiMenu size={28} />
         </button>
 
-        {/* Mobile Menu Overlay */}
-        <div 
-          className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`}
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
+        {/* Mobile Menu Overlay dengan debug */}
+        {isMobileMenuOpen && (
+          <div 
+            className="mobile-menu-overlay"
+            onClick={() => {
+              console.log('Overlay clicked, closing mobile menu');
+              setIsMobileMenuOpen(false);
+            }}
+          />
+        )}
 
         {/* Mobile Menu dengan gesture handling */}
         <div 

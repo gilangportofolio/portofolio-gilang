@@ -1,0 +1,30 @@
+/* Z-index layers */
+:root {
+  /* Navigation & Header */
+  --z-header: 50;
+  --z-dropdown: 51;
+  --z-mobile-menu: 49;
+  --z-overlay: 48;
+
+  /* Content Layers */
+  --z-content: 1;
+  --z-decorative: -1;
+  
+  /* Modal & Popups */
+  --z-modal: 100;
+  --z-tooltip: 90;
+}
+
+/* Gunakan CSS variables untuk konsistensi */
+.header { z-index: var(--z-header); }
+.dropdown-menu { z-index: var(--z-dropdown); }
+.mobile-menu { z-index: var(--z-mobile-menu); }
+.mobile-menu-overlay { z-index: var(--z-overlay); }
+
+/* Content layers */
+.content-layer { z-index: var(--z-content); }
+.decorative-element { z-index: var(--z-decorative); }
+
+/* Modal layers */
+.modal-container { z-index: var(--z-modal); }
+.tooltip { z-index: var(--z-tooltip); } 

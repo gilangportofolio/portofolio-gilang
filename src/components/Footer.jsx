@@ -3,7 +3,7 @@ import '../styles/Hp.css'
 
 const Footer = () => {
   return (
-    <footer className="relative z-10 bg-white/80 backdrop-blur-sm border-t border-gray-200">
+    <footer className="bg-white/80 backdrop-blur-sm border-t border-gray-200 mt-auto">
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Brand Section */}

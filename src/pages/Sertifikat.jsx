@@ -138,13 +138,13 @@ const Sertifikat = () => {
       <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
       <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
 
-      <div className="mx-auto max-w-7xl relative z-10">
+      <div className="mx-auto max-w-7xl relative">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
           Sertifikat
         </h1>
 
         {/* Filter Buttons */}
-        <div className="filter-container sticky top-[80px] z-10 flex flex-wrap justify-center gap-2 mb-8">
+        <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8">
           {types.map(type => (
             <button
               key={type}
@@ -253,7 +253,7 @@ const Sertifikat = () => {
       {/* Modal */}
       {isModalOpen && selectedSertifikat && (
         <div 
-          className="modal-overlay"
+          className="modal-overlay fixed inset-0 bg-black bg-opacity-50"
           onClick={closeModal}
         >
           <div 
