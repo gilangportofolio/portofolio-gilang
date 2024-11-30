@@ -12,7 +12,6 @@ const Header = () => {
   const location = useLocation()
 
   useEffect(() => {
-    console.log('Path changed, resetting menus');
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
     setIsPortfolioOpen(false);
@@ -46,19 +45,9 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen]);
 
-  useEffect(() => {
-    console.log('Dropdown state:', {
-      isDropdownOpen,
-      isMobileMenuOpen,
-      isPortfolioOpen,
-      currentPath: location.pathname
-    });
-  }, [isDropdownOpen, isMobileMenuOpen, isPortfolioOpen, location]);
-
   const isActive = (path) => location.pathname === path
 
   const toggleMobileMenu = () => {
-    console.log('Toggling mobile menu from:', isMobileMenuOpen, 'to:', !isMobileMenuOpen);
     setIsMobileMenuOpen(!isMobileMenuOpen);
     if (isPortfolioOpen) setIsPortfolioOpen(false);
     if (isDropdownOpen) setIsDropdownOpen(false);
@@ -70,26 +59,11 @@ const Header = () => {
   };
 
   const handleDropdownClick = (e) => {
-    console.log('Dropdown clicked:', {
-      target: e.target,
-      currentTarget: e.currentTarget,
-      eventType: e.type
-    });
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  useEffect(() => {
-    const cleanup = () => {
-      console.log('Cleaning up mobile menu state');
-      setIsMobileMenuOpen(false);
-    };
-
-    // Cleanup saat component unmount
-    return cleanup;
-  }, []);
-
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white backdrop-blur-sm">
+    <header>
       <nav className="nav-container">
         <div className="nav-menu">
           <Link 
@@ -108,7 +82,7 @@ const Header = () => {
             to="/pengalaman"
             className={`nav-link ${isActive('/pengalaman') ? 'active' : ''}`}
           >
-            Pengalaman Saya
+            Pengalaman
           </Link>
           <Link 
             to="/sertifikat"
@@ -117,11 +91,7 @@ const Header = () => {
             Sertifikat
           </Link>
           
-          {/* Portofolio Dropdown dengan debug */}
-          <div 
-            className="dropdown-container relative"
-            onClick={(e) => console.log('Container clicked:', e.currentTarget)}
-          >
+          <div className="dropdown-container">
             <button 
               className={`nav-link flex items-center ${
                 location.pathname.includes('/portofolio') ? 'active' : ''
@@ -143,8 +113,6 @@ const Header = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  onAnimationStart={() => console.log('Dropdown animation started')}
-                  onAnimationComplete={() => console.log('Dropdown animation completed')}
                 >
                   <Link to="/portofolio/all" className="dropdown-item">
                     Semua Projek
@@ -170,20 +138,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Admin icon absolute positioned */}
-        <div className="admin-icon">
-          <a 
-            href="https://admin-gray-seven-69.vercel.app/" 
-            className="nav-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Admin Area"
-          >
-            <FaUserCircle size={24} />
-          </a>
-        </div>
-
-        {/* Mobile Menu Button dengan aria-label */}
         <button 
           className="mobile-menu-button"
           onClick={toggleMobileMenu}
@@ -193,18 +147,13 @@ const Header = () => {
           <HiMenu size={28} />
         </button>
 
-        {/* Mobile Menu Overlay dengan debug */}
         {isMobileMenuOpen && (
           <div 
             className="mobile-menu-overlay"
-            onClick={() => {
-              console.log('Overlay clicked, closing mobile menu');
-              setIsMobileMenuOpen(false);
-            }}
+            onClick={() => setIsMobileMenuOpen(false)}
           />
         )}
 
-        {/* Mobile Menu dengan gesture handling */}
         <div 
           className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}
           onClick={(e) => e.stopPropagation()}
@@ -216,17 +165,28 @@ const Header = () => {
           >
             Tentang Saya
           </Link>
-          <Link to="/pendidikan" className="mobile-nav-link">
+          <Link 
+            to="/pendidikan" 
+            className="mobile-nav-link"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             Pendidikan
           </Link>
-          <Link to="/pengalaman" className="mobile-nav-link">
+          <Link 
+            to="/pengalaman" 
+            className="mobile-nav-link"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             Pengalaman
           </Link>
-          <Link to="/sertifikat" className="mobile-nav-link">
+          <Link 
+            to="/sertifikat" 
+            className="mobile-nav-link"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             Sertifikat
           </Link>
           
-          {/* Portofolio Dropdown */}
           <div className="mobile-dropdown">
             <button 
               className="mobile-dropdown-header"
@@ -251,25 +211,44 @@ const Header = () => {
               >
                 Semua Projek
               </Link>
-              <Link to="/portofolio/website" className="mobile-dropdown-item">
+              <Link 
+                to="/portofolio/website" 
+                className="mobile-dropdown-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Website
               </Link>
-              <Link to="/portofolio/sistem-analis" className="mobile-dropdown-item">
+              <Link 
+                to="/portofolio/sistem-analis" 
+                className="mobile-dropdown-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Sistem Analis
               </Link>
-              <Link to="/portofolio/bisnis-analis" className="mobile-dropdown-item">
+              <Link 
+                to="/portofolio/bisnis-analis" 
+                className="mobile-dropdown-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Bisnis Analis
               </Link>
-              <Link to="/portofolio/desain-ui" className="mobile-dropdown-item">
+              <Link 
+                to="/portofolio/desain-ui" 
+                className="mobile-dropdown-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Desain UI
               </Link>
-              <Link to="/portofolio/desain-visual" className="mobile-dropdown-item">
+              <Link 
+                to="/portofolio/desain-visual" 
+                className="mobile-dropdown-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Desain Visual
               </Link>
             </div>
           </div>
 
-          {/* Admin Link */}
           <a 
             href="https://admin-gray-seven-69.vercel.app/"
             className="mobile-admin-link"
@@ -283,7 +262,6 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Border bottom dengan gradasi */}
       <div className="border-bottom-gradient"></div>
     </header>
   )
