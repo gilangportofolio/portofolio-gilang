@@ -35,11 +35,6 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen]);
 
-  useEffect(() => {
-    const header = document.querySelector('header');
-    console.log('Header mounted, z-index:', window.getComputedStyle(header).zIndex);
-  }, []);
-
   const isActive = (path) => location.pathname === path
 
   const toggleMobileMenu = () => {
@@ -80,6 +75,18 @@ const Header = () => {
           >
             Portofolio
           </Link>
+        </div>
+
+        <div className="nav-right">
+          <a 
+            href="https://admin-gray-seven-69.vercel.app/"
+            className="admin-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaUserCircle size={20} />
+            <span>Admin</span>
+          </a>
         </div>
 
         <button 

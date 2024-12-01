@@ -2,13 +2,12 @@
 header {
   @apply fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm;
   width: 100%;
-  z-index: var(--z-header); /* Gunakan variable dari zindex.css */
+  z-index: var(--z-header);
 }
 
 /* Container Navigation */
 .nav-container {
-  @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
-  height: 60px;
+  @apply container mx-auto px-4 flex justify-between items-center h-16;
 }
 
 /* Dropdown Container */
@@ -25,16 +24,34 @@ header {
 
 /* Desktop Navigation Menu */
 .nav-menu {
-  @apply hidden md:flex items-center space-x-6 justify-center;
+  @apply flex items-center space-x-6;
+  overflow-x: visible !important;
+}
+
+/* Override global scrollbar hiding untuk nav-menu */
+.nav-menu::-webkit-scrollbar {
+  display: block !important;
+  width: auto !important;
+  height: 6px !important;
+}
+
+.nav-menu::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.nav-menu::-webkit-scrollbar-thumb {
+  @apply bg-emerald-500 rounded-full;
+}
+
+/* Hapus style yang menyembunyikan scrollbar */
+.nav-menu {
+  scrollbar-width: thin !important;
+  -ms-overflow-style: auto !important;
 }
 
 /* Mobile Menu Button */
 .mobile-menu-button {
-  @apply block md:hidden text-gray-600 hover:text-gray-900 focus:outline-none;
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
+  @apply md:hidden;
 }
 
 /* Admin Icon */
@@ -48,8 +65,7 @@ header {
 
 /* Mobile Menu */
 .mobile-menu {
-  @apply fixed left-0 top-[60px] w-[250px] h-[calc(100vh-60px)] 
-         overflow-y-auto bg-white shadow-lg;
+  @apply fixed top-16 left-0 right-0 bg-white shadow-lg z-50 transform transition-transform duration-200 ease-in-out;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
   z-index: 40;
@@ -187,5 +203,36 @@ footer {
   .mobile-menu,
   .mobile-menu-overlay {
     display: none !important;
+  }
+}
+
+/* Styling untuk admin link di desktop */
+.nav-link.flex {
+  @apply hover:text-emerald-600 transition-colors;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-link.flex {
+    display: none; /* Sembunyikan admin link di mobile karena sudah ada di mobile menu */
+  }
+}
+
+.nav-right {
+  @apply hidden md:flex items-center;
+}
+
+.admin-link {
+  @apply flex items-center gap-2 text-gray-600 hover:text-emerald-600 transition-colors py-4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-menu {
+    @apply hidden;
+  }
+  
+  .mobile-menu-button {
+    @apply block;
   }
 }
