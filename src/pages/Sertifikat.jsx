@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import supabase from '../config/supabaseClient'
 import LoadingSpinner from '../components/LoadingSpinner'
+import Pagination from '../components/Pagination'
 
 const Sertifikat = () => {
   const [sertifikats, setSertifikats] = useState([])
@@ -133,129 +134,121 @@ const Sertifikat = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <div className="sertifikat-container min-h-screen px-4 py-8 md:pt-32 pt-24 bg-gradient-to-br from-orange-50 to-white relative">
-      <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
-      <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
-      <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
+    <div className="sertifikat-container">
+      <div className="content-wrapper">
+        <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
+        <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
+        <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
 
-      <div className="mx-auto max-w-7xl relative">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
-          Sertifikat
-        </h1>
+        <div className="mx-auto max-w-7xl relative pb-8 md:pb-12">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
+            Sertifikat
+          </h1>
 
-        {/* Filter Buttons */}
-        <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8">
-          {types.map(type => (
-            <button
-              key={type}
-              onClick={() => setSelectedType(type)}
-              className={`
-                px-4 py-2 rounded-lg text-sm font-medium 
-                transition-all duration-300 
-                ${selectedType === type 
-                  ? type.toLowerCase() === 'online'
-                    ? 'bg-blue-500 text-white'
-                    : type.toLowerCase() === 'offline'
-                      ? 'bg-purple-500 text-white'
-                      : 'bg-gray-500 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-                }
-              `}
-            >
-              {type === 'all' ? 'Semua' : type}
-            </button>
-          ))}
-        </div>
-
-        {/* Sertifikat Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {getCurrentItems().map(cert => (
-            <div 
-              key={cert.id} 
-              className="sertifikat-card bg-white rounded-lg shadow-md overflow-hidden"
-            >
-              <div className="p-4 md:p-6 h-full flex flex-col">
-                {/* Header dengan judul dan tipe */}
-                <div className="flex items-start gap-3 mb-4">
-                  <h3 className="text-base md:text-lg font-semibold text-gray-800 flex-1 line-clamp-2">
-                    {cert.judul}
-                  </h3>
-                  {cert.tipe && (
-                    <span className={`px-2 md:px-3 py-1 text-sm rounded-full ${getStatusClass(cert.tipe)} shrink-0 mt-1`}>
-                      {cert.tipe}
-                    </span>
-                  )}
-                </div>
-                
-                {/* Penerbit dan tanggal */}
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
-                  <p className="text-gray-600">{cert.penerbit}</p>
-                  <span className="text-sm text-gray-500 sm:before:content-['•'] sm:before:mx-2 sm:before:text-gray-400">
-                    {new Date(cert.periode_terbit).toLocaleDateString('id-ID', {
-                      year: 'numeric',
-                      month: 'long'
-                    })}
-                  </span>
-                </div>
-                
-                {/* Keterangan */}
-                {cert.keterangan && (
-                  <p className="text-gray-500 text-sm mb-4 line-clamp-2">{cert.keterangan}</p>
-                )}
-                
-                {/* Tombol aksi */}
-                <div className="flex justify-end items-center mt-auto gap-3">
-                  {cert.url && (
-                    <a
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 text-sm rounded-md bg-orange-50 text-orange-600 hover:bg-orange-100 transition-colors duration-300"
-                    >
-                      Lihat Sertifikat
-                    </a>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      openModal(cert);
-                    }}
-                    className="px-4 py-2 text-sm rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors duration-300"
-                  >
-                    Detail
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center gap-2 mt-8">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          {/* Filter Buttons */}
+          <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8">
+            {types.map(type => (
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-4 py-2 rounded-full transition-all duration-300 ${
-                  currentPage === page
-                    ? 'bg-orange-500 text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                }`}
+                key={type}
+                onClick={() => setSelectedType(type)}
+                className={`
+                  px-4 py-2 rounded-lg text-sm font-medium 
+                  transition-all duration-300 
+                  ${selectedType === type 
+                    ? type.toLowerCase() === 'online'
+                      ? 'bg-blue-500 text-white'
+                      : type.toLowerCase() === 'offline'
+                        ? 'bg-purple-500 text-white'
+                        : 'bg-gray-500 text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  }
+                `}
               >
-                {page}
+                {type === 'all' ? 'Semua' : type}
               </button>
             ))}
           </div>
-        )}
+
+          {/* Sertifikat Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
+            {getCurrentItems().map(cert => (
+              <div 
+                key={cert.id} 
+                className="sertifikat-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <div className="p-4 md:p-6 h-full flex flex-col">
+                  {/* Header dengan judul dan tipe */}
+                  <div className="flex items-start gap-3 mb-4">
+                    <h3 className="text-base md:text-lg font-semibold text-gray-800 flex-1 line-clamp-2">
+                      {cert.judul}
+                    </h3>
+                    {cert.tipe && (
+                      <span className={`px-2 md:px-3 py-1 text-sm rounded-full ${getStatusClass(cert.tipe)} shrink-0 mt-1`}>
+                        {cert.tipe}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Penerbit dan tanggal */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
+                    <p className="text-gray-600">{cert.penerbit}</p>
+                    <span className="text-sm text-gray-500 sm:before:content-['•'] sm:before:mx-2 sm:before:text-gray-400">
+                      {new Date(cert.periode_terbit).toLocaleDateString('id-ID', {
+                        year: 'numeric',
+                        month: 'long'
+                      })}
+                    </span>
+                  </div>
+                  
+                  {/* Keterangan */}
+                  {cert.keterangan && (
+                    <p className="text-gray-500 text-sm mb-4 line-clamp-2">{cert.keterangan}</p>
+                  )}
+                  
+                  {/* Tombol aksi */}
+                  <div className="flex justify-end items-center mt-auto gap-3">
+                    {cert.url && (
+                      <a
+                        href={cert.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 text-sm rounded-md bg-orange-50 text-orange-600 hover:bg-orange-100 transition-colors duration-300"
+                      >
+                        Lihat Sertifikat
+                      </a>
+                    )}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        openModal(cert);
+                      }}
+                      className="px-4 py-2 text-sm rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors duration-300"
+                    >
+                      Detail
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mb-1">
+              <Pagination 
+                currentPage={currentPage}
+                totalCount={filteredSertifikats.length}
+                pageSize={itemsPerPage}
+                onPageChange={setCurrentPage}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Modal */}
       {isModalOpen && selectedSertifikat && (
-        <div 
-          className="modal-overlay fixed inset-0 bg-black bg-opacity-50"
-          onClick={closeModal}
-        >
+        <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50">
           <div 
             className="modal-content"
             onClick={(e) => e.stopPropagation()}
@@ -294,7 +287,7 @@ const Sertifikat = () => {
                 {selectedSertifikat.keterangan && (
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Keterangan</h3>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 text-justify">
                       {selectedSertifikat.keterangan.includes('https://') ? (
                         <>
                           {selectedSertifikat.keterangan.replace(/(https?:\/\/[^\s]+)/g, '')}
@@ -323,7 +316,14 @@ const Sertifikat = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center px-6 py-2 rounded-md transition-colors duration-200 gap-2 bg-orange-500 hover:bg-orange-600 text-white"
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Cek apakah mobile
+                        if (window.innerWidth <= 768) {
+                          e.preventDefault();
+                          window.open(selectedSertifikat.url, '_blank', 'noopener,noreferrer');
+                        }
+                      }}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                         <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" />

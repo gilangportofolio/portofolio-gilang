@@ -1,26 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { FaChevronDown, FaUserCircle } from 'react-icons/fa'
+import { FaUserCircle } from 'react-icons/fa'
 import { HiMenu } from 'react-icons/hi'
 import '../styles/Hp.css'
-import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
-    setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
-    setIsPortfolioOpen(false);
   }, [location.pathname]);
-
-  useEffect(() => {
-    setIsDropdownOpen(false)
-    setIsMobileMenuOpen(false)
-  }, [location])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -49,17 +39,6 @@ const Header = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    if (isPortfolioOpen) setIsPortfolioOpen(false);
-    if (isDropdownOpen) setIsDropdownOpen(false);
-  };
-
-  const togglePortfolioDropdown = (e) => {
-    e.stopPropagation();
-    setIsPortfolioOpen(!isPortfolioOpen);
-  };
-
-  const handleDropdownClick = (e) => {
-    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -90,52 +69,12 @@ const Header = () => {
           >
             Sertifikat
           </Link>
-          
-          <div className="dropdown-container">
-            <button 
-              className={`nav-link flex items-center ${
-                location.pathname.includes('/portofolio') ? 'active' : ''
-              }`}
-              onClick={handleDropdownClick}
-            >
-              <span>Portofolio</span>
-              <FaChevronDown 
-                className={`ml-1 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
-                size={12}
-              />
-            </button>
-
-            <AnimatePresence>
-              {isDropdownOpen && (
-                <motion.div 
-                  className="dropdown-menu"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Link to="/portofolio/all" className="dropdown-item">
-                    Semua Projek
-                  </Link>
-                  <Link to="/portofolio/website" className="dropdown-item">
-                    Website
-                  </Link>
-                  <Link to="/portofolio/sistem-analis" className="dropdown-item">
-                    Sistem Analis
-                  </Link>
-                  <Link to="/portofolio/bisnis-analis" className="dropdown-item">
-                    Bisnis Analis
-                  </Link>
-                  <Link to="/portofolio/desain-ui" className="dropdown-item">
-                    Desain UI
-                  </Link>
-                  <Link to="/portofolio/desain-visual" className="dropdown-item">
-                    Desain Visual
-                  </Link>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <Link 
+            to="/portofolio/all"
+            className={`nav-link ${location.pathname.includes('/portofolio') ? 'active' : ''}`}
+          >
+            Portofolio
+          </Link>
         </div>
 
         <button 
@@ -186,68 +125,13 @@ const Header = () => {
           >
             Sertifikat
           </Link>
-          
-          <div className="mobile-dropdown">
-            <button 
-              className="mobile-dropdown-header"
-              onClick={togglePortfolioDropdown}
-            >
-              <span>Portofolio</span>
-              <svg 
-                className={`w-4 h-4 transition-transform ${isPortfolioOpen ? 'rotate-180' : ''}`}
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            
-            <div className={`mobile-dropdown-content ${isPortfolioOpen ? 'open' : ''}`}>
-              <Link 
-                to="/portofolio/all" 
-                className="mobile-dropdown-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Semua Projek
-              </Link>
-              <Link 
-                to="/portofolio/website" 
-                className="mobile-dropdown-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Website
-              </Link>
-              <Link 
-                to="/portofolio/sistem-analis" 
-                className="mobile-dropdown-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Sistem Analis
-              </Link>
-              <Link 
-                to="/portofolio/bisnis-analis" 
-                className="mobile-dropdown-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Bisnis Analis
-              </Link>
-              <Link 
-                to="/portofolio/desain-ui" 
-                className="mobile-dropdown-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Desain UI
-              </Link>
-              <Link 
-                to="/portofolio/desain-visual" 
-                className="mobile-dropdown-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Desain Visual
-              </Link>
-            </div>
-          </div>
+          <Link 
+            to="/portofolio/all" 
+            className="mobile-nav-link"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Portofolio
+          </Link>
 
           <a 
             href="https://admin-gray-seven-69.vercel.app/"

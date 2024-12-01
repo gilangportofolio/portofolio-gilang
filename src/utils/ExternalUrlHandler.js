@@ -73,7 +73,6 @@ const ExternalUrlHandler = {
     }
   },
 
-  // Dropbox Handler
   dropbox: {
     isDropboxUrl: (url) => {
       return url?.includes('dropbox.com');
@@ -84,33 +83,23 @@ const ExternalUrlHandler = {
     }
   },
 
-  // OneDrive Handler (jika diperlukan)
   oneDrive: {
     // ... implementasi untuk OneDrive
   },
 
-  // Fungsi utama untuk mendapatkan URL preview
   getPreviewUrl: (url, options = { size: 'w500' }) => {
     if (!url) return null;
 
-    console.log('Getting preview URL for:', url);
-
-    // Handle Google Drive
     if (ExternalUrlHandler.googleDrive.isGoogleDriveUrl(url)) {
       const fileId = ExternalUrlHandler.googleDrive.extractFileId(url);
-      console.log('Extracted file ID:', fileId);
       if (fileId) {
-        const previewUrl = ExternalUrlHandler.googleDrive.getThumbnailUrl(fileId, options.size);
-        console.log('Generated preview URL:', previewUrl);
-        return previewUrl;
+        return ExternalUrlHandler.googleDrive.getThumbnailUrl(fileId, options.size);
       }
     }
 
-    // Jika bukan URL external yang dikenal, kembalikan URL asli
     return url;
   },
 
-  // Fungsi untuk mengecek apakah URL adalah external
   isExternalUrl: (url) => {
     return ExternalUrlHandler.googleDrive.isGoogleDriveUrl(url);
   }

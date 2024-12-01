@@ -137,8 +137,10 @@ header {
 
 /* Footer Styles */
 footer {
-  @apply w-full bg-white/80 backdrop-blur-sm border-t border-gray-200 mt-20;
-  z-index: 50;
+  @apply w-full bg-white/80 backdrop-blur-sm border-t border-gray-200;
+  margin-top: auto;
+  position: relative;
+  z-index: var(--z-header);
 }
 
 .footer-container {

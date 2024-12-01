@@ -1,17 +1,42 @@
 /* Container untuk section pengalaman */
+.pengalaman-container {
+  position: relative;
+  background-color: #f8fafc;
+  z-index: var(--z-content);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px);
+}
+
+/* Content wrapper */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page section */
 .page-section {
   @apply relative;
-  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
+
+/* Timeline container */
+.timeline-container {
+  @apply space-y-6;
+  flex: 1;
+}
+
 /* Filter styles */
 .filter-container {
   @apply sticky top-[80px] flex flex-wrap justify-center gap-2;
   margin-bottom: 2rem;
-  border-bottom: none;
-  box-shadow: none;
-
   backdrop-filter: blur(8px);
   padding: 0.5rem 0;
+  z-index: 2;
 }
 
 .filter-button {
@@ -106,7 +131,7 @@
 
 /* Points list dengan auto bullet */
 .points-list {
-  @apply space-y-2 list-disc pl-5 mb-4; /* Tambah margin bottom */
+  @apply text-justify space-y-2 list-disc pl-5 mb-4; /* Tambah margin bottom */
 }
 
 .point-item {
@@ -144,11 +169,6 @@
   @apply bg-gray-50;
 }
 
-/* Timeline container - berikan margin top untuk kompensasi filter fixed */
-.timeline-container {
-  @apply space-y-6;
-}
-
 /* Mobile responsive */
 @media (max-width: 768px) {
   .company-logo {
@@ -177,7 +197,7 @@
   }
 
   .timeline-container {
-    margin-top: 80px;
+    margin-top: 1rem;
   }
 
   .info-container {
