@@ -5,7 +5,7 @@
   --z-dropdown: 41;
   --z-mobile-menu: 39;
   --z-overlay: 38;
-
+  --z-modal-backdrop: 8999;
   /* Content Layers */
   --z-content: 1;
   --z-decorative: -1;
@@ -13,8 +13,9 @@
   /* Modal & Lightbox */
   --z-modal: 9000;
   --z-modal-backdrop: 8999;
-  --z-lightbox: 9500;
-  --z-lightbox-controls: 9501;
+  --z-lightbox: 9999;
+  --z-lightbox-backdrop: 9998;
+  --z-lightbox-controls: 10000;
 }
 
 /* Gunakan CSS variables untuk konsistensi */
@@ -32,6 +33,6 @@
 .tooltip { z-index: var(--z-tooltip); }
 
 /* Lightbox layers */
-.lightbox-backdrop { z-index: var(--z-lightbox); }
+.lightbox-backdrop { z-index: var(--z-lightbox-backdrop); }
 .lightbox-content { z-index: var(--z-lightbox); }
 .lightbox-controls { z-index: var(--z-lightbox-controls); } 

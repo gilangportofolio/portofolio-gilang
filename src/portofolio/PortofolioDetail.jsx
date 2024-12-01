@@ -4,6 +4,7 @@ import { useSwipeGesture } from '../hooks/useSwipeGesture'
 import { getToolStyle, fetchToolCategories } from '../constants/categories'
 import ImageLightbox from '../components/ImageLightbox'
 import ExternalUrlHandler from '../utils/ExternalUrlHandler'
+import { createPortal } from 'react-dom'
 
 function PortofolioDetail({ project, onClose }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
@@ -57,19 +58,21 @@ function PortofolioDetail({ project, onClose }) {
   }
 
   const getDetailImageUrl = (image) => {
-    if (!image) return null
+    if (!image) return null;
     
-    if (image.is_external && image.url_asli) {
-      return ExternalUrlHandler.googleDrive.getPreviewUrl(image.url_asli, image.type || 'thumbnail')
+    if (image.is_external) {
+      const fileId = ExternalUrlHandler.googleDrive.extractFileId(image.url_gambar);
+      return ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'preview');
     }
     
-    return image.url_gambar
-  }
+    return image.url_gambar;
+  };
 
-  return (
+  return createPortal(
     <div 
-      className="modal-overlay fixed inset-0 bg-black bg-opacity-50 
+      className="modal-overlay fixed inset-0 bg-black/50 
                  flex items-center justify-center p-4 touch-manipulation"
+      style={{ zIndex: 'var(--z-modal)' }}
       onClick={(e) => {
         e.preventDefault()
         onClose()
@@ -77,8 +80,9 @@ function PortofolioDetail({ project, onClose }) {
       {...swipeHandlers}
     >
       <div 
-        className="modal-content bg-white rounded-lg w-full max-w-4xl max-h-[90vh] 
-                   overflow-y-auto relative overscroll-contain touch-pan-y"
+        className="modal-content bg-white rounded-lg w-full max-w-4xl 
+                   max-h-[90vh] overflow-y-auto relative overscroll-contain 
+                   touch-pan-y"
         onClick={handleModalClick}
         onTouchEnd={(e) => e.stopPropagation()}
         style={{ 
@@ -113,8 +117,15 @@ function PortofolioDetail({ project, onClose }) {
               <MediaCarousel 
                 media={project.images.map(img => ({
                   ...img,
-                  preview_url: getDetailImageUrl(img),
-                  fileId: img.is_external ? ExternalUrlHandler.googleDrive.extractFileId(img.url_asli) : null
+                  url: getDetailImageUrl(img),
+                  preview_url: img.is_external ? 
+                    ExternalUrlHandler.googleDrive.getPreviewUrl(
+                      ExternalUrlHandler.googleDrive.extractFileId(img.url_gambar),
+                      'thumbnail'
+                    ) : 
+                    img.url_gambar,
+                  fileId: img.is_external ? ExternalUrlHandler.googleDrive.extractFileId(img.url_gambar) : null,
+                  isGoogleDrive: img.is_external
                 }))} 
                 onImageClick={handleImageClick}
               />
@@ -126,7 +137,17 @@ function PortofolioDetail({ project, onClose }) {
             <p className="text-gray-600">{project.deskripsi}</p>
           </div>
 
-          {project.tools?.length > 0 && (
+          {project.poin?.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Highlights</h3>
+              <ul className="list-disc list-inside space-y-2">
+                {project.poin.map((point, index) => (
+                  <li key={index} className="text-gray-600">{point}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+{project.tools?.length > 0 && (
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-2">Tools yang digunakan</h3>
               <div className="flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
@@ -147,18 +168,6 @@ function PortofolioDetail({ project, onClose }) {
               </div>
             </div>
           )}
-
-          {project.poin?.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Poin-poin penting</h3>
-              <ul className="list-disc list-inside space-y-2">
-                {project.poin.map((point, index) => (
-                  <li key={index} className="text-gray-600">{point}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
           {project.tautan && (
             <div className="mt-6">
               <a 
@@ -183,7 +192,8 @@ function PortofolioDetail({ project, onClose }) {
           onClose={handleCloseImage}
         />
       )}
-    </div>
+    </div>,
+    document.body
   )
 }
 

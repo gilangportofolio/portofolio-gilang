@@ -1,11 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ImageLightbox from './ImageLightbox'
 import ExternalUrlHandler from '../utils/ExternalUrlHandler'
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 
-function MediaCarousel({ media }) {
+function MediaCarousel({ media, onImageClick }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showLightbox, setShowLightbox] = useState(false)
   const [imageError, setImageError] = useState({})
+
+  useEffect(() => {
+    if (showLightbox) {
+      document.body.classList.add('lightbox-open');
+    } else {
+      document.body.classList.remove('lightbox-open');
+    }
+
+    return () => {
+      document.body.classList.remove('lightbox-open');
+    };
+  }, [showLightbox]);
 
   if (!media?.length) return null;
 
@@ -23,39 +36,63 @@ function MediaCarousel({ media }) {
   };
 
   const renderMedia = (item) => {
-    if (!item) return null;
-
-    if (item.is_external) {
-      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
-      if (fileId) {
-        return (
+    if (item.isGoogleDrive) {
+      return (
+        <div className="relative w-full h-full">
           <img
-            src={ExternalUrlHandler.googleDrive.getPreviewUrl(fileId)}
-            alt={`Slide ${currentIndex + 1}`}
+            src={item.url}
+            alt="Preview"
             className="w-full h-full object-contain cursor-zoom-in"
+            loading="lazy"
             onClick={() => setShowLightbox(true)}
             onError={(e) => {
-              if (!imageError[fileId]) {
-                setImageError(prev => ({ ...prev, [fileId]: true }));
-                // Coba format URL alternatif
-                e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'download');
+              if (!imageError[item.fileId]) {
+                setImageError(prev => ({ ...prev, [item.fileId]: true }));
+                e.target.src = `https://lh3.googleusercontent.com/d/${item.fileId}`;
               }
             }}
-            loading="lazy"
           />
-        );
-      }
+        </div>
+      );
     }
-
+    
     return (
       <img
-        src={item.url_gambar}
-        alt={`Slide ${currentIndex + 1}`}
+        src={item.url}
+        alt="Preview"
         className="w-full h-full object-contain cursor-zoom-in"
-        onClick={() => setShowLightbox(true)}
-        onError={() => setImageError(prev => ({ ...prev, [item.id]: true }))}
         loading="lazy"
+        onClick={() => setShowLightbox(true)}
       />
+    );
+  };
+
+  const renderLightboxContent = (item) => {
+    if (!item) return null;
+
+    return (
+      <TransformWrapper
+        initialScale={1}
+        minScale={0.5}
+        maxScale={4}
+        centerOnInit={true}
+        doubleClick={{ mode: "reset" }}
+      >
+        <TransformComponent>
+          <img
+            src={item.url}
+            alt="Preview"
+            className="w-full h-full object-contain"
+            loading="lazy"
+            onError={(e) => {
+              if (!imageError[item.fileId]) {
+                setImageError(prev => ({ ...prev, [item.fileId]: true }));
+                e.target.src = `https://lh3.googleusercontent.com/d/${item.fileId}`;
+              }
+            }}
+          />
+        </TransformComponent>
+      </TransformWrapper>
     );
   };
 
@@ -74,20 +111,22 @@ function MediaCarousel({ media }) {
   const renderThumbnail = (item, index) => {
     if (!item) return null;
 
-    if (item.is_external) {
-      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar || item.preview_url);
-      if (fileId) {
-        return (
-          <img
-            src={`https://lh3.googleusercontent.com/d/${fileId}`}
-            alt={`Thumbnail ${index + 1}`}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'thumbnail');
-            }}
-          />
-        );
-      }
+    if (item.isGoogleDrive) {
+      return (
+        <img
+          src={item.preview_url}
+          alt={`Thumbnail ${index + 1}`}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            console.log('Thumbnail error for:', item.fileId);
+            if (!imageError[item.fileId]) {
+              setImageError(prev => ({ ...prev, [item.fileId]: true }));
+              // Gunakan format thumbnail sebagai fallback
+              e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(item.fileId, 'thumbnail');
+            }
+          }}
+        />
+      );
     }
 
     return (
@@ -97,12 +136,6 @@ function MediaCarousel({ media }) {
         className="w-full h-full object-cover"
       />
     );
-  };
-
-  const handleImageClick = () => {
-    console.log('Image clicked, opening lightbox');
-    console.log('Current media:', media[currentIndex]);
-    setShowLightbox(true);
   };
 
   return (
@@ -151,10 +184,16 @@ function MediaCarousel({ media }) {
       )}
 
       {showLightbox && (
-        <ImageLightbox 
-          url={getMediaUrl(media[currentIndex])}
-          onClose={() => setShowLightbox(false)}
-        />
+        <div className="fixed inset-0 z-[9999] bg-black bg-opacity-90 flex items-center justify-center">
+          <button 
+            onClick={() => setShowLightbox(false)}
+            className="fixed top-4 right-4 text-white text-xl p-4 z-[10000] bg-black/50 rounded-full hover:bg-black/70"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          {renderLightboxContent(media[currentIndex])}
+        </div>
       )}
     </div>
   );

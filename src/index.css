@@ -40,6 +40,18 @@
   --gradient-primary: linear-gradient(135deg, #50C878 0%, #3CB371 100%);
   --gradient-hover: linear-gradient(135deg, #3CB371 0%, #50C878 100%);
   --gradient-accent: linear-gradient(135deg, #E63946 0%, #FF4D5A 100%);
+
+  /* Tambahan pilihan warna baru */
+  --color-blue: #0EA5E9;        /* Biru Ocean */
+  --color-purple: #8B5CF6;      /* Ungu Royal */
+  --color-orange: #F97316;      /* Orange Sunset */
+  --color-teal: #14B8A6;        /* Teal Fresh */
+  
+  /* Gradasi tambahan */
+  --gradient-blue: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+  --gradient-purple: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  --gradient-orange: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  --gradient-teal: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
 }
 
 /* Reset dasar */
@@ -496,31 +508,37 @@ footer {
 }
 
 /* Lightbox styles */
+body.lightbox-open {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+body.lightbox-open header {
+  display: none;
+}
+
 .lightbox-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 99999;
 }
 
 .lightbox-content {
   position: fixed;
   inset: 0;
-  z-index: 100000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Pastikan body tidak scroll saat lightbox terbuka */
-body.modal-open {
-  overflow: hidden !important;
+.lightbox-controls {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  padding-right: var(--scrollbar-width, 0px);
+  top: 1rem;
+  right: 1rem;
 }
 
 /* Animasi untuk lightbox */
@@ -536,4 +554,30 @@ body.modal-open {
 .lightbox-backdrop,
 .lightbox-content {
   animation: lightboxFadeIn 0.2s ease-out;
+}
+
+/* Zoomable image styles */
+.zoomable-image {
+  touch-action: pinch-zoom pan-x pan-y !important;
+  -webkit-touch-callout: default !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  max-height: 90vh;
+  max-width: 90vw;
+  object-fit: contain;
+}
+
+/* Ketika modal terbuka */
+body.modal-open header {
+  z-index: 30; /* Lebih rendah dari modal */
+}
+
+.modal-overlay {
+  z-index: var(--z-modal-backdrop);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  z-index: var(--z-modal);
 }

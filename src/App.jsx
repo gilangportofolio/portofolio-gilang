@@ -7,6 +7,7 @@ import Pengalaman from './pages/Pengalaman'
 import Sertifikat from './pages/Sertifikat'
 import Portofolio from './portofolio/Portofolio'
 import ErrorBoundary from './components/ErrorBoundary'
+import ThemeSwitcher from './components/ThemeSwitcher'
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <ThemeSwitcher />
         </div>
       </div>
     </ErrorBoundary>
