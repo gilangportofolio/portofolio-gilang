@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSwipeGesture } from '../hooks/useSwipeGesture'
 import { getToolStyle, fetchToolCategories } from '../constants/categories'
 import ImageLightbox from '../components/ImageLightbox'
+import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 
 function PortofolioDetail({ project, onClose }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
@@ -25,7 +26,7 @@ function PortofolioDetail({ project, onClose }) {
         const toolsData = await fetchToolCategories()
         setToolsWithCategories(toolsData)
       } catch (error) {
-        console.error('Error fetching tools:', error)
+        setToolsLoading(false)
       } finally {
         setToolsLoading(false)
       }
@@ -34,14 +35,11 @@ function PortofolioDetail({ project, onClose }) {
   }, [])
 
   useEffect(() => {
-    // Tambahkan class ke body saat modal dibuka
-    document.body.classList.add('modal-open');
-    
-    // Cleanup: hapus class saat modal ditutup
+    document.body.classList.add('modal-open')
     return () => {
-      document.body.classList.remove('modal-open');
-    };
-  }, []);
+      document.body.classList.remove('modal-open')
+    }
+  }, [])
 
   const swipeHandlers = isMobile ? useSwipeGesture(onClose) : {}
 
@@ -56,6 +54,16 @@ function PortofolioDetail({ project, onClose }) {
 
   const handleModalClick = (e) => {
     e.stopPropagation()
+  }
+
+  const getDetailImageUrl = (image) => {
+    if (!image) return null
+    
+    if (image.is_external && image.url_asli) {
+      return ExternalUrlHandler.googleDrive.getPreviewUrl(image.url_asli, image.type || 'thumbnail')
+    }
+    
+    return image.url_gambar
   }
 
   return (
@@ -103,10 +111,11 @@ function PortofolioDetail({ project, onClose }) {
               }}
             >
               <MediaCarousel 
-                media={project.images.map(image => ({
-                  type: image.tipe,
-                  url: image.url_gambar
-                }))}
+                media={project.images.map(img => ({
+                  ...img,
+                  preview_url: getDetailImageUrl(img),
+                  fileId: img.is_external ? ExternalUrlHandler.googleDrive.extractFileId(img.url_asli) : null
+                }))} 
                 onImageClick={handleImageClick}
               />
             </div>

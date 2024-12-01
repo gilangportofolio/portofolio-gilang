@@ -12,6 +12,7 @@ import {
   getToolStyle, 
   fetchToolCategories 
 } from '../constants/categories';
+import ExternalUrlHandler from '../utils/ExternalUrlHandler';
 
 function Portofolio() {
   const [projects, setProjects] = useState([])
@@ -41,22 +42,32 @@ function Portofolio() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch projects, categories, dan tools secara parallel
         const [projectsResponse, toolsData] = await Promise.all([
           supabase
             .from('portofolios')
-            .select('*, images(id, url_gambar, tipe)')
+            .select(`
+              *,
+              images(
+                id, 
+                url_gambar, 
+                tipe,
+                is_external,
+                url_asli
+              )
+            `)
             .order('waktu_publish', { ascending: false }),
-          fetchToolCategories() // Fetch tools dari categories.js
+          fetchToolCategories()
         ]);
-
         if (projectsResponse.error) throw projectsResponse.error;
-        
-        setProjects(projectsResponse.data);
+        const projectsWithImages = projectsResponse.data.map(project => {
+          return project;
+        });
+
+        setProjects(projectsWithImages);
         setToolsWithCategories(toolsData);
       } catch (err) {
         setError('Terjadi kesalahan saat mengambil data');
-        console.error(err);
+        console.error('Fetch error:', err);
       } finally {
         setLoading(false);
       }
@@ -92,6 +103,7 @@ function Portofolio() {
   }
 
   const handleImageClick = (project, e) => {
+    console.log('Image clicked, project data:', project);
     if (e) {
       e.preventDefault()
       e.stopPropagation()
@@ -99,6 +111,28 @@ function Portofolio() {
     setSelectedProject(project)
     document.body.style.overflow = 'hidden'
   }
+
+  const getThumbnailUrl = (project) => {
+    if (!project?.images) return null;
+    
+    // Coba cari thumbnail terlebih dahulu
+    const thumbnailImage = project.images.find(img => img.tipe === 'thumbnail');
+    if (thumbnailImage) {
+      return thumbnailImage.url_gambar;
+    }
+    
+    // Jika tidak ada thumbnail, cari gambar pertama
+    const firstImage = project.images[0];
+    if (firstImage?.is_external && firstImage?.url_gambar) {
+      const fileId = ExternalUrlHandler.googleDrive.extractFileId(firstImage.url_gambar);
+      if (fileId) {
+        return `https://lh3.googleusercontent.com/d/${fileId}`;
+      }
+    }
+    
+    // Fallback ke gambar pertama jika ada
+    return firstImage?.url_gambar;
+  };
 
   if (loading) return <LoadingSpinner />
   if (error) return <div className="text-center py-8 text-red-500">{error}</div>
@@ -149,20 +183,31 @@ function Portofolio() {
           {currentProjects.map(project => (
             <div 
               key={project.id} 
-              className="project-card"
+              className="project-card group"
             >
               {/* Thumbnail */}
               <div 
-                className="thumbnail-container cursor-pointer"
+                className="thumbnail-container cursor-pointer relative group"
                 onClick={(e) => handleImageClick(project, e)}
               >
-                {project.images?.find(img => img.tipe === 'thumbnail') ? (
-                  <img 
-                    src={project.images.find(img => img.tipe === 'thumbnail').url_gambar}
-                    alt={project.judul}
-                    className="w-full h-48 object-cover hover:opacity-90 transition-opacity"
-                    loading="lazy"
-                  />
+                {project.images?.length > 0 ? (
+                  <>
+                    <img 
+                      src={getThumbnailUrl(project)}
+                      alt={project.judul}
+                      className="w-full h-48 object-cover transition-all duration-300 group-hover:opacity-90"
+                      loading="lazy"
+                      onError={(e) => {
+                        const firstImage = project.images[0];
+                        if (firstImage?.is_external && firstImage?.url_gambar) {
+                          const fileId = ExternalUrlHandler.googleDrive.extractFileId(firstImage.url_gambar);
+                          if (fileId) {
+                            e.target.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w500`;
+                          }
+                        }
+                      }}
+                    />
+                  </>
                 ) : (
                   <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
                     <span className="text-4xl">🖼️</span>

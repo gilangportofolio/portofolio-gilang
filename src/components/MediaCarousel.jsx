@@ -1,53 +1,114 @@
 import { useState } from 'react'
-import { FaFilePdf } from 'react-icons/fa'
 import ImageLightbox from './ImageLightbox'
+import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 
-function MediaCarousel({ media, onImageClick }) {
+function MediaCarousel({ media }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showLightbox, setShowLightbox] = useState(false)
+  const [imageError, setImageError] = useState(false)
+
+  if (!media?.length) return null;
+
+  const getMediaUrl = (item) => {
+    if (!item) return '';
+    if (item.preview_url) return item.preview_url;
+    if (item.is_external && item.url_asli) {
+      const type = item.type || 'thumbnail';
+      return ExternalUrlHandler.googleDrive.getPreviewUrl(item.url_asli, type);
+    }
+    return item.url_gambar || '';
+  };
+
+  const renderMedia = (item) => {
+    if (!item) return null;
+
+    // Untuk file Google Drive
+    if (item.is_external) {
+      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar || item.preview_url);
+      if (fileId) {
+        return (
+          <img
+            src={`https://lh3.googleusercontent.com/d/${fileId}`}
+            alt={`Slide ${currentIndex + 1}`}
+            className="w-full h-full object-contain cursor-zoom-in"
+            onClick={() => setShowLightbox(true)}
+            onError={(e) => {
+              e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'thumbnail');
+            }}
+          />
+        );
+      }
+    }
+
+    // Untuk gambar non-external
+    if (item.url_gambar) {
+      return (
+        <img
+          src={item.url_gambar}
+          alt={`Slide ${currentIndex + 1}`}
+          className="w-full h-full object-contain cursor-zoom-in"
+          onClick={() => setShowLightbox(true)}
+          onError={() => setImageError(true)}
+        />
+      );
+    }
+
+    // Jika tidak ada URL yang valid
+    return (
+      <div className="text-center p-4">
+        <p className="text-red-500">Media tidak tersedia</p>
+        <p className="text-sm text-gray-500">ID: {item.id}</p>
+      </div>
+    );
+  };
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? media.length - 1 : prevIndex - 1
-    )
-  }
+    );
+  };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === media.length - 1 ? 0 : prevIndex + 1
-    )
-  }
+    );
+  };
 
-  const isPDF = (url) => url.toLowerCase().endsWith('.pdf')
+  const renderThumbnail = (item, index) => {
+    if (!item) return null;
 
-  if (!media?.length) return null
+    if (item.is_external) {
+      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar || item.preview_url);
+      if (fileId) {
+        return (
+          <img
+            src={`https://lh3.googleusercontent.com/d/${fileId}`}
+            alt={`Thumbnail ${index + 1}`}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'thumbnail');
+            }}
+          />
+        );
+      }
+    }
+
+    return (
+      <img
+        src={item.url_gambar}
+        alt={`Thumbnail ${index + 1}`}
+        className="w-full h-full object-cover"
+      />
+    );
+  };
 
   return (
-    <div 
-      className="relative mb-6 touch-pan-y" 
-      style={{ WebkitOverflowScrolling: 'touch' }}
-    >
-      {/* Main Display */}
+    <div className="relative mb-6 touch-pan-y">
       <div className="relative h-[400px] bg-gray-100 rounded-lg overflow-hidden">
-        {isPDF(media[currentIndex].url) ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <FaFilePdf className="text-6xl text-red-500 mb-2" />
-            <a 
-              href={media[currentIndex].url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition-colors"
-            >
-              Lihat PDF
-            </a>
+        {media[currentIndex] ? renderMedia(media[currentIndex]) : (
+          <div className="text-center p-4">
+            <p className="text-red-500">Media tidak tersedia</p>
           </div>
-        ) : (
-          <img
-            src={media[currentIndex].url}
-            alt={`Slide ${currentIndex + 1}`}
-            className="w-full h-full object-contain cursor-zoom-in zoomable-image"
-            onClick={() => setShowLightbox(true)}
-          />
         )}
         
         {media.length > 1 && (
@@ -68,7 +129,6 @@ function MediaCarousel({ media, onImageClick }) {
         )}
       </div>
 
-      {/* Thumbnails */}
       {media.length > 1 && (
         <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
           {media.map((item, index) => (
@@ -79,32 +139,20 @@ function MediaCarousel({ media, onImageClick }) {
                 currentIndex === index ? 'border-emerald-500' : 'border-transparent'
               }`}
             >
-              {isPDF(item.url) ? (
-                <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                  <FaFilePdf className="text-2xl text-red-500" />
-                </div>
-              ) : (
-                <img
-                  src={item.url}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              )}
+              {renderThumbnail(item, index)}
             </button>
           ))}
         </div>
       )}
 
-      {/* Lightbox */}
-      {showLightbox && !isPDF(media[currentIndex].url) && (
+      {showLightbox && (
         <ImageLightbox 
-          url={media[currentIndex].url}
+          url={getMediaUrl(media[currentIndex])}
           onClose={() => setShowLightbox(false)}
-          className="modal-image-container"
         />
       )}
     </div>
-  )
+  );
 }
 
-export default MediaCarousel 
+export default MediaCarousel; 
