@@ -3,7 +3,11 @@ import React from 'react';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { 
+      hasError: false,
+      error: null,
+      errorInfo: null
+    };
   }
 
   static getDerivedStateFromError(error) {
@@ -11,26 +15,36 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.log('Error:', error);
-    console.log('Error Info:', errorInfo);
+    console.error('Error:', error);
+    console.error('Error Info:', errorInfo);
+    
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    });
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-[50vh] p-4">
-          <h2 className="text-xl font-bold text-gray-800 mb-2">
-            Oops, Terjadi Kesalahan
-          </h2>
-          <p className="text-gray-600 mb-4">
-            Mohon muat ulang halaman
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-          >
-            Muat Ulang
-          </button>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Maaf, terjadi kesalahan
+            </h2>
+            <p className="text-gray-600 mb-4">
+              {this.state.error?.message || 'Mohon muat ulang halaman'}
+            </p>
+            <button
+              onClick={() => {
+                this.setState({ hasError: false });
+                window.location.reload();
+              }}
+              className="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition-colors"
+            >
+              Muat Ulang
+            </button>
+          </div>
         </div>
       );
     }

@@ -1,18 +1,20 @@
 /* Z-index layers */
 :root {
   /* Navigation & Header */
-  --z-header: 50;
-  --z-dropdown: 51;
-  --z-mobile-menu: 49;
-  --z-overlay: 48;
+  --z-header: 40;
+  --z-dropdown: 41;
+  --z-mobile-menu: 39;
+  --z-overlay: 38;
 
   /* Content Layers */
   --z-content: 1;
   --z-decorative: -1;
   
-  /* Modal & Popups */
-  --z-modal: 100;
-  --z-tooltip: 90;
+  /* Modal & Lightbox */
+  --z-modal: 9000;
+  --z-modal-backdrop: 8999;
+  --z-lightbox: 9500;
+  --z-lightbox-controls: 9501;
 }
 
 /* Gunakan CSS variables untuk konsistensi */
@@ -27,4 +29,9 @@
 
 /* Modal layers */
 .modal-container { z-index: var(--z-modal); }
-.tooltip { z-index: var(--z-tooltip); } 
+.tooltip { z-index: var(--z-tooltip); }
+
+/* Lightbox layers */
+.lightbox-backdrop { z-index: var(--z-lightbox); }
+.lightbox-content { z-index: var(--z-lightbox); }
+.lightbox-controls { z-index: var(--z-lightbox-controls); } 

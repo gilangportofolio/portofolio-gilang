@@ -35,6 +35,11 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    const header = document.querySelector('header');
+    console.log('Header mounted, z-index:', window.getComputedStyle(header).zIndex);
+  }, []);
+
   const isActive = (path) => location.pathname === path
 
   const toggleMobileMenu = () => {
@@ -42,7 +47,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header className="fixed top-0 left-0 right-0 bg-white">
       <nav className="nav-container">
         <div className="nav-menu">
           <Link 

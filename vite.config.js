@@ -53,5 +53,33 @@ export default defineConfig({
       usePolling: true,
     },
     historyApiFallback: true,
+    headers: {
+      "Content-Security-Policy": `
+        default-src 'self'; 
+        script-src 'self' 'unsafe-inline' 'unsafe-eval'; 
+        style-src 'self' 'unsafe-inline' https: data:; 
+        font-src 'self' https: data:; 
+        img-src * data: blob: https: 'self'; 
+        connect-src * 'self' https: wss: data: blob:; 
+        frame-src * 'self' https:; 
+        media-src * 'self' https: data: blob:;
+      `.replace(/\s+/g, ' ').trim(),
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "cross-origin",
+      "Referrer-Policy": "no-referrer",
+      "Set-Cookie": "SameSite=Strict; Secure",
+      "Cross-Origin-Resource-Policy": "same-site",
+      "Cross-Origin-Opener-Policy": "same-origin-allow-popups"
+    },
+    proxy: {
+      '/gdrive': {
+        target: 'https://drive.google.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/gdrive/, '')
+      }
+    }
   },
 })

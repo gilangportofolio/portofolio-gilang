@@ -7,27 +7,50 @@ import Pengalaman from './pages/Pengalaman'
 import Sertifikat from './pages/Sertifikat'
 import Portofolio from './portofolio/Portofolio'
 import ErrorBoundary from './components/ErrorBoundary'
-import logo from '/logogram.svg'
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 mt-[60px]">
-        <ErrorBoundary>
-          <Routes>
-            <Route path="/" element={<Navigate to="/tentang-saya" replace />} />
-            <Route path="/tentang-saya" element={<TentangSaya />} />
-            <Route path="/pendidikan" element={<Pendidikan />} />
-            <Route path="/pengalaman" element={<Pengalaman />} />
-            <Route path="/sertifikat" element={<Sertifikat />} />
-            <Route path="/portofolio/*" element={<Portofolio />} />
-            <Route path="*" element={<Navigate to="/tentang-saya" replace />} />
-          </Routes>
-        </ErrorBoundary>
-      </main>
-      <Footer />
-    </div>
+    <ErrorBoundary>
+      <div id="modal-root" />
+      
+      <div className="app-wrapper relative">
+        <div className="min-h-screen flex flex-col relative">
+          <Header />
+          <main className="flex-1 mt-[60px] relative z-[1]">
+            <Routes>
+              <Route path="/" element={<Navigate to="/tentang-saya" replace />} />
+              <Route path="/tentang-saya" element={
+                <ErrorBoundary key="tentang-saya">
+                  <TentangSaya />
+                </ErrorBoundary>
+              } />
+              <Route path="/pendidikan" element={
+                <ErrorBoundary key="pendidikan">
+                  <Pendidikan />
+                </ErrorBoundary>
+              } />
+              <Route path="/pengalaman" element={
+                <ErrorBoundary key="pengalaman">
+                  <Pengalaman />
+                </ErrorBoundary>
+              } />
+              <Route path="/sertifikat" element={
+                <ErrorBoundary key="sertifikat">
+                  <Sertifikat />
+                </ErrorBoundary>
+              } />
+              <Route path="/portofolio/*" element={
+                <ErrorBoundary key="portofolio">
+                  <Portofolio />
+                </ErrorBoundary>
+              } />
+              <Route path="*" element={<Navigate to="/tentang-saya" replace />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </div>
+    </ErrorBoundary>
   )
 }
 

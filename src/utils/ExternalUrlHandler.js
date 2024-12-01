@@ -9,67 +9,32 @@ const ExternalUrlHandler = {
     extractFileId: (url) => {
       if (!url) return null;
       
-      const patterns = [
-        /\/file\/d\/([^\/\?]+)/i,
-        /id=([^&]+)/i,
-        /folders\/([^\/\?]+)/i,
-        /open\?id=([^&]+)/i,
-        /uc\?id=([^&]+)/i,
-        /\/d\/([^\/\?]+)/i,
-        /([^\/\?&]{25,})/i
-      ];
-
-      for (const pattern of patterns) {
-        const match = url.match(pattern);
-        if (match && match[1]) return match[1];
+      // Handle different Google Drive URL formats
+      let fileId = null;
+      
+      if (url.includes('/file/d/')) {
+        fileId = url.split('/file/d/')[1]?.split('/')[0];
+      } else if (url.includes('id=')) {
+        fileId = url.split('id=')[1]?.split('&')[0];
       }
-      return null;
+      
+      return fileId;
     },
 
-    getThumbnailUrl: (fileId, size = 'w500') => {
-      if (!fileId) return null;
-      return `https://drive.google.com/thumbnail?id=${fileId}&sz=${size}`;
-    },
-
-    getPreviewUrl: (url, type = 'preview') => {
-      const fileId = ExternalUrlHandler.googleDrive.extractFileId(url);
-      if (!fileId) return url;
-
-      // Untuk gambar, gunakan format lh3.googleusercontent.com
-      if (type === 'image' || type === 'thumbnail') {
-        return `https://lh3.googleusercontent.com/d/${fileId}`;
+    getPreviewUrl: (fileId, type = 'view') => {
+      if (!fileId) return '';
+      
+      // Gunakan format URL yang berbeda untuk menghindari masalah cookies
+      switch (type) {
+        case 'preview':
+          return `https://lh3.googleusercontent.com/d/${fileId}`; // Format baru
+        case 'view':
+          return `https://lh3.googleusercontent.com/d/${fileId}`; // Format baru
+        case 'thumbnail':
+          return `https://lh3.googleusercontent.com/d/${fileId}=w500`; // Dengan ukuran
+        default:
+          return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
-
-      const baseUrl = 'https://drive.google.com';
-      const urls = {
-        preview: `${baseUrl}/file/d/${fileId}/preview`,
-        view: `${baseUrl}/file/d/${fileId}/view`,
-        download: `${baseUrl}/uc?export=download&id=${fileId}`,
-        thumbnail: `${baseUrl}/thumbnail?id=${fileId}`,
-        image: `${baseUrl}/uc?export=view&id=${fileId}`,
-        document: `${baseUrl}/file/d/${fileId}/edit?usp=sharing`,
-      };
-      return urls[type] || urls.preview;
-    },
-
-    detectFileType: (url, filename = '') => {
-      if (filename) {
-        const ext = filename.split('.').pop().toLowerCase();
-        return ExternalUrlHandler.googleDrive.getTypeFromExtension(ext);
-      }
-
-      if (url.toLowerCase().match(/\.(jpg|jpeg|png|gif|bmp|webp)$/)) return 'image';
-      if (url.toLowerCase().includes('.pdf')) return 'pdf';
-      return 'unknown';
-    },
-
-    getTypeFromExtension: (ext) => {
-      const typeMap = {
-        jpg: 'image', jpeg: 'image', png: 'image', gif: 'image', 
-        webp: 'image', bmp: 'image',
-        pdf: 'pdf'
-      };
-      return typeMap[ext.toLowerCase()] || 'unknown';
     }
   },
 

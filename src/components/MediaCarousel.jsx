@@ -5,16 +5,19 @@ import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 function MediaCarousel({ media }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showLightbox, setShowLightbox] = useState(false)
-  const [imageError, setImageError] = useState(false)
+  const [imageError, setImageError] = useState({})
 
   if (!media?.length) return null;
 
   const getMediaUrl = (item) => {
     if (!item) return '';
     if (item.preview_url) return item.preview_url;
+    
     if (item.is_external && item.url_asli) {
-      const type = item.type || 'thumbnail';
-      return ExternalUrlHandler.googleDrive.getPreviewUrl(item.url_asli, type);
+      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_asli);
+      if (fileId) {
+        return ExternalUrlHandler.googleDrive.getPreviewUrl(fileId);
+      }
     }
     return item.url_gambar || '';
   };
@@ -22,43 +25,37 @@ function MediaCarousel({ media }) {
   const renderMedia = (item) => {
     if (!item) return null;
 
-    // Untuk file Google Drive
     if (item.is_external) {
-      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar || item.preview_url);
+      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
       if (fileId) {
         return (
           <img
-            src={`https://lh3.googleusercontent.com/d/${fileId}`}
+            src={ExternalUrlHandler.googleDrive.getPreviewUrl(fileId)}
             alt={`Slide ${currentIndex + 1}`}
             className="w-full h-full object-contain cursor-zoom-in"
             onClick={() => setShowLightbox(true)}
             onError={(e) => {
-              e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'thumbnail');
+              if (!imageError[fileId]) {
+                setImageError(prev => ({ ...prev, [fileId]: true }));
+                // Coba format URL alternatif
+                e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'download');
+              }
             }}
+            loading="lazy"
           />
         );
       }
     }
 
-    // Untuk gambar non-external
-    if (item.url_gambar) {
-      return (
-        <img
-          src={item.url_gambar}
-          alt={`Slide ${currentIndex + 1}`}
-          className="w-full h-full object-contain cursor-zoom-in"
-          onClick={() => setShowLightbox(true)}
-          onError={() => setImageError(true)}
-        />
-      );
-    }
-
-    // Jika tidak ada URL yang valid
     return (
-      <div className="text-center p-4">
-        <p className="text-red-500">Media tidak tersedia</p>
-        <p className="text-sm text-gray-500">ID: {item.id}</p>
-      </div>
+      <img
+        src={item.url_gambar}
+        alt={`Slide ${currentIndex + 1}`}
+        className="w-full h-full object-contain cursor-zoom-in"
+        onClick={() => setShowLightbox(true)}
+        onError={() => setImageError(prev => ({ ...prev, [item.id]: true }))}
+        loading="lazy"
+      />
     );
   };
 
@@ -102,10 +99,18 @@ function MediaCarousel({ media }) {
     );
   };
 
+  const handleImageClick = () => {
+    console.log('Image clicked, opening lightbox');
+    console.log('Current media:', media[currentIndex]);
+    setShowLightbox(true);
+  };
+
   return (
     <div className="relative mb-6 touch-pan-y">
       <div className="relative h-[400px] bg-gray-100 rounded-lg overflow-hidden">
-        {media[currentIndex] ? renderMedia(media[currentIndex]) : (
+        {media[currentIndex] && !imageError[media[currentIndex].id] ? (
+          renderMedia(media[currentIndex])
+        ) : (
           <div className="text-center p-4">
             <p className="text-red-500">Media tidak tersedia</p>
           </div>
