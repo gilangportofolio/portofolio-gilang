@@ -5,17 +5,22 @@ body.modal-open {
 
 /* Tambahkan blur effect ke header saat modal aktif */
 body.modal-open header {
-  @apply blur-sm;
+  filter: blur(4px);
   transition: filter 0.2s ease-out;
 }
 
 .modal-overlay {
-  @apply fixed inset-0 bg-black bg-opacity-50;
-  @apply flex items-start justify-center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: start;
+  justify-content: center;
 }
 
 .modal-content {
-  @apply bg-white relative;
+  background-color: white;
+  position: relative;
   width: 100%;
   max-width: 500px;
   margin: 0 1rem;
@@ -27,11 +32,17 @@ body.modal-open header {
 }
 
 .modal-header {
-  @apply px-4 py-2 border-b border-gray-200 bg-white sticky top-0;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: white;
+  position: sticky;
+  top: 0;
 }
 
 .modal-body {
-  @apply px-4 pt-2 pb-4;
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
   overflow-y: auto;
 }
 

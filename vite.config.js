@@ -56,7 +56,7 @@ export default defineConfig({
     headers: {
       "Content-Security-Policy": `
         default-src 'self'; 
-        script-src 'self' 'unsafe-inline' 'unsafe-eval'; 
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com; 
         style-src 'self' 'unsafe-inline' https: data:; 
         font-src 'self' https: data:; 
         img-src * data: blob: https: 'self'; 
@@ -67,12 +67,10 @@ export default defineConfig({
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "*",
       "Access-Control-Allow-Headers": "*",
-      "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Resource-Policy": "cross-origin",
-      "Referrer-Policy": "no-referrer",
-      "Set-Cookie": "SameSite=Strict; Secure",
+      "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
       "Cross-Origin-Resource-Policy": "same-site",
-      "Cross-Origin-Opener-Policy": "same-origin-allow-popups"
+      "Referrer-Policy": "no-referrer",
+      "Set-Cookie": "SameSite=Strict; Secure"
     },
     proxy: {
       '/gdrive': {
