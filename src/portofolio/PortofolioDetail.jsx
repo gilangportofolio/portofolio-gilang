@@ -9,8 +9,11 @@ import { createPortal } from 'react-dom'
 function PortofolioDetail({ project, onClose }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [selectedImage, setSelectedImage] = useState(null)
+  const [showLightbox, setShowLightbox] = useState(false)
   const [toolsWithCategories, setToolsWithCategories] = useState({})
   const [toolsLoading, setToolsLoading] = useState(true)
+
+  const swipeHandlers = useSwipeGesture(onClose)
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,7 +30,7 @@ function PortofolioDetail({ project, onClose }) {
         const toolsData = await fetchToolCategories()
         setToolsWithCategories(toolsData)
       } catch (error) {
-        setToolsLoading(false)
+        console.error('Error fetching tools:', error)
       } finally {
         setToolsLoading(false)
       }
@@ -36,20 +39,42 @@ function PortofolioDetail({ project, onClose }) {
   }, [])
 
   useEffect(() => {
-    document.body.classList.add('modal-open')
+    document.body.style.overflow = 'hidden'
     return () => {
-      document.body.classList.remove('modal-open')
+      document.body.style.overflow = 'auto'
     }
   }, [])
 
-  const swipeHandlers = isMobile ? useSwipeGesture(onClose) : {}
-
   const handleImageClick = (image) => {
-    setSelectedImage(image)
-  }
+    if (!image?.url_gambar) return;
 
-  const handleCloseImage = (e) => {
-    e.stopPropagation()
+    try {
+      let finalUrl = '';
+      
+      if (image.is_external) {
+        const fileId = ExternalUrlHandler.googleDrive.extractFileId(image.url_gambar);
+        if (fileId) {
+          const urls = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'preview');
+          finalUrl = urls[0];
+        }
+      } else {
+        finalUrl = image.url_gambar;
+      }
+
+      if (!finalUrl) return;
+
+      setSelectedImage({
+        ...image,
+        displayUrl: finalUrl
+      });
+      setShowLightbox(true);
+    } catch (error) {
+      console.error('Error in handleImageClick:', error);
+    }
+  };
+
+  const handleCloseImage = () => {
+    setShowLightbox(false)
     setSelectedImage(null)
   }
 
@@ -58,33 +83,33 @@ function PortofolioDetail({ project, onClose }) {
   }
 
   const getDetailImageUrl = (image) => {
-    if (!image) return null;
+    if (!image?.url_gambar) return null;
     
     if (image.is_external) {
       const fileId = ExternalUrlHandler.googleDrive.extractFileId(image.url_gambar);
-      return ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'preview');
+      if (fileId) {
+        const urls = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'preview');
+        return urls[0];
+      }
     }
-    
     return image.url_gambar;
   };
+
+  const shouldShowLightbox = showLightbox && selectedImage && selectedImage.displayUrl;
 
   return createPortal(
     <div 
       className="modal-overlay fixed inset-0 bg-black/50 
                  flex items-center justify-center p-4 touch-manipulation"
       style={{ zIndex: 'var(--z-modal)' }}
-      onClick={(e) => {
-        e.preventDefault()
-        onClose()
-      }}
-      {...swipeHandlers}
+      onClick={onClose}
+      {...(isMobile ? swipeHandlers : {})}
     >
       <div 
         className="modal-content bg-white rounded-lg w-full max-w-4xl 
                    max-h-[90vh] overflow-y-auto relative overscroll-contain 
                    touch-pan-y"
         onClick={handleModalClick}
-        onTouchEnd={(e) => e.stopPropagation()}
         style={{ 
           WebkitOverflowScrolling: 'touch',
           msOverflowStyle: '-ms-autohiding-scrollbar'
@@ -106,27 +131,18 @@ function PortofolioDetail({ project, onClose }) {
         
         <div className="p-4">
           {project.images?.length > 0 && (
-            <div 
-              onClick={(e) => e.stopPropagation()}
-              className="touch-manipulation"
-              style={{
-                WebkitUserSelect: 'none',
-                userSelect: 'none'
-              }}
-            >
+            <div className="mb-6">
               <MediaCarousel 
                 media={project.images.map(img => ({
                   ...img,
-                  url: getDetailImageUrl(img),
-                  preview_url: img.is_external ? 
+                  url_gambar: img.url_gambar,
+                  thumbnail_url: img.is_external ? 
                     ExternalUrlHandler.googleDrive.getPreviewUrl(
                       ExternalUrlHandler.googleDrive.extractFileId(img.url_gambar),
                       'thumbnail'
-                    ) : 
-                    img.url_gambar,
-                  fileId: img.is_external ? ExternalUrlHandler.googleDrive.extractFileId(img.url_gambar) : null,
-                  isGoogleDrive: img.is_external
-                }))} 
+                    )[0] : 
+                    img.url_gambar
+                }))}
                 onImageClick={handleImageClick}
               />
             </div>
@@ -186,11 +202,13 @@ function PortofolioDetail({ project, onClose }) {
         </div>
       </div>
 
-      {selectedImage && (
-        <ImageLightbox 
-          url={selectedImage.url}
-          onClose={handleCloseImage}
-        />
+      {shouldShowLightbox && (
+        <>
+          <ImageLightbox 
+            url={selectedImage.displayUrl}
+            onClose={handleCloseImage}
+          />
+        </>
       )}
     </div>,
     document.body

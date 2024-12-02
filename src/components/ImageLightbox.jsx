@@ -4,70 +4,95 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 
 function ImageLightbox({ url, onClose }) {
-  const [imageUrl, setImageUrl] = useState('')
+  if (!url) {
+    console.error('ImageLightbox: URL prop is required')
+    return null
+  }
+
+  if (!onClose) {
+    console.error('ImageLightbox: onClose prop is required')
+    return null
+  }
+
+  const [imageUrl, setImageUrl] = useState(url)
   const [error, setError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    if (ExternalUrlHandler.googleDrive.isGoogleDriveUrl(url)) {
-      const fileId = ExternalUrlHandler.googleDrive.extractFileId(url)
-      if (fileId) {
-        setImageUrl(ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'view'))
-      } else {
-        setImageUrl(url)
-      }
-    } else {
+    if (url !== imageUrl) {
       setImageUrl(url)
+      setError(false)
+      setIsLoading(true)
     }
-  }, [url])
+  }, [url, imageUrl])
+
+  const handleImageError = () => {
+    if (!error) {
+      setError(true)
+      if (ExternalUrlHandler.googleDrive.isGoogleDriveUrl(imageUrl)) {
+        const fileId = ExternalUrlHandler.googleDrive.extractFileId(imageUrl)
+        if (fileId) {
+          const fallbackUrl = `https://drive.google.com/uc?export=view&id=${fileId}`
+          setImageUrl(fallbackUrl)
+        }
+      }
+    }
+  }
+
+  const handleImageLoad = () => {
+    setIsLoading(false)
+  }
 
   return createPortal(
-    <>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       <div 
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999]"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-[10000] overflow-hidden">
-        <div className="relative w-full h-full flex items-center justify-center">
-          <button 
-            onClick={onClose}
-            className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
+      
+      <div className="relative z-[10000] w-full h-full flex items-center justify-center p-4">
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 z-[10001] bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
+        >
+          ✕
+        </button>
+
+        <TransformWrapper
+          initialScale={1}
+          minScale={0.5}
+          maxScale={4}
+          centerOnInit={true}
+          wheel={{ step: 0.1 }}
+          doubleClick={{ mode: "reset" }}
+        >
+          <TransformComponent
+            wrapperClass="w-full h-full"
+            contentClass="w-full h-full flex items-center justify-center"
           >
-            ✕
-          </button>
-          
-          <div className="w-full h-full flex items-center justify-center p-4">
-            <TransformWrapper
-              initialScale={1}
-              minScale={0.5}
-              maxScale={5}
-              centerOnInit={true}
-            >
-              <TransformComponent>
-                <img 
-                  src={imageUrl}
-                  alt="Preview"
-                  className="max-w-full max-h-[90vh] object-contain select-none"
-                  onError={(e) => {
-                    if (!error) {
-                      setError(true)
-                      const fileId = ExternalUrlHandler.googleDrive.extractFileId(url)
-                      if (fileId) {
-                        e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'preview')
-                      }
-                    }
-                  }}
-                  style={{
-                    touchAction: 'none',
-                    userSelect: 'none',
-                    WebkitUserSelect: 'none'
-                  }}
-                />
-              </TransformComponent>
-            </TransformWrapper>
-          </div>
-        </div>
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"/>
+              </div>
+            )}
+            <img 
+              src={imageUrl}
+              alt="Preview"
+              className="max-w-full max-h-[90vh] object-contain select-none"
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+              style={{
+                touchAction: 'none',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                opacity: isLoading ? 0 : 1,
+                transition: 'opacity 0.3s'
+              }}
+            />
+          </TransformComponent>
+        </TransformWrapper>
       </div>
-    </>,
+    </div>,
     document.body
   )
 }

@@ -12,8 +12,10 @@ import {
   getToolStyle, 
   fetchToolCategories 
 } from '../constants/categories';
+
 import ExternalUrlHandler from '../utils/ExternalUrlHandler';
 import EmptyState from '../components/EmptyState'
+import { AiOutlineFilePdf } from 'react-icons/ai'
 
 function Portofolio() {
   const [projects, setProjects] = useState([])
@@ -103,36 +105,26 @@ function Portofolio() {
     setSelectedProject(null)
   }
 
-  const handleImageClick = (project, e) => {
-    console.log('Image clicked, project data:', project);
-    if (e) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    setSelectedProject(project)
-    document.body.style.overflow = 'hidden'
-  }
+  const isPDF = (url) => {
+    return url?.toLowerCase().endsWith('.pdf');
+  };
 
   const getThumbnailUrl = (project) => {
-    if (!project?.images) return null;
+    if (!project?.images?.length) return null;
     
-    // Coba cari thumbnail terlebih dahulu
     const thumbnailImage = project.images.find(img => img.tipe === 'thumbnail');
-    if (thumbnailImage) {
-      return thumbnailImage.url_gambar;
-    }
+    const imageToUse = thumbnailImage || project.images[0];
     
-    // Jika tidak ada thumbnail, cari gambar pertama
-    const firstImage = project.images[0];
-    if (firstImage?.is_external && firstImage?.url_gambar) {
-      const fileId = ExternalUrlHandler.googleDrive.extractFileId(firstImage.url_gambar);
-      if (fileId) {
-        return `https://lh3.googleusercontent.com/d/${fileId}`;
-      }
+    return imageToUse?.url_gambar;
+  };
+
+  const handleImageClick = (project, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
-    
-    // Fallback ke gambar pertama jika ada
-    return firstImage?.url_gambar;
+    setSelectedProject(project);
+    document.body.style.overflow = 'hidden';
   };
 
   if (loading) return <LoadingSpinner />
@@ -197,21 +189,28 @@ function Portofolio() {
                 >
                   {project.images?.length > 0 ? (
                     <>
-                      <img 
-                        src={getThumbnailUrl(project)}
-                        alt={project.judul}
-                        className="w-full h-48 object-cover transition-all duration-300 group-hover:opacity-90"
-                        loading="lazy"
-                        onError={(e) => {
-                          const firstImage = project.images[0];
-                          if (firstImage?.is_external && firstImage?.url_gambar) {
-                            const fileId = ExternalUrlHandler.googleDrive.extractFileId(firstImage.url_gambar);
-                            if (fileId) {
-                              e.target.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w500`;
+                      {isPDF(project.images[0].url_gambar) ? (
+                        <div className="w-full h-48 bg-gray-100 flex flex-col items-center justify-center">
+                          <AiOutlineFilePdf className="w-16 h-16 text-red-500" />
+                          <span className="text-sm text-gray-600 mt-2">PDF Document</span>
+                        </div>
+                      ) : (
+                        <img 
+                          src={getThumbnailUrl(project)}
+                          alt={project.judul}
+                          className="w-full h-48 object-cover transition-all duration-300 group-hover:opacity-90"
+                          loading="lazy"
+                          onError={(e) => {
+                            const firstImage = project.images[0];
+                            if (firstImage?.is_external && firstImage?.url_gambar) {
+                              const fileId = ExternalUrlHandler.googleDrive.extractFileId(firstImage.url_gambar);
+                              if (fileId) {
+                                e.target.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w500`;
+                              }
                             }
-                          }
-                        }}
-                      />
+                          }}
+                        />
+                      )}
                     </>
                   ) : (
                     <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
@@ -257,26 +256,10 @@ function Portofolio() {
                   {/* Action Buttons */}
                   <div className="project-buttons mt-auto">
                     <div className="flex gap-2 justify-end">
-                      {project.tautan && (
-                        <a 
-                          href={project.tautan}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="live-demo-btn flex items-center gap-2"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                            <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" />
-                          </svg>
-                          Live Demo
-                        </a>
-                      )}
-                      <button 
-                        onClick={(e) => handleDetailClick(project, e)}
-                        className="detail-btn flex items-center gap-2"
+                      <button
+                        onClick={(e) => handleImageClick(project, e)}
+                        className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                          <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 01-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 01-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 01-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584zM12 18a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
-                        </svg>
                         Detail
                       </button>
                     </div>
@@ -298,10 +281,7 @@ function Portofolio() {
         {selectedProject && (
           <PortofolioDetail 
             project={selectedProject} 
-            onClose={() => {
-              setSelectedProject(null)
-              document.body.style.overflow = 'auto'
-            }} 
+            onClose={handleCloseModal}
           />
         )}
       </div>

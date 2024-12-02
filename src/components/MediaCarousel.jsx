@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import ImageLightbox from './ImageLightbox'
 import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
+import { AiOutlineFilePdf } from 'react-icons/ai'
 
 function MediaCarousel({ media, onImageClick }) {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -22,53 +23,143 @@ function MediaCarousel({ media, onImageClick }) {
 
   if (!media?.length) return null;
 
-  const getMediaUrl = (item) => {
-    if (!item) return '';
-    if (item.preview_url) return item.preview_url;
-    
-    if (item.is_external && item.url_asli) {
-      const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_asli);
-      if (fileId) {
-        return ExternalUrlHandler.googleDrive.getPreviewUrl(fileId);
-      }
+  const isPDF = (url) => {
+    return url?.toLowerCase().endsWith('.pdf');
+  };
+
+  const getPDFThumbnail = (item) => {
+    return '/images/pdf-thumbnail.png';
+  };
+
+  const handleMediaClick = (item) => {
+    if (isPDF(item.url_gambar)) {
+      window.open(item.url_gambar, '_blank');
+    } else {
+      setShowLightbox(true);
+      if (onImageClick) onImageClick(item);
     }
-    return item.url_gambar || '';
+  };
+
+  const renderPDFThumbnail = () => {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+        <AiOutlineFilePdf className="w-20 h-20 text-red-500" />
+      </div>
+    );
   };
 
   const renderMedia = (item) => {
-    if (item.isGoogleDrive) {
+    if (!item) return null;
+
+    if (item.url_gambar?.toLowerCase().endsWith('.pdf')) {
       return (
-        <div className="relative w-full h-full">
-          <img
-            src={item.url}
-            alt="Preview"
-            className="w-full h-full object-contain cursor-zoom-in"
-            loading="lazy"
-            onClick={() => setShowLightbox(true)}
-            onError={(e) => {
-              if (!imageError[item.fileId]) {
-                setImageError(prev => ({ ...prev, [item.fileId]: true }));
-                e.target.src = `https://lh3.googleusercontent.com/d/${item.fileId}`;
-              }
-            }}
-          />
+        <div 
+          className="relative w-full h-full cursor-pointer hover:opacity-80"
+          onClick={() => window.open(item.url_gambar, '_blank')}
+        >
+          {renderPDFThumbnail()}
+          <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-center">
+            Klik untuk membuka PDF
+          </div>
         </div>
       );
     }
-    
+
+    const getUrl = () => {
+      if (isPDF(item.url_gambar)) {
+        return getPDFThumbnail(item);
+      }
+
+      if (item.is_external) {
+        const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
+        if (fileId) {
+          return ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'preview')[0];
+        }
+      }
+      return item.url_gambar;
+    };
+
+    return (
+      <div className="relative w-full h-full">
+        <img 
+          src={getUrl()}
+          alt="Preview"
+          className="w-full h-full object-contain cursor-zoom-in"
+          onClick={() => {
+            setShowLightbox(true);
+            if (onImageClick) onImageClick(item);
+          }}
+          loading="lazy"
+          onError={(e) => {
+            if (item.is_external) {
+              const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
+              if (fileId) {
+                e.target.src = ExternalUrlHandler.googleDrive.getFallbackUrl(item.url_gambar, 0);
+              }
+            }
+            setImageError(prev => ({ ...prev, [item.id]: true }));
+          }}
+        />
+      </div>
+    );
+  };
+
+  const renderThumbnail = (item, index) => {
+    if (!item) return null;
+
+    if (item.url_gambar?.toLowerCase().endsWith('.pdf')) {
+      return (
+        <div className="relative w-full h-full">
+          <div className="w-full h-full flex items-center justify-center bg-gray-100">
+            <AiOutlineFilePdf className="w-8 h-8 text-red-500" />
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs p-1 text-center">
+            PDF
+          </div>
+        </div>
+      );
+    }
+
+    const getThumbnailUrl = () => {
+      if (item.is_external) {
+        const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
+        if (fileId) {
+          return ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'thumbnail')[0];
+        }
+      }
+      return item.url_gambar;
+    };
+
     return (
       <img
-        src={item.url}
-        alt="Preview"
-        className="w-full h-full object-contain cursor-zoom-in"
-        loading="lazy"
-        onClick={() => setShowLightbox(true)}
+        src={getThumbnailUrl()}
+        alt={`Thumbnail ${index + 1}`}
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          if (item.is_external) {
+            const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
+            if (fileId) {
+              // Coba URL thumbnail alternatif
+              e.target.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w500`;
+            }
+          }
+        }}
       />
     );
   };
 
   const renderLightboxContent = (item) => {
     if (!item) return null;
+
+    const getLightboxUrl = () => {
+      if (item.is_external) {
+        const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
+        if (fileId) {
+          return ExternalUrlHandler.googleDrive.getPreviewUrl(fileId, 'preview')[0];
+        }
+      }
+      return item.url_gambar;
+    };
 
     return (
       <TransformWrapper
@@ -79,15 +170,15 @@ function MediaCarousel({ media, onImageClick }) {
         doubleClick={{ mode: "reset" }}
       >
         <TransformComponent>
-          <img
-            src={item.url}
+          <img 
+            src={getLightboxUrl()}
             alt="Preview"
             className="w-full h-full object-contain"
-            loading="lazy"
             onError={(e) => {
-              if (!imageError[item.fileId]) {
-                setImageError(prev => ({ ...prev, [item.fileId]: true }));
-                e.target.src = `https://lh3.googleusercontent.com/d/${item.fileId}`;
+              console.error('Lightbox image error'); // Debug lightbox error
+              const fileId = ExternalUrlHandler.googleDrive.extractFileId(item.url_gambar);
+              if (fileId) {
+                e.target.src = ExternalUrlHandler.googleDrive.getFallbackUrl(item.url_gambar, 0);
               }
             }}
           />
@@ -105,36 +196,6 @@ function MediaCarousel({ media, onImageClick }) {
   const handleNext = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === media.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const renderThumbnail = (item, index) => {
-    if (!item) return null;
-
-    if (item.isGoogleDrive) {
-      return (
-        <img
-          src={item.preview_url}
-          alt={`Thumbnail ${index + 1}`}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            console.log('Thumbnail error for:', item.fileId);
-            if (!imageError[item.fileId]) {
-              setImageError(prev => ({ ...prev, [item.fileId]: true }));
-              // Gunakan format thumbnail sebagai fallback
-              e.target.src = ExternalUrlHandler.googleDrive.getPreviewUrl(item.fileId, 'thumbnail');
-            }
-          }}
-        />
-      );
-    }
-
-    return (
-      <img
-        src={item.url_gambar}
-        alt={`Thumbnail ${index + 1}`}
-        className="w-full h-full object-cover"
-      />
     );
   };
 
