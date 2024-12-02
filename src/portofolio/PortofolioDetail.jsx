@@ -15,6 +15,32 @@ function PortofolioDetail({ project, onClose }) {
 
   const swipeHandlers = useSwipeGesture(onClose)
 
+  // Tambahkan state untuk menangani touch events
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.touches[0].clientY)
+  }
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.touches[0].clientY)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    // Hanya tutup jika slide lebih dari 100px
+    const distance = touchStart - touchEnd
+    const isSignificantMove = Math.abs(distance) > 100
+
+    if (isSignificantMove) {
+      // Reset touch states
+      setTouchStart(null)
+      setTouchEnd(null)
+    }
+  }
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768)
@@ -45,7 +71,10 @@ function PortofolioDetail({ project, onClose }) {
     }
   }, [])
 
-  const handleImageClick = (image) => {
+  const handleImageClick = (image, e) => {
+    e?.stopPropagation();
+    
+    console.log('Image clicked:', image);
     if (!image?.url_gambar) return;
 
     try {
@@ -79,6 +108,7 @@ function PortofolioDetail({ project, onClose }) {
   }
 
   const handleModalClick = (e) => {
+    console.log('Modal content clicked');
     e.stopPropagation()
   }
 
@@ -97,13 +127,22 @@ function PortofolioDetail({ project, onClose }) {
 
   const shouldShowLightbox = showLightbox && selectedImage && selectedImage.displayUrl;
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return createPortal(
     <div 
       className="modal-overlay fixed inset-0 bg-black/50 
                  flex items-center justify-center p-4 touch-manipulation"
       style={{ zIndex: 'var(--z-modal)' }}
-      onClick={onClose}
+      onClick={handleOverlayClick}
       {...(isMobile ? swipeHandlers : {})}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <div 
         className="modal-content bg-white rounded-lg w-full max-w-4xl 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ImageLightbox from './ImageLightbox'
 import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
@@ -6,20 +6,7 @@ import { AiOutlineFilePdf } from 'react-icons/ai'
 
 function MediaCarousel({ media, onImageClick }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [showLightbox, setShowLightbox] = useState(false)
   const [imageError, setImageError] = useState({})
-
-  useEffect(() => {
-    if (showLightbox) {
-      document.body.classList.add('lightbox-open');
-    } else {
-      document.body.classList.remove('lightbox-open');
-    }
-
-    return () => {
-      document.body.classList.remove('lightbox-open');
-    };
-  }, [showLightbox]);
 
   if (!media?.length) return null;
 
@@ -34,9 +21,8 @@ function MediaCarousel({ media, onImageClick }) {
   const handleMediaClick = (item) => {
     if (isPDF(item.url_gambar)) {
       window.open(item.url_gambar, '_blank');
-    } else {
-      setShowLightbox(true);
-      if (onImageClick) onImageClick(item);
+    } else if (onImageClick) {
+      onImageClick(item);
     }
   };
 
@@ -51,7 +37,7 @@ function MediaCarousel({ media, onImageClick }) {
   const renderMedia = (item) => {
     if (!item) return null;
 
-    if (item.url_gambar?.toLowerCase().endsWith('.pdf')) {
+    if (isPDF(item.url_gambar)) {
       return (
         <div 
           className="relative w-full h-full cursor-pointer hover:opacity-80"
@@ -85,10 +71,7 @@ function MediaCarousel({ media, onImageClick }) {
           src={getUrl()}
           alt="Preview"
           className="w-full h-full object-contain cursor-zoom-in"
-          onClick={() => {
-            setShowLightbox(true);
-            if (onImageClick) onImageClick(item);
-          }}
+          onClick={() => handleMediaClick(item)}
           loading="lazy"
           onError={(e) => {
             if (item.is_external) {
@@ -241,19 +224,6 @@ function MediaCarousel({ media, onImageClick }) {
               {renderThumbnail(item, index)}
             </button>
           ))}
-        </div>
-      )}
-
-      {showLightbox && (
-        <div className="fixed inset-0 z-[9999] bg-black bg-opacity-90 flex items-center justify-center">
-          <button 
-            onClick={() => setShowLightbox(false)}
-            className="fixed top-4 right-4 text-white text-xl p-4 z-[10000] bg-black/50 rounded-full hover:bg-black/70"
-            aria-label="Close"
-          >
-            ✕
-          </button>
-          {renderLightboxContent(media[currentIndex])}
         </div>
       )}
     </div>

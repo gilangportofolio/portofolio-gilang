@@ -581,3 +581,9 @@ body.modal-open header {
 .modal-content {
   z-index: var(--z-modal);
 }
+
+@font-face {
+  font-family: 'Halant';
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/halant/v14/u-4-0qaujRI2Pbsn2Nhn.woff2) format('woff2');
+}

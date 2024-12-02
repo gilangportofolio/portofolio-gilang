@@ -17,6 +17,7 @@ function ImageLightbox({ url, onClose }) {
   const [imageUrl, setImageUrl] = useState(url)
   const [error, setError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [touchStartY, setTouchStartY] = useState(null)
 
   useEffect(() => {
     if (url !== imageUrl) {
@@ -26,7 +27,21 @@ function ImageLightbox({ url, onClose }) {
     }
   }, [url, imageUrl])
 
+  useEffect(() => {
+    const handleTouchMove = (e) => {
+      console.log('Touch move');
+      e.preventDefault();
+    };
+
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
   const handleImageError = () => {
+    console.error('Image failed to load:', imageUrl);
     if (!error) {
       setError(true)
       if (ExternalUrlHandler.googleDrive.isGoogleDriveUrl(imageUrl)) {
@@ -34,26 +49,46 @@ function ImageLightbox({ url, onClose }) {
         if (fileId) {
           const fallbackUrl = `https://drive.google.com/uc?export=view&id=${fileId}`
           setImageUrl(fallbackUrl)
+          console.log('Fallback URL set:', fallbackUrl)
         }
       }
     }
   }
 
   const handleImageLoad = () => {
+    console.log('Image loaded successfully:', imageUrl);
     setIsLoading(false)
   }
 
+  const handleTouchStart = (e) => {
+    console.log('Touch start');
+    setTouchStartY(e.touches[0].clientY);
+  };
+
+  const handleTouchEnd = (e) => {
+    console.log('Touch end');
+    setTouchStartY(null);
+  };
+
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-      <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-      />
+    <div 
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
       
-      <div className="relative z-[10000] w-full h-full flex items-center justify-center p-4">
+      <div 
+        className="relative z-[10000] w-full h-full flex items-center justify-center p-4"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button 
-          onClick={onClose}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
           className="absolute top-4 right-4 z-[10001] bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
+          aria-label="Tutup"
         >
           ✕
         </button>
@@ -65,6 +100,9 @@ function ImageLightbox({ url, onClose }) {
           centerOnInit={true}
           wheel={{ step: 0.1 }}
           doubleClick={{ mode: "reset" }}
+          onPanning={({ disabled }) => {
+            console.log('Panning:', disabled);
+          }}
         >
           <TransformComponent
             wrapperClass="w-full h-full"
