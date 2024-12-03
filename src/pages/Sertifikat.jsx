@@ -248,9 +248,9 @@ const Sertifikat = () => {
 
       {/* Modal */}
       {isModalOpen && selectedSertifikat && (
-        <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50">
+        <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-[100]">
           <div 
-            className="modal-content"
+            className="modal-content relative bg-white rounded-lg shadow-lg z-[101] max-w-2xl mx-auto mt-20 md:mt-24"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute top-0 left-0 right-0 flex justify-center">

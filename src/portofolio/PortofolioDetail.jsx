@@ -158,7 +158,10 @@ function PortofolioDetail({ project, onClose }) {
           <div className="w-12 h-1 bg-gray-300 rounded-full my-2" />
         </div>
 
-        <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+        <div 
+          className="sticky top-0 bg-white p-4 border-b flex justify-between items-center" 
+          style={{ zIndex: 10001, backgroundColor: 'white' }}
+        >
           <h2 className="text-2xl font-bold">{project.judul}</h2>
           <button 
             onClick={onClose}

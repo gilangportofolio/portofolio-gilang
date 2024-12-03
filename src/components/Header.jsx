@@ -7,6 +7,7 @@ import '../styles/Hp.css'
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -35,6 +36,23 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          const isModalOpen = document.body.classList.contains('modal-open')
+          setIsModalVisible(isModalOpen)
+        }
+      })
+    })
+
+    observer.observe(document.body, {
+      attributes: true
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
   const isActive = (path) => location.pathname === path
 
   const toggleMobileMenu = () => {
@@ -42,7 +60,9 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white">
+    <header className={`fixed top-0 left-0 right-0 bg-white transition-all duration-300 ${
+      isModalVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
+    }`}>
       <nav className="nav-container">
         <div className="nav-menu">
           <Link 
