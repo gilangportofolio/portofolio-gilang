@@ -16,7 +16,6 @@ function App() {
   const location = useLocation()
 
   useEffect(() => {
-    console.log(`Tracking page view for: ${location.pathname}`);
     trackPageView()
   }, [location.pathname])
 

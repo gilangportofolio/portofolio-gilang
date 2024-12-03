@@ -2,20 +2,19 @@ import supabase from '../config/supabaseClient'
 
 const getIPAddress = async () => {
   try {
-    console.log('Fetching IP address...'); // Debug log
+    const response = await fetch('https://api.ipify.org?format=json');
+    const ipData = await response.json();
     
-    const { data, error } = await supabase.rpc('get_ip_info');
-    if (error) throw error;
-    
-    console.log('IP and location data:', data);
+    const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+    const locationData = await locationResponse.json();
     
     return {
-      ip: data.ip || 'unknown',
-      country: data.country_name || null,
-      city: data.city || null
+      ip: ipData.ip || 'unknown',
+      country: locationData.country_name || null,
+      city: locationData.city || null
     };
   } catch (error) {
-    console.error('Error getting IP:', error);
+    console.error('Error getting location:', error);
     return {
       ip: 'unknown',
       country: null,
@@ -78,7 +77,6 @@ const getDeviceInfo = () => {
   // Debug info jika browser atau OS tidak terdeteksi
   if (process.env.NODE_ENV === 'development') {
     if (browser === 'Unknown' || os === 'Unknown') {
-      console.log('Undetected UA:', ua);
     }
   }
 
@@ -170,20 +168,12 @@ const getOrCreateSession = async () => {
 
 const trackPageView = async () => {
   try {
-    console.log('Starting trackPageView...'); 
     const session = await getOrCreateSession();
     if (!session) return;
 
     const currentPath = window.location.pathname.replace('/', '') || 'tentang-saya';
-    
-    // Clone object untuk menghindari mutasi langsung
     const currentVisits = { ...session.page_visits };
-    
-    // Increment nilai untuk halaman yang dikunjungi
     currentVisits[currentPath] = (currentVisits[currentPath] || 0) + 1;
-
-    console.log('Previous visits:', session.page_visits); // Debug log
-    console.log('Updated visits:', currentVisits); // Debug log
 
     const { error } = await supabase
       .from('sessions')
@@ -195,15 +185,12 @@ const trackPageView = async () => {
 
     if (error) throw error;
 
-    // Update local storage dengan nilai yang baru
     const updatedSession = {
       ...session,
       page_visits: currentVisits,
       last_visit: new Date().toISOString()
     };
     localStorage.setItem('analytics_session', JSON.stringify(updatedSession));
-
-    console.log(`Successfully tracked visit to ${currentPath}`);
 
   } catch (error) {
     console.error('Page view tracking error:', error);

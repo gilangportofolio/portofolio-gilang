@@ -14,7 +14,8 @@ export const setupCSP = () => {
         https://api.supabase.co 
         ws://localhost:* 
         http://localhost:*
-        https://api.ipapi.co;
+        https://api.ipify.org
+        https://ipapi.co;
       font-src 'self' data: https://fonts.gstatic.com;
       frame-src 'self' https: drive.google.com;
       worker-src 'self' blob:;
