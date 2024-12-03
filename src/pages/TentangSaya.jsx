@@ -16,6 +16,7 @@ import ProfilImg2 from '../assets/img/Propil2.jpg';
 import '../styles/Skills.css';
 import '../styles/TentangSaya.css';
 import '../styles/TextAnimation.css';
+import { trackSocialClick } from '../utils/analytics';
 
 const CapcutIcon = () => (
   <img 
@@ -110,6 +111,15 @@ const TentangSaya = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  // Handler untuk social media clicks
+  const handleSocialClick = async (platform) => {
+    try {
+      await trackSocialClick(platform);
+    } catch (error) {
+      console.error(`Error tracking ${platform} click:`, error);
+    }
+  };
 
   return (
     <div className="tentang-container">
@@ -271,6 +281,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#0077B5]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('linkedin')}
                   >
                     <FaLinkedin className="w-5 h-5 text-[#0077B5]" />
                   </motion.a>
@@ -280,6 +291,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-gray-800"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('github')}
                   >
                     <FaGithub className="w-5 h-5 text-gray-800" />
                   </motion.a>
@@ -289,6 +301,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#25D366]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('whatsapp')}
                   >
                     <FaWhatsapp className="w-5 h-5 text-[#25D366]" />
                   </motion.a>
@@ -298,6 +311,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#E4405F]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('instagram')}
                   >
                     <FaInstagram className="w-5 h-5 text-[#E4405F]" />
                   </motion.a>
@@ -307,6 +321,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#FF0000]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('youtube')}
                   >
                     <FaYoutube className="w-5 h-5 text-[#FF0000]" />
                   </motion.a>
@@ -355,6 +370,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#0077B5]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('linkedin')}
                   >
                     <FaLinkedin className="w-5 h-5 text-[#0077B5]" />
                   </motion.a>
@@ -364,6 +380,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-gray-800"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('github')}
                   >
                     <FaGithub className="w-5 h-5 text-gray-800" />
                   </motion.a>
@@ -373,6 +390,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#25D366]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('whatsapp')}
                   >
                     <FaWhatsapp className="w-5 h-5 text-[#25D366]" />
                   </motion.a>
@@ -382,6 +400,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#E4405F]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('instagram')}
                   >
                     <FaInstagram className="w-5 h-5 text-[#E4405F]" />
                   </motion.a>
@@ -391,6 +410,7 @@ const TentangSaya = () => {
                     rel="noopener noreferrer"
                     className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#FF0000]"
                     whileHover={{ scale: 1.1 }}
+                    onClick={() => handleSocialClick('youtube')}
                   >
                     <FaYoutube className="w-5 h-5 text-[#FF0000]" />
                   </motion.a>

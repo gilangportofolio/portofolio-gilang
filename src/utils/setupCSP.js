@@ -13,7 +13,8 @@ export const setupCSP = () => {
         https://ohkcmgrjqmcarpfwcmiy.supabase.co 
         https://api.supabase.co 
         ws://localhost:* 
-        http://localhost:*;
+        http://localhost:*
+        https://api.ipapi.co;
       font-src 'self' data: https://fonts.gstatic.com;
       frame-src 'self' https: drive.google.com;
       worker-src 'self' blob:;

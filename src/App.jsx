@@ -1,4 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { trackPageView } from './utils/analytics'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import TentangSaya from './pages/TentangSaya'
@@ -10,6 +13,13 @@ import ErrorBoundary from './components/ErrorBoundary'
 import ThemeSwitcher from './components/ThemeSwitcher'
 
 function App() {
+  const location = useLocation()
+
+  useEffect(() => {
+    console.log(`Tracking page view for: ${location.pathname}`);
+    trackPageView()
+  }, [location.pathname])
+
   return (
     <ErrorBoundary>
       <div id="modal-root" />
