@@ -1,4 +1,4 @@
-import{s as e}from"./index-E_1kNPBo.js"
+import{s as e}from"./index-gLqp1jaf.js"
 import{r as o}from"./vendor-react-DujXGBlD.js"
 const r={SEMUA:"Semua",UI_UX:"UI/UX",DESIGN_VISUAL:"Design Visual",WEBSITE:"Website",SYSTEM_ANALYST:"System Analyst",BISNIS_ANALYST:"Bisnis Analyst",DOKUMENTASI:"Dokumentasi",PROJEK_LAIN:"Proyek Lain"},t={[r.SEMUA]:{bg:"#f97316",text:"#ffffff"},[r.UI_UX]:{bg:"#0ea5e9",text:"#ffffff"},[r.DESIGN_VISUAL]:{bg:"#ec4899",text:"#ffffff"},[r.WEBSITE]:{bg:"#6366f1",text:"#ffffff"},[r.SYSTEM_ANALYST]:{bg:"#10b981",text:"#ffffff"},[r.BISNIS_ANALYST]:{bg:"#8b5cf6",text:"#ffffff"},[r.DOKUMENTASI]:{bg:"#f43f5e",text:"#ffffff"},[r.PROJEK_LAIN]:{bg:"#64748b",text:"#ffffff"}},f={API:{color:"#0891b2",bgColor:"#ecfeff",borderColor:"#22d3ee"},DevOps:{color:"#475569",bgColor:"#f8fafc",borderColor:"#94a3b8"},Frontend:{color:"#db2777",bgColor:"#fdf2f8",borderColor:"#f472b6"},Backend:{color:"#059669",bgColor:"#ecfdf5",borderColor:"#34d399"},Database:{color:"#9333ea",bgColor:"#f5f3ff",borderColor:"#c084fc"},Design:{color:"#0ea5e9",bgColor:"#f0f9ff",borderColor:"#38bdf8"},Other:{color:"#64748b",bgColor:"#f8fafc",borderColor:"#94a3b8"}}
 let s=null
