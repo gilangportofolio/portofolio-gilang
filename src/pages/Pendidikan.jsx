@@ -49,10 +49,6 @@ const Pendidikan = () => {
 
   return (
     <div className="pendidikan-container">
-      <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
-      <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
-      <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
-
 <section className="page-section">
  
       <div className="max-w-7xl mx-auto flex flex-col ">
@@ -62,7 +58,8 @@ const Pendidikan = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
-            className="bg-white rounded-2xl shadow-lg p-6 mb-8 hover:shadow-xl transition-shadow"
+            className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-8 hover:shadow-xl transition-shadow"
+            style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
           >
             <div className="flex flex-col items-center md:items-start">
               <div className="w-20 h-20 md:w-24 md:h-24 mb-4 md:mb-0">

@@ -45,10 +45,6 @@ const Pengalaman = () => {
   return (
     <div className="pengalaman-container">
       <div className="content-wrapper">
-        <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
-        <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
-        <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
-
         <div className="mx-auto max-w-7xl relative">
           <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
             Pengalaman
@@ -85,7 +81,10 @@ const Pengalaman = () => {
           <div className="timeline-container space-y-4 md:space-y-6">
             {filteredExperiences.map((exp, index) => (
               <div key={index} className="experience-wrapper">
-                <div className="experience-card">
+                <div 
+                  className="experience-card bg-white/70 backdrop-blur-sm rounded-lg shadow-md overflow-hidden"
+                  style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
+                >
                   <span className={`status-badge ${getStatusClass(exp.status)}`}>
                     {exp?.status || 'Full Time'}
                   </span>

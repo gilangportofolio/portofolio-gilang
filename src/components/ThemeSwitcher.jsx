@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { HiColorSwatch } from 'react-icons/hi';
 
-const ThemeSwitcher = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('default');
+// Context
+const ThemeContext = createContext();
 
+// Custom Hook
+export const useTheme = () => useContext(ThemeContext);
+
+// Provider Component
+export const ThemeProvider = ({ children }) => {
+  const [currentTheme, setCurrentTheme] = useState('default');
+  
   const themes = [
     { 
       id: 'default', 
@@ -48,27 +54,61 @@ const ThemeSwitcher = () => {
     }
   ];
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'default';
-    setCurrentTheme(savedTheme);
-    applyTheme(savedTheme);
-  }, []);
-
-  const applyTheme = (themeId) => {
+  const setTheme = (themeId) => {
     const theme = themes.find(t => t.id === themeId);
     if (!theme) return;
 
+    setCurrentTheme(themeId);
     const root = document.documentElement;
+    
+    // Warna Utama
     root.style.setProperty('--color-primary', theme.colors.primary);
+    
+    // Gradasi
     root.style.setProperty('--gradient-primary', theme.colors.gradient);
     root.style.setProperty('--gradient-hover', theme.colors.gradient);
+    
+    // Background System - disesuaikan dengan warna tema
+    root.style.setProperty('--color-bg-main', `${theme.colors.primary}10`); // Opacity 10%
+    root.style.setProperty('--color-bg-filter', `${theme.colors.primary}15`); // Opacity 15%
+    
+    // Sesuaikan warna tambahan
+    if (theme.id === 'blue') {
+      root.style.setProperty('--color-blue', theme.colors.primary);
+      root.style.setProperty('--gradient-blue', theme.colors.gradient);
+    } else if (theme.id === 'purple') {
+      root.style.setProperty('--color-purple', theme.colors.primary);
+      root.style.setProperty('--gradient-purple', theme.colors.gradient);
+    } else if (theme.id === 'orange') {
+      root.style.setProperty('--color-orange', theme.colors.primary);
+      root.style.setProperty('--gradient-orange', theme.colors.gradient);
+    } else if (theme.id === 'teal') {
+      root.style.setProperty('--color-teal', theme.colors.primary);
+      root.style.setProperty('--gradient-teal', theme.colors.gradient);
+    }
     
     localStorage.setItem('theme', themeId);
   };
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'default';
+    setTheme(savedTheme);
+  }, []);
+
+  return (
+    <ThemeContext.Provider value={{ currentTheme, setTheme, themes }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+// Theme Switcher Component
+const ThemeSwitcher = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { currentTheme, setTheme, themes } = useTheme();
+
   const handleThemeChange = (themeId) => {
-    setCurrentTheme(themeId);
-    applyTheme(themeId);
+    setTheme(themeId);
     setIsOpen(false);
   };
 
@@ -77,9 +117,13 @@ const ThemeSwitcher = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+        style={{ 
+          borderColor: 'var(--color-primary)',
+          borderWidth: '1px'
+        }}
         title="Ubah Tema"
       >
-        <HiColorSwatch className="w-6 h-6 text-gray-700" />
+        <HiColorSwatch className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
       </button>
 
       {isOpen && (
@@ -99,6 +143,11 @@ const ThemeSwitcher = () => {
                 style={{ background: theme.colors.gradient }}
               />
               <span className="text-sm">{theme.name}</span>
+              {currentTheme === theme.id && (
+                <span className="ml-auto text-xs" style={{ color: 'var(--color-primary)' }}>
+                  ✓
+                </span>
+              )}
             </button>
           ))}
         </div>

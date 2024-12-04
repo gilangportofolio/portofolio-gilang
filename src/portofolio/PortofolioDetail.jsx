@@ -74,7 +74,6 @@ function PortofolioDetail({ project, onClose }) {
   const handleImageClick = (image, e) => {
     e?.stopPropagation();
     
-    console.log('Image clicked:', image);
     if (!image?.url_gambar) return;
 
     try {
@@ -108,7 +107,7 @@ function PortofolioDetail({ project, onClose }) {
   }
 
   const handleModalClick = (e) => {
-    console.log('Modal content clicked');
+
     e.stopPropagation()
   }
 

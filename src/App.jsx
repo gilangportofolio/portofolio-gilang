@@ -1,16 +1,20 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { trackPageView } from './utils/analytics'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import TentangSaya from './pages/TentangSaya'
-import Pendidikan from './pages/Pendidikan'
-import Pengalaman from './pages/Pengalaman'
-import Sertifikat from './pages/Sertifikat'
-import Portofolio from './portofolio/Portofolio'
+import LoadingSpinner from './components/LoadingSpinner'
 import ErrorBoundary from './components/ErrorBoundary'
-import ThemeSwitcher from './components/ThemeSwitcher'
+import ThemeSwitcher, { ThemeProvider } from './components/ThemeSwitcher'
+import BackgroundDecorations from './components/BackgroundDecorations'
+
+// Lazy load semua pages
+const TentangSaya = lazy(() => import('./pages/TentangSaya'))
+const Pendidikan = lazy(() => import('./pages/Pendidikan'))
+const Pengalaman = lazy(() => import('./pages/Pengalaman'))
+const Sertifikat = lazy(() => import('./pages/Sertifikat'))
+const Portofolio = lazy(() => import('./portofolio/Portofolio'))
 
 function App() {
   const location = useLocation()
@@ -20,38 +24,49 @@ function App() {
   }, [location.pathname])
 
   return (
-    <ErrorBoundary>
-      <div id="modal-root" />
-      
-      <div className="app-wrapper relative">
-        <div className="min-h-screen flex flex-col relative">
+    <ThemeProvider>
+      <ErrorBoundary>
+        <div id="modal-root" />
+        
+        <div className="app-wrapper min-h-screen flex flex-col relative">
+          <BackgroundDecorations />
           <Header />
-          <main className="flex-1 mt-[60px] relative z-[1]">
+          <main className="flex-1 mt-[60px]">
             <Routes>
               <Route path="/" element={<Navigate to="/tentang-saya" replace />} />
               <Route path="/tentang-saya" element={
                 <ErrorBoundary key="tentang-saya">
-                  <TentangSaya />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <TentangSaya />
+                  </Suspense>
                 </ErrorBoundary>
               } />
               <Route path="/pendidikan" element={
                 <ErrorBoundary key="pendidikan">
-                  <Pendidikan />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Pendidikan />
+                  </Suspense>
                 </ErrorBoundary>
               } />
               <Route path="/pengalaman" element={
                 <ErrorBoundary key="pengalaman">
-                  <Pengalaman />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Pengalaman />
+                  </Suspense>
                 </ErrorBoundary>
               } />
               <Route path="/sertifikat" element={
                 <ErrorBoundary key="sertifikat">
-                  <Sertifikat />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Sertifikat />
+                  </Suspense>
                 </ErrorBoundary>
               } />
               <Route path="/portofolio/*" element={
                 <ErrorBoundary key="portofolio">
-                  <Portofolio />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Portofolio />
+                  </Suspense>
                 </ErrorBoundary>
               } />
               <Route path="*" element={<Navigate to="/tentang-saya" replace />} />
@@ -60,8 +75,8 @@ function App() {
           <Footer />
           <ThemeSwitcher />
         </div>
-      </div>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </ThemeProvider>
   )
 }
 

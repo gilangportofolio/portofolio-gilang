@@ -11,8 +11,7 @@ import {
   SiVisualstudiocode, SiPostman, SiJavascript, 
   SiTailwindcss, SiAdobephotoshop, SiCanva, SiCoreldraw 
 } from 'react-icons/si';
-import ProfilImg from '../assets/img/Propil.png';
-import ProfilImg2 from '../assets/img/Propil2.jpg';
+import { useTheme } from '../components/ThemeSwitcher';
 import '../styles/Skills.css';
 import '../styles/TentangSaya.css';
 import '../styles/TextAnimation.css';
@@ -95,9 +94,46 @@ const skillCategories = [
   }
 ];
 
+// Tambahkan konstanta untuk URL gambar
+const PROFILE_IMAGES = {
+  primary: "https://ohkcmgrjqmcarpfwcmiy.supabase.co/storage/v1/object/public/portofolio/pribadi/Propil.png",
+  secondary: "https://ohkcmgrjqmcarpfwcmiy.supabase.co/storage/v1/object/public/portofolio/pribadi/propil2.jpg"
+};
+
+// Tambahkan komponen OptimizedImage
+const OptimizedImage = ({ src, alt, className, ...props }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  return (
+    <div className={`relative ${className}`}>
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-2xl" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        loading="lazy"
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setError(true);
+          setIsLoading(false);
+        }}
+        {...props}
+      />
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-2xl">
+          <span className="text-gray-500">Failed to load image</span>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const TentangSaya = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { currentTheme } = useTheme();
   const [colorClass, setColorClass] = useState('text-blue-500'); // Menggunakan class Tailwind
 
   useEffect(() => {
@@ -123,24 +159,21 @@ const TentangSaya = () => {
 
   return (
     <div className="tentang-container">
-      {/* Elemen dekoratif dengan warna kontras */}
-      <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
-      <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
-      <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
+
       
       <section className="page-section relative">
-        {/* Main content wrapper */}
         <div className="max-w-7xl mx-auto flex flex-col gap-4">
-          {/* Profile Section */}
-          <div className="profile-section bg-white/80 backdrop-blur-sm rounded-lg border border-emerald-100 shadow-lg p-8">
+          {/* Profile Section - tambahkan border warna tema */}
+          <div className="profile-section"
+               style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}>
             <motion.div 
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               className="w-[180px] h-[240px] md:w-[280px] md:h-[320px] flex-shrink-0 mx-auto mb-8 md:mb-0 md:mr-8"
             >
-              <img
-                src={ProfilImg}
+              <OptimizedImage
+                src={PROFILE_IMAGES.primary}
                 alt="Gilang Working"
                 className="w-full h-full object-cover rounded-2xl border-2 shadow-lg hover:shadow-2xl transition-all duration-300"
               />
@@ -209,11 +242,14 @@ const TentangSaya = () => {
           </div>
 
           {/* Middle Section */}
-          <div className="profile-section mt-4">
+          <div className="profile-section bg-white/80 backdrop-blur-sm rounded-lg shadow-lg p-8"
+               style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}>
             {/* Bagian teks */}
             <div className="flex-1 space-y-6 md:mr-8">
               <div>
-                <h3 className="font-heading text-h3 mb-3">
+                <h3 
+                  className="font-heading text-h3 mb-3"
+                >
                   Cara Saya Bekerja
                 </h3>
                 <p className="font-sans text-gray-600 text-justify leading-relaxed font-medium">
@@ -248,17 +284,18 @@ const TentangSaya = () => {
                 transition={{ duration: 0.5 }}
                 className="w-[280px] h-[320px] flex-shrink-0"
               >
-                <img
-                  src={ProfilImg2}
+                <OptimizedImage
+                  src={PROFILE_IMAGES.secondary}
                   alt="Gilang Working"
-                  className="w-full h-full object-cover rounded-2xl border-2 shadow-lg hover:shadow-2xl transition-all duration-300"
+                  className="w-full h-full object-cover rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300"
                 />
               </motion.div>
 
               <div className="flex flex-col items-center w-full gap-4">
                 <motion.button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="px-6 py-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-full font-bold text-base shadow-md hover:shadow-lg transition-all hover:scale-105 border border-yellow-500"
+                  className="px-6 py-2 text-white rounded-full font-bold text-base shadow-md hover:shadow-lg transition-all hover:scale-105"
+                  style={{ background: 'var(--gradient-primary)' }}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -279,51 +316,56 @@ const TentangSaya = () => {
                     href="https://id.linkedin.com/in/gilangpratamaputra" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#0077B5]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('linkedin')}
                   >
-                    <FaLinkedin className="w-5 h-5 text-[#0077B5]" />
+                    <FaLinkedin className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://github.com/gilangportofolio" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-gray-800"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('github')}
                   >
-                    <FaGithub className="w-5 h-5 text-gray-800" />
+                    <FaGithub className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://wa.me/62895375455587" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#25D366]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('whatsapp')}
                   >
-                    <FaWhatsapp className="w-5 h-5 text-[#25D366]" />
+                    <FaWhatsapp className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://www.instagram.com/gilang.pputraa/" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#E4405F]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('instagram')}
                   >
-                    <FaInstagram className="w-5 h-5 text-[#E4405F]" />
+                    <FaInstagram className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://www.youtube.com/@gilangportofolio" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#FF0000]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('youtube')}
                   >
-                    <FaYoutube className="w-5 h-5 text-[#FF0000]" />
+                    <FaYoutube className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                 </motion.div>
               </div>
@@ -337,8 +379,8 @@ const TentangSaya = () => {
                 transition={{ duration: 0.5 }}
                 className="w-[180px] h-[240px] flex-shrink-0 mb-6"
               >
-                <img
-                  src={ProfilImg2}
+                <OptimizedImage
+                  src={PROFILE_IMAGES.secondary}
                   alt="Gilang Working"
                   className="w-full h-full object-cover rounded-2xl border-2 shadow-lg hover:shadow-2xl transition-all duration-300"
                 />
@@ -347,7 +389,8 @@ const TentangSaya = () => {
               <div className="flex flex-col items-center w-full gap-4">
                 <motion.button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="w-full px-6 py-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-full font-bold text-base shadow-md hover:shadow-lg transition-all hover:scale-105 border border-yellow-500"
+                  className="w-full px-6 py-2 text-white rounded-full font-bold text-base shadow-md hover:shadow-lg transition-all hover:scale-105"
+                  style={{ background: 'var(--gradient-primary)' }}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -368,51 +411,56 @@ const TentangSaya = () => {
                     href="https://id.linkedin.com/in/gilangpratamaputra" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#0077B5]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('linkedin')}
                   >
-                    <FaLinkedin className="w-5 h-5 text-[#0077B5]" />
+                    <FaLinkedin className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://github.com/gilangportofolio" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-gray-800"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('github')}
                   >
-                    <FaGithub className="w-5 h-5 text-gray-800" />
+                    <FaGithub className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://wa.me/62895375455587" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#25D366]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('whatsapp')}
                   >
-                    <FaWhatsapp className="w-5 h-5 text-[#25D366]" />
+                    <FaWhatsapp className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://www.instagram.com/gilang.pputraa/" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#E4405F]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('instagram')}
                   >
-                    <FaInstagram className="w-5 h-5 text-[#E4405F]" />
+                    <FaInstagram className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                   <motion.a 
                     href="https://www.youtube.com/@gilangportofolio" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-110 border border-[#FF0000]"
+                    className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all"
+                    style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => handleSocialClick('youtube')}
                   >
-                    <FaYoutube className="w-5 h-5 text-[#FF0000]" />
+                    <FaYoutube className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                   </motion.a>
                 </motion.div>
               </div>
@@ -429,13 +477,20 @@ const TentangSaya = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-6"
           >
-            <h1 className="font-heading text-2xl md:text-2xl font-bold mb-2 bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent tracking-wider">
+            <h1 
+              className="font-heading text-2xl md:text-2xl font-bold tracking-wider"
+              style={{ 
+                background: 'var(--gradient-primary)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
               Software & Skills
             </h1>
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="h-[2px] w-20 bg-gradient-to-r from-orange-500 to-transparent"></div>
-              <span className="text-orange-500">⚡</span>
-              <div className="h-[2px] w-20 bg-gradient-to-l from-orange-500 to-transparent"></div>
+              <div className="h-[2px] w-20" style={{ background: 'var(--gradient-primary)' }}></div>
+              <span style={{ color: 'var(--color-primary)' }}>⚡</span>
+              <div className="h-[2px] w-20" style={{ background: 'var(--gradient-primary)' }}></div>
             </div>
             <p className="text-gray-800 max-w-4xl mx-auto leading-relaxed font-mediumtext text-xl">
               Kombinasi powerful dari berbagai tools dan teknologi yang saya gunakan untuk 
@@ -448,11 +503,17 @@ const TentangSaya = () => {
               <motion.div 
                 key={idx} 
                 className="skill-category bg-white/50 backdrop-blur-sm p-6 rounded-lg shadow-md"
+                style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
-                <h3 className="text-xl font-semibold mb-4">{category.title}</h3>
+                <h3 
+                  className="text-xl font-semibold mb-4"
+                  style={{ color: 'var(--color-primary)' }}
+                >
+                  {category.title}
+                </h3>
                 <div className="grid grid-cols-2 gap-4">
                   {category.items.map((item, itemIdx) => (
                     <motion.div 
@@ -460,7 +521,10 @@ const TentangSaya = () => {
                       className="skill-item flex flex-col items-center gap-2"
                       whileHover={{ scale: 1.05 }}
                     >
-                      <span className="skill-icon p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-all">
+                      <span 
+                        className="skill-icon p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-all"
+                       
+                      >
                         {item.icon}
                       </span>
                       <span className="text-sm font-medium text-gray-700">{item.name}</span>

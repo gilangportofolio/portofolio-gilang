@@ -135,10 +135,7 @@ const Sertifikat = () => {
 
   return (
     <div className="sertifikat-container">
-      <div className="content-wrapper">
-        <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
-        <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
-        <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
+      <div className="content-wrapper style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}>">
 
         <div className="mx-auto max-w-7xl relative pb-8 md:pb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
@@ -146,7 +143,7 @@ const Sertifikat = () => {
           </h1>
 
           {/* Filter Buttons */}
-          <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8">
+          <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8 style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}>">
             {types.map(type => (
               <button
                 key={type}
@@ -174,7 +171,8 @@ const Sertifikat = () => {
             {getCurrentItems().map(cert => (
               <div 
                 key={cert.id} 
-                className="sertifikat-card bg-white rounded-lg shadow-md overflow-hidden"
+                className="sertifikat-card bg-white/70 backdrop-blur-sm rounded-lg shadow-md overflow-hidden"
+                style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
               >
                 <div className="p-4 md:p-6 h-full flex flex-col">
                   {/* Header dengan judul dan tipe */}
@@ -248,9 +246,10 @@ const Sertifikat = () => {
 
       {/* Modal */}
       {isModalOpen && selectedSertifikat && (
-        <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-[100]">
+        <div className="modal-overlay fixed inset-0 bg-black/50 z-[100]">
           <div 
             className="modal-content relative bg-white rounded-lg shadow-lg z-[101] max-w-2xl mx-auto mt-20 md:mt-24"
+            style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute top-0 left-0 right-0 flex justify-center">

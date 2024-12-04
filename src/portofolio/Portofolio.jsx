@@ -131,12 +131,7 @@ function Portofolio() {
   if (error) return <div className="text-center py-8 text-red-500">{error}</div>
 
   return (
-    <div className="portofolio-container min-h-screen px-4 py-8 md:pt-32 pt-24 bg-gradient-to-br from-orange-50 to-white relative">
-      {/* Elemen dekoratif dengan warna kontras */}
-      <div className="absolute top-20 right-0 w-72 h-72 bg-blue-400/20 rounded-xl rotate-12"></div>
-      <div className="absolute top-40 -left-10 w-72 h-72 bg-orange-400/20 rounded-xl -rotate-12"></div>
-      <div className="absolute bottom-20 right-20 w-60 h-60 bg-purple-400/20 rounded-xl rotate-45"></div>
-      
+    <div className="portofolio-container min-h-screen px-4 py-8 pt-24 bg-gradient-to-br relative">
       {/* Content */}
       <div className="mx-auto max-w-7xl relative z-10">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
@@ -180,7 +175,8 @@ function Portofolio() {
             {currentProjects.map(project => (
               <div 
                 key={project.id} 
-                className="project-card group"
+                className="project-card group bg-white/70 backdrop-blur-sm rounded-lg shadow-md overflow-hidden"
+                style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
               >
                 {/* Thumbnail */}
                 <div 
