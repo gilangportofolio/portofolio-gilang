@@ -214,7 +214,7 @@ const Header = () => {
 
         <div 
           className={`mobile-menu transform transition-transform duration-300 ease-in-out
-            ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}
+            ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
             bg-white/90 backdrop-blur-lg`}
           onClick={(e) => e.stopPropagation()}
         >

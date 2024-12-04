@@ -1,6 +1,8 @@
-import { useEffect } from 'react'
+
+import { useTheme } from './ThemeSwitcher'
 
 function Pagination({ currentPage, totalCount, pageSize, onPageChange }) {
+  const { currentTheme } = useTheme()
   const totalPages = Math.ceil(totalCount / pageSize)
 
   const handlePageChange = (pageNumber) => {
@@ -33,11 +35,13 @@ function Pagination({ currentPage, totalCount, pageSize, onPageChange }) {
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
         <button
           key={pageNumber}
-          className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 ${
-            currentPage === pageNumber
-              ? 'bg-emerald-500 text-white'
-              : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-          }`}
+          className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200`}
+          style={{ 
+            background: currentPage === pageNumber 
+              ? `var(--gradient-${currentTheme === 'default' ? 'primary' : currentTheme})`
+              : 'rgb(243 244 246)',
+            color: currentPage === pageNumber ? 'white' : 'rgb(31 41 55)',
+          }}
           onClick={() => handlePageChange(pageNumber)}
         >
           {pageNumber}

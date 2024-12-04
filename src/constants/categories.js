@@ -17,6 +17,7 @@ export const CATEGORIES = {
 export const CATEGORY_COLORS = {
   [CATEGORIES.SEMUA]: {
     bg: '#f97316',  // Orange-500
+   
     text: '#ffffff'
   },
   [CATEGORIES.UI_UX]: {
@@ -178,7 +179,7 @@ export function useFilter(items) {
     const isActive = category === activeFilter;
     
     return {
-      backgroundColor: isActive ? colors.bg : 'transparent',
+      backgroundColor: isActive ? colors.bg : 'white',
       color: isActive ? colors.text : colors.bg,
       borderColor: isActive ? 'transparent' : colors.bg,
       boxShadow: isActive ? `0 4px 6px -1px ${colors.bg}40` : 'none'

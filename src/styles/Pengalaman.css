@@ -1,12 +1,4 @@
 /* Container untuk section pengalaman */
-.pengalaman-container {
-  position: relative;
-  z-index: var(--z-content);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 60px);
-}
 
 /* Content wrapper */
 .content-wrapper {

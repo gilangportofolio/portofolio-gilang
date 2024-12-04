@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+
 import supabase from '../config/supabaseClient'
 import LoadingSpinner from '../components/LoadingSpinner'
 import PortofolioDetail from './PortofolioDetail'
@@ -139,7 +140,7 @@ function Portofolio() {
         </h1>
         
         {/* Filter buttons dengan border tipis abu-abu */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="flex overflow-hidden flex-wrap justify-center gap-2 mb-10">
           {categories.map(category => (
             <button
               key={category}
@@ -175,7 +176,7 @@ function Portofolio() {
             {currentProjects.map(project => (
               <div 
                 key={project.id} 
-                className="project-card group bg-white/70 backdrop-blur-sm rounded-lg shadow-md overflow-hidden"
+                className="project-card bg-white/70 backdrop-blur-sm rounded-lg shadow-md overflow-hidden"
                 style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}
               >
                 {/* Thumbnail */}
@@ -252,9 +253,31 @@ function Portofolio() {
                   {/* Action Buttons */}
                   <div className="project-buttons mt-auto">
                     <div className="flex gap-2 justify-end">
+                      {project.tautan && (
+                        <a
+                          href={project.tautan}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-4 py-2 text-sm rounded-md transition-colors duration-300"
+                          style={{ 
+                            background: `rgba(255, 255, 255, 0.9)`,
+                            color: `var(--color-primary)`,
+                            border: `1px solid var(--color-primary)`,
+                            backdropFilter: 'blur(5px)'
+                          }}
+                        >
+                          Live Demo
+                        </a>
+                      )}
                       <button
                         onClick={(e) => handleImageClick(project, e)}
-                        className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
+                        className="px-4 py-2 text-sm rounded-md transition-colors duration-300"
+                        style={{ 
+                          background: `rgba(255, 255, 255, 0.9)`,
+                          color: `var(--color-primary)`,
+                          border: `1px solid var(--color-primary)`,
+                          backdropFilter: 'blur(5px)'
+                        }}
                       >
                         Detail
                       </button>
