@@ -77,12 +77,29 @@ const Pendidikan = () => {
                   {edu.nama}
                 </h3>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-1">
-                  <p className="text-orange-500 font-semibold text-center md:text-left">
+  <p 
+    className="font-semibold text-center md:text-left"
+    style={{ color: 'var(--color-primary)' }}
+  >
                     {edu.jurusan}
                   </p>
-                  <p className="text-gray-1000 font-normal text-center md:text-right mt-2 md:mt-0">
-                    {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}, {edu.lokasi}
-                  </p>
+  <div className="flex justify-center md:justify-end mt-2 md:mt-0">
+    <p 
+      className="text-center"
+      style={{ 
+        color: 'white',
+        backgroundColor: 'var(--color-primary)',
+        padding: '2px 10px',
+        borderRadius: '20px',
+        whiteSpace: 'nowrap',
+        maxWidth: '200px',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }}
+    >
+      {edu.tahun_masuk} - {edu.tahun_keluar || 'Sekarang'}, {edu.lokasi}
+    </p>
+  </div>
                 </div>
                 {edu.deskripsi && (
                   <p className="font-gray-900 mt-4 text-justify md:text-justify">{edu.deskripsi}</p>
@@ -97,7 +114,10 @@ const Pendidikan = () => {
                         animate={{ opacity: 1 }}
                         className="flex gap-3 items-start"
                       >
-                        <div className="w-2 h-2 rounded-full bg-gray-800 mt-2 flex-shrink-0" />
+                        <div 
+                          className="w-2 h-2 rounded-full mt-2 flex-shrink-0" 
+                          style={{ backgroundColor: 'var(--color-primary)' }}
+                        />
                         <div>
                           <p className="font-medium text-justify text-gray-800">
                             {detail.poin}

@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import supabase from '../config/supabaseClient'
 import LoadingSpinner from '../components/LoadingSpinner'
 import Pagination from '../components/Pagination'
+import { AiOutlineEye } from 'react-icons/ai'; // Import icon mata
 
 const Sertifikat = () => {
   const [sertifikats, setSertifikats] = useState([])
@@ -68,15 +69,16 @@ const Sertifikat = () => {
 
   // Tambahkan fungsi untuk mendapatkan class status
   const getStatusClass = (type) => {
-    switch(type?.toLowerCase()) {
-      case 'online':
-        return 'bg-blue-100 text-blue-800';
-      case 'offline':
-        return 'bg-purple-100 text-purple-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  }
+    return {
+      backgroundColor: 'white',
+      color: 'var(--color-primary)',
+      border: '1px solid var(--color-primary)',
+      padding: '2px 8px',
+      borderRadius: '999px', // rounded-full
+      fontSize: '0.75rem',  // text-xs
+      fontWeight: '400'     // font-normal
+    };
+  };
 
   // Fungsi untuk menangani touch events
   const handleTouchStart = (e) => {
@@ -143,21 +145,17 @@ const Sertifikat = () => {
           </h1>
 
           {/* Filter Buttons */}
-          <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8 style={{ borderColor: 'var(--color-primary)', borderWidth: '1px' }}>">
+          <div className="filter-container sticky top-[80px] flex flex-wrap justify-center gap-2 mb-8">
             {types.map(type => (
               <button
                 key={type}
                 onClick={() => setSelectedType(type)}
                 className={`
-                  px-4 py-2 rounded-lg text-sm font-medium 
+                  px-3 py-1 rounded-full text-sm font-medium 
                   transition-all duration-300 
                   ${selectedType === type 
-                    ? type.toLowerCase() === 'online'
-                      ? 'bg-blue-500 text-white'
-                      : type.toLowerCase() === 'offline'
-                        ? 'bg-purple-500 text-white'
-                        : 'bg-gray-500 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-white text-blue-500 border border-blue-500'
                   }
                 `}
               >
@@ -181,7 +179,7 @@ const Sertifikat = () => {
                       {cert.judul}
                     </h3>
                     {cert.tipe && (
-                      <span className={`px-2 md:px-3 py-1 text-sm rounded-full ${getStatusClass(cert.tipe)} shrink-0 mt-1`}>
+                      <span style={getStatusClass(cert.tipe)} className="shrink-0 mt-1">
                         {cert.tipe}
                       </span>
                     )}
@@ -204,14 +202,15 @@ const Sertifikat = () => {
                   )}
                   
                   {/* Tombol aksi */}
-                  <div className="flex justify-end items-center mt-auto gap-3">
+                  <div className="flex justify-end items-center mt-auto gap-2">
                     {cert.url && (
                       <a
                         href={cert.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2 text-sm rounded-md bg-orange-50 text-orange-600 hover:bg-orange-100 transition-colors duration-300"
+                        className="inline-flex items-center gap-2 px-3 py-1 text-sm rounded-full text-blue-500 border border-blue-500 bg-white hover:bg-blue-50 transition-colors duration-300"
                       >
+                        <AiOutlineEye className="w-4 h-4" />
                         Lihat Sertifikat
                       </a>
                     )}
@@ -220,7 +219,7 @@ const Sertifikat = () => {
                         e.preventDefault();
                         openModal(cert);
                       }}
-                      className="px-4 py-2 text-sm rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors duration-300"
+                      className="px-3 py-1 text-sm rounded-full text-blue-500 border border-blue-500 bg-white hover:bg-blue-50 transition-colors duration-300"
                     >
                       Detail
                     </button>

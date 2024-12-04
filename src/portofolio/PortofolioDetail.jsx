@@ -5,6 +5,8 @@ import { getToolStyle, fetchToolCategories } from '../constants/categories'
 import ImageLightbox from '../components/ImageLightbox'
 import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 import { createPortal } from 'react-dom'
+import { AiOutlineGlobal } from 'react-icons/ai'
+import PDFPreview from '../components/PDFPreview'
 
 function PortofolioDetail({ project, onClose }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
@@ -132,6 +134,52 @@ function PortofolioDetail({ project, onClose }) {
     }
   };
 
+  const isPDF = (url) => {
+    return url?.toLowerCase().endsWith('.pdf');
+  };
+
+  const renderContent = () => {
+    if (!project.images?.length) return null;
+
+    // Pisahkan PDF dan non-PDF images
+    const pdfFiles = project.images.filter(img => isPDF(img.url_gambar));
+    const imageFiles = project.images.filter(img => !isPDF(img.url_gambar));
+
+    return (
+      <div className="mb-6">
+        {/* Render PDF files jika ada */}
+        {pdfFiles.length > 0 && (
+          <div className="space-y-4 mb-6">
+            {pdfFiles.map((pdf, index) => (
+              <PDFPreview 
+                key={pdf.id || index}
+                url={pdf.url_gambar}
+                title={`${project.judul} - Document ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Render image carousel jika ada images */}
+        {imageFiles.length > 0 && (
+          <MediaCarousel 
+            media={imageFiles.map(img => ({
+              ...img,
+              url_gambar: img.url_gambar,
+              thumbnail_url: img.is_external ? 
+                ExternalUrlHandler.googleDrive.getPreviewUrl(
+                  ExternalUrlHandler.googleDrive.extractFileId(img.url_gambar),
+                  'thumbnail'
+                )[0] : 
+                img.url_gambar
+            }))}
+            onImageClick={handleImageClick}
+          />
+        )}
+      </div>
+    );
+  };
+
   return createPortal(
     <div 
       className="modal-overlay fixed inset-0 bg-black/50 
@@ -171,24 +219,8 @@ function PortofolioDetail({ project, onClose }) {
         </div>
         
         <div className="p-4">
-          {project.images?.length > 0 && (
-            <div className="mb-6">
-              <MediaCarousel 
-                media={project.images.map(img => ({
-                  ...img,
-                  url_gambar: img.url_gambar,
-                  thumbnail_url: img.is_external ? 
-                    ExternalUrlHandler.googleDrive.getPreviewUrl(
-                      ExternalUrlHandler.googleDrive.extractFileId(img.url_gambar),
-                      'thumbnail'
-                    )[0] : 
-                    img.url_gambar
-                }))}
-                onImageClick={handleImageClick}
-              />
-            </div>
-          )}
-
+          {renderContent()}
+          
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Deskripsi</h3>
             <p className="text-gray-600">{project.deskripsi}</p>
@@ -226,16 +258,21 @@ function PortofolioDetail({ project, onClose }) {
             </div>
           )}
           {project.tautan && (
-            <div className="mt-6">
-              <a 
+            <div className="mt-6 flex justify-end">
+              <a
                 href={project.tautan}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-2 rounded-md transition-colors duration-200 gap-2 bg-orange-500 hover:bg-orange-600 text-white"
+                className="inline-flex items-center gap-2 px-3 py-1 text-sm rounded-full text-blue-500 border border-blue-500 bg-white hover:bg-blue-50 transition-colors duration-300"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    window.open(project.tautan, '_blank', 'noopener,noreferrer');
+                  }
+                }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                  <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" />
-                </svg>
+                <AiOutlineGlobal className="w-4 h-4" />
                 Live Demo
               </a>
             </div>

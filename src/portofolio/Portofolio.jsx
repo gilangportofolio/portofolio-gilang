@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-
+import PDFPreview from '../components/PDFPreview';
 import supabase from '../config/supabaseClient'
 import LoadingSpinner from '../components/LoadingSpinner'
 import PortofolioDetail from './PortofolioDetail'
@@ -16,7 +16,7 @@ import {
 
 import ExternalUrlHandler from '../utils/ExternalUrlHandler';
 import EmptyState from '../components/EmptyState'
-import { AiOutlineFilePdf } from 'react-icons/ai'
+import { AiOutlineFilePdf, AiOutlineGlobal } from 'react-icons/ai'
 
 function Portofolio() {
   const [projects, setProjects] = useState([])
@@ -258,26 +258,15 @@ function Portofolio() {
                           href={project.tautan}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-4 py-2 text-sm rounded-md transition-colors duration-300"
-                          style={{ 
-                            background: `rgba(255, 255, 255, 0.9)`,
-                            color: `var(--color-primary)`,
-                            border: `1px solid var(--color-primary)`,
-                            backdropFilter: 'blur(5px)'
-                          }}
+                          className="inline-flex items-center gap-2 px-3 py-1 text-sm rounded-full text-blue-500 border border-blue-500 bg-white hover:bg-blue-50 transition-colors duration-300"
                         >
+                          <AiOutlineGlobal className="w-4 h-4" />
                           Live Demo
                         </a>
                       )}
                       <button
                         onClick={(e) => handleImageClick(project, e)}
-                        className="px-4 py-2 text-sm rounded-md transition-colors duration-300"
-                        style={{ 
-                          background: `rgba(255, 255, 255, 0.9)`,
-                          color: `var(--color-primary)`,
-                          border: `1px solid var(--color-primary)`,
-                          backdropFilter: 'blur(5px)'
-                        }}
+                        className="px-3 py-1 text-sm rounded-full text-blue-500 border border-blue-500 bg-white hover:bg-blue-50 transition-colors duration-300"
                       >
                         Detail
                       </button>
