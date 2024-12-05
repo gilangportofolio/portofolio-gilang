@@ -1,0 +1,1 @@
+import{r as o}from"./react-core-BbmA5Yt5.js";var r={},t=o;r.createRoot=t.createRoot,r.hydrateRoot=t.hydrateRoot;export{r as c};
