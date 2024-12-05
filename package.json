@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run clean && npm run build",
-    "deploy": "gh-pages -d dist --branch gh-pages"
+    "deploy": "gh-pages -d dist --branch gh-pages",
+    "lint:css": "stylelint \"src/**/*.{css,scss}\"",
+    "lint:css:fix": "stylelint \"src/**/*.{css,scss}\" --fix"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
@@ -52,6 +54,7 @@
     "source-map-explorer": "^2.5.3",
     "stylelint": "^16.11.0",
     "stylelint-config-standard": "^36.0.1",
+    "stylelint-order": "^6.0.4",
     "supabase": "^1.226.3",
     "tailwindcss": "^3.4.15",
     "terser": "^5.36.0",

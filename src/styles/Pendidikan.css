@@ -1,5 +1,6 @@
 @media (width <= 768px) {
   /* Timeline */
+
   .education-timeline {
     padding-left: 2rem;
   }
@@ -9,6 +10,7 @@
   }
 
   /* Education Card */
+
   .education-card {
     padding: 1rem;
     transition: all 0.3s ease;
@@ -20,17 +22,17 @@
 
   .timeline-dot {
     position: absolute;
-    left: 0;
     top: 24px;
-    transform: translateX(-50%);
+    left: 0;
+    display: flex;
     width: 44px;
     height: 44px;
+    padding: 8px;
     border: 2px solid #f97316;
+    transform: translateX(-50%);
     border-radius: 50%;
-    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
   }
 
   .timeline-dot img {
@@ -60,6 +62,7 @@
   }
 
   /* Points List */
+
   .points-list {
     padding-left: 1rem;
   }
@@ -69,6 +72,7 @@
   }
 
   /* Section Padding */
+
   .education-section {
     @apply relative flex items-center justify-between px-4 mx-auto max-w-7xl;
 
@@ -78,6 +82,7 @@
   }
 
   /* Background Decorations */
+
   .bg-decoration {
     width: 200px;
     height: 200px;
@@ -89,6 +94,7 @@
 }
 
 @media (width <= 480px) {
+
   .education-title {
     font-size: 1rem;
   }

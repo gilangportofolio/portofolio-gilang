@@ -1,9 +1,11 @@
 /* Base Modal Styles */
+
 body.modal-open {
   overflow: hidden;
 }
 
 /* Tambahkan blur effect ke header saat modal aktif */
+
 body.modal-open header {
   filter: blur(4px);
   transition: filter 0.2s ease-out;
@@ -19,12 +21,12 @@ body.modal-open header {
 }
 
 .modal-content {
-  background-color: white;
   position: relative;
   width: 100%;
-  max-width: 500px;
-  margin: 0 1rem;
   height: 100vh; /* Full height */
+  margin: 0 1rem;
+  background-color: white;
+  max-width: 500px;
   border-radius: 0;
   overflow-y: auto;
   touch-action: pan-y pinch-zoom;
@@ -32,11 +34,11 @@ body.modal-open header {
 }
 
 .modal-header {
+  position: sticky;
+  top: 0;
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
   background-color: white;
-  position: sticky;
-  top: 0;
 }
 
 .modal-body {
@@ -48,6 +50,7 @@ body.modal-open header {
 
 /* Responsive adjustments */
 @media (width <= 640px) {
+
   .modal-content {
     width: 100%;
     margin: 0;

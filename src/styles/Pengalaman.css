@@ -1,35 +1,22 @@
-/* Container untuk section pengalaman */
-
-/* Content wrapper */
-.content-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Page section */
-.page-section {
-  @apply relative;
-
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
 /* Timeline container */
 .timeline-container {
-  @apply space-y-6;
+  @apply space-y-6 mb-16; /* Tambah margin bottom */
+  flex: 1 0 auto;
+}
 
-  flex: 1;
+/* Experience wrapper - card terakhir */
+.experience-wrapper:last-child {
+  @apply mb-16; /* Tambah margin bottom untuk card terakhir */
 }
 
 /* Filter styles */
+
 .filter-container {
   @apply sticky top-[80px] flex flex-wrap justify-center gap-2;
+  z-index: 2;
+  padding: 0.5rem 0;
 
   margin-bottom: 2rem;
-  padding: 0.5rem 0;
-  z-index: 2;
 }
 
 .filter-button {
@@ -43,11 +30,13 @@
 }
 
 /* Card styles */
+
 .experience-card {
   @apply relative p-6 rounded-xl shadow-sm border border-gray-100;
 }
 
 /* Status container */
+
 .status-container {
   @apply mb-4;
 }
@@ -81,6 +70,7 @@
 }
 
 /* Info container */
+
 .info-container {
   @apply flex flex-col md:flex-row gap-4;
 
@@ -88,10 +78,21 @@
 }
 
 /* Company logo */
+
 .company-logo {
-  @apply w-16 h-16 rounded-full overflow-hidden
-         flex items-center justify-center bg-white border border-gray-200
-         flex-shrink-0;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  background-color: white;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  margin-top: 0.5rem;
+  
+  @media (width <= 768px) {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .logo-image {
@@ -104,12 +105,22 @@
 }
 
 /* Company details */
+
 .company-details {
   @apply flex-grow;
 }
 
 .company-name {
-  @apply flex items-center justify-between;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-top: 0.5rem;
+  
+  @media (width <= 768px) {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
 }
 
 .position-title {
@@ -121,11 +132,13 @@
 }
 
 /* Content */
+
 .experience-content {
   @apply mt-6 pl-20;
 }
 
 /* Points list dengan auto bullet */
+
 .points-list {
   @apply text-justify space-y-2 list-disc pl-5 mb-4; /* Tambah margin bottom */
 }
@@ -137,6 +150,7 @@
 }
 
 /* Filter button active states dengan warna */
+
 .filter-button.active[data-filter="all"] {
   @apply bg-gray-100 text-gray-800 border-gray-300;
 }
@@ -162,12 +176,14 @@
 }
 
 /* Hover states untuk filter buttons */
+
 .filter-button:hover {
   @apply bg-gray-50;
 }
 
 /* Mobile responsive */
 @media (width <= 768px) {
+
   .company-logo {
     @apply w-12 h-12;
   }
@@ -200,18 +216,11 @@
   .info-container {
     padding-top: 2.5rem;
   }
-
-  .company-logo {
-    margin-top: 0.5rem;
-  }
-
-  .company-name {
-    margin-top: 0.5rem;
-  }
 }
 
 
 /* Jika masih ada garis, cek parent container */
+
 .mx-auto.max-w-7xl {
   @apply relative;
 
@@ -219,11 +228,13 @@
 }
 
 /* Experience wrapper spacing */
+
 .experience-wrapper {
   @apply mb-4;
 }
 
 /* Detail dan Keterangan text styling */
+
 .experience-detail {
   @apply text-gray-900 text-justify leading-relaxed mb-4;
 }

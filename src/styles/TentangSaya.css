@@ -1,15 +1,18 @@
 /* Base Styles */
+
 .page-section {
   @apply flex-grow flex flex-col min-h-screen w-full p-4 md:p-8;
 }
 
 /* Profile Section */
+
 .profile-section {
   @apply relative flex flex-col md:flex-row items-center justify-between px-4 mx-auto max-w-7xl w-full 
          p-4 md:p-8 bg-white/80 backdrop-blur-sm rounded-lg border border-emerald-100 shadow-lg;
 }
 
 /* Profile Image Container */
+
 .profile-image-container {
   @apply w-[160px] md:w-[280px] h-[240px] md:h-[320px] flex-shrink-0 mx-auto md:mx-0 mb-6 md:mb-0;
 }
@@ -19,11 +22,13 @@
 }
 
 /* Content Container */
+
 .content-container {
   @apply flex-1 w-full text-center md:text-left;
 }
 
 /* Social Media Container */
+
 .social-media-container {
   @apply flex flex-col md:flex-row items-center gap-4 mt-6 w-full;
 }
@@ -33,16 +38,19 @@
 }
 
 /* Button Styles */
+
 .connect-button {
   @apply w-full md:w-auto;
 }
 
 /* Text Styles */
+
 .text-content {
   @apply w-full text-center md:text-left;
 }
 
 /* Skills Section */
+
 .skills-section {
   @apply mt-8 w-full;
 }

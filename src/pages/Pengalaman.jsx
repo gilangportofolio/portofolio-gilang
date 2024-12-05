@@ -45,7 +45,7 @@ const Pengalaman = () => {
   return (
     <div className="pengalaman-container">
       <div className="content-wrapper">
-        <div className="mx-auto max-w-7xl relative">
+        <div className="mx-auto max-w-7xl relative w-full px-4">
           <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
             Pengalaman
           </h1>

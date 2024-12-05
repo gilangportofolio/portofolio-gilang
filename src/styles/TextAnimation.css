@@ -1,17 +1,21 @@
-@keyframes textColorAnimation {
-  0%, 32% {
-    color: #3B82F6 !important; /* Biru */
+@keyframes fadeIn {
+
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  33%, 65% {
-    color: #10B981 !important; /* Hijau */
+  50% {
+    opacity: 0.5;
+    transform: translateY(10px);
   }
 
-  66%, 100% {
-    color: #F59E0B !important; /* Oranye */
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .index-module_type__E-SaG.animated-text {
-  animation: textColorAnimation 9s infinite !important;
+  animation: fadeIn 9s infinite;
 } 

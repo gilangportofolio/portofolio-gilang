@@ -58,6 +58,7 @@
 }
 
 /* Grid layout untuk skills */
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -66,17 +67,19 @@
 }
 
 /* Nama skill di bawah icon */
+
 .skill-name {
+  width: 100%;
+  color: rgb(75 85 99);
   font-size: 0.875rem;
   font-weight: 500;
-  color: rgb(75 85 99);
   text-align: center;
   margin-top: 0.25rem;
-  width: 100%;
 }
 
 /* Responsive adjustments */
 @media (width <= 768px) {
+
   .skills-grid {
     gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
@@ -105,6 +108,7 @@
 }
 
 @media (width <= 480px) {
+
   .skills-grid {
     gap: 0.75rem;
     grid-template-columns: repeat(2, 1fr);
@@ -119,17 +123,20 @@
 }
 
 /* Gradient text animation */
+
 .text-gradient {
   background: linear-gradient(90deg, #f97316, #facc15, #f97316);
   background-size: 200% auto;
-  background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient 3s linear infinite;
 }
 
 @keyframes gradient {
+
   0% { background-position: 0% center; }
+
   50% { background-position: 100% center; }
+
   100% { background-position: 0% center; }
 } 
