@@ -2,57 +2,55 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import compression from 'vite-plugin-compression'
+import imagemin from 'vite-plugin-imagemin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
-  plugins: [react(), visualizer({
-    open: true,
-    filename: 'dist/stats.html',
-    gzipSize: true,
-    brotliSize: true,
-  }), compression({
-    algorithm: 'gzip',
-    ext: '.gz',
-    threshold: 1024,
-    deleteOriginFile: false
-  })],
+  plugins: [react(), visualizer(), compression(), imagemin()],
   build: {
-    cache: false,
-    clean: true,
-    minify: 'terser',
     rollupOptions: {
       output: {
         manualChunks: {
-          // React core
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          
-          // UI & Icons - Pisahkan icons ke chunk terpisah
-          'vendor-ui': ['@headlessui/react', '@heroicons/react'],
-          
-          // Icons chunks
-          'vendor-icons': [
-            'react-icons/fa',
-            'react-icons/si', 
-            'react-icons/ai',
-            'react-icons/hi',
-            '@fortawesome/react-fontawesome',
-            '@fortawesome/free-solid-svg-icons'
+          // React Core + UI
+          'react-core': [
+            'react',
+            '@headlessui/react',
+            '@heroicons/react'
           ],
+          'react-dom': [
+            'react-dom',
+            'react-dom/client',
+            'react-dom/server'
+          ],
+          'react-router': ['react-router-dom'],
           
-          // Animation & Interactive features
-          'vendor-animation': [
-            'framer-motion',
-            'react-type-animation',
+          // Animation
+          'animation-core': ['framer-motion'],
+          'animation-type': ['react-type-animation'],
+          'animation-zoom': [
             'react-medium-image-zoom',
             'react-zoom-pan-pinch'
           ],
-
-          // Data & Utils
-          'vendor-utils': [
-            '@supabase/supabase-js',
-            'react-virtualized'
-          ]
+          
+          // Utils
+          'utils': [
+            'react-virtualized',
+            './src/utils/analytics.js',
+            './src/utils/ExternalUrlHandler.js',
+            './src/utils/setupCSP.js'
+          ],
+          'utils-db': ['@supabase/supabase-js'],
+          
+          // PDF Viewer
+          'pdf': ['react-pdf'],
+          
+          // Icons
+          'icons': [
+            '@fortawesome/react-fontawesome',
+            '@fortawesome/free-solid-svg-icons',
+            '@react-icons/all-files'
+          ],
         },
         compact: true,
         generatedCode: {
@@ -62,20 +60,27 @@ export default defineConfig({
         }
       }
     },
+    target: 'esnext',
+    minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
+        pure_funcs: ['console.log'],
+        passes: 2,
+        ecma: 2020
       },
       format: {
         comments: false,
-        semicolons: false
+        ecma: 2020
       },
-      mangle: {
-        safari10: true
-      }
-    }
+      module: true,
+      toplevel: true
+    },
+    cssCodeSplit: true,
+    cssMinify: 'lightningcss',
+    assetsInlineLimit: 4096,
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     host: true,

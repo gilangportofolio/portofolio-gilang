@@ -12,7 +12,7 @@ body.modal-open header {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0 0 0 / 50%);
   display: flex;
   align-items: start;
   justify-content: center;
@@ -47,7 +47,7 @@ body.modal-open header {
 }
 
 /* Responsive adjustments */
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .modal-content {
     width: 100%;
     margin: 0;

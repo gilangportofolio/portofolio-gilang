@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import ImageLightbox from './ImageLightbox'
 import ExternalUrlHandler from '../utils/ExternalUrlHandler'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { AiOutlineFilePdf } from 'react-icons/ai'

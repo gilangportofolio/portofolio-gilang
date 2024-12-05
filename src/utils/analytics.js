@@ -74,17 +74,17 @@ const getDeviceInfo = () => {
   else if (uaLower.includes('seamonkey')) browser = 'SeaMonkey';
   else if (uaLower.includes('chromium')) browser = 'Chromium';
 
-  // Debug info jika browser atau OS tidak terdeteksi
-  if (process.env.NODE_ENV === 'development') {
-    if (browser === 'Unknown' || os === 'Unknown') {
-    }
+
+  // Menjadi:
+  if (import.meta.env.DEV && (browser === 'Unknown' || os === 'Unknown')) {
+    console.log('Undetected browser/OS:', { browser, os, userAgent: ua });
   }
 
   return { 
     deviceType, 
     os, 
     browser,
-    userAgent: ua // Simpan user agent untuk debugging
+    userAgent: ua
   };
 };
 
@@ -111,7 +111,8 @@ const getOrCreateSession = async () => {
         if (currentTime - new Date(session.first_visit).getTime() < FIVE_HOURS) {
           return session;
         }
-      } catch (parseError) {
+      } catch (error) {
+        console.error('Error parsing session:', error);
         localStorage.removeItem('analytics_session');
       }
     }

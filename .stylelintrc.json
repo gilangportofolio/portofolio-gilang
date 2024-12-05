@@ -1,0 +1,30 @@
+{
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "declaration-block-no-duplicate-properties": true,
+      "at-rule-no-unknown": [
+        true,
+        {
+          "ignoreAtRules": [
+            "tailwind",
+            "apply",
+            "variants",
+            "responsive",
+            "screen",
+            "layer",
+            "import"
+          ]
+        }
+      ],
+      "keyframes-name-pattern": null,
+      "selector-class-pattern": null,
+      "no-duplicate-selectors": null,
+      "function-no-unknown": [
+        true,
+        {
+          "ignoreFunctions": ["theme"]
+        }
+      ],
+      "at-rule-empty-line-before": null
+    }
+}

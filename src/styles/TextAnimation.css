@@ -2,9 +2,11 @@
   0%, 32% {
     color: #3B82F6 !important; /* Biru */
   }
+
   33%, 65% {
     color: #10B981 !important; /* Hijau */
   }
+
   66%, 100% {
     color: #F59E0B !important; /* Oranye */
   }

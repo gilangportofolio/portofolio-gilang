@@ -1,21 +1,36 @@
-import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
-import { 
-  FaFileWord, FaFileExcel, FaFilePowerpoint, FaGoogle, 
-  FaGithub, FaGit, FaHtml5, FaCss3Alt, FaPhp, FaReact, 
-  FaLinkedin, FaWhatsapp, FaInstagram, FaTiktok, 
-  FaDatabase, FaYoutube 
-} from 'react-icons/fa';
-import { 
-  SiVisualstudiocode, SiPostman, SiJavascript, 
-  SiTailwindcss, SiAdobephotoshop, SiCanva, SiCoreldraw 
-} from 'react-icons/si';
-import { useTheme } from '../components/ThemeSwitcher';
+import { FaFileWord } from '@react-icons/all-files/fa/FaFileWord';
+import { FaFileExcel } from '@react-icons/all-files/fa/FaFileExcel';
+import { FaFilePowerpoint } from '@react-icons/all-files/fa/FaFilePowerpoint';
+import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle';
+import { FaGithub } from '@react-icons/all-files/fa/FaGithub';
+import { FaGit } from '@react-icons/all-files/fa/FaGit';
+import { FaHtml5 } from '@react-icons/all-files/fa/FaHtml5';
+import { FaCss3Alt } from '@react-icons/all-files/fa/FaCss3Alt';
+import { FaPhp } from '@react-icons/all-files/fa/FaPhp';
+import { FaReact } from '@react-icons/all-files/fa/FaReact';
+import { FaLinkedin } from '@react-icons/all-files/fa/FaLinkedin';
+import { FaWhatsapp } from '@react-icons/all-files/fa/FaWhatsapp';
+import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
+import { SiTiktok } from '@react-icons/all-files/si/SiTiktok';
+import { FaDatabase } from '@react-icons/all-files/fa/FaDatabase';
+import { FaYoutube } from '@react-icons/all-files/fa/FaYoutube';
+
+import { SiVisualstudiocode } from '@react-icons/all-files/si/SiVisualstudiocode';
+import { SiPostman } from '@react-icons/all-files/si/SiPostman';
+import { SiJavascript } from '@react-icons/all-files/si/SiJavascript';
+import { SiTailwindcss } from '@react-icons/all-files/si/SiTailwindcss';
+import { SiAdobephotoshop } from '@react-icons/all-files/si/SiAdobephotoshop';
+import { SiCanva } from '@react-icons/all-files/si/SiCanva';
+
 import '../styles/Skills.css';
 import '../styles/TentangSaya.css';
 import '../styles/TextAnimation.css';
 import { trackSocialClick } from '../utils/analytics';
+import corelDrawIcon from '../assets/icons/corel-draw.svg';
 
 const CapcutIcon = () => (
   <img 
@@ -76,14 +91,14 @@ const skillCategories = [
       { name: "LinkedIn", icon: <FaLinkedin className="text-[#0077B5]" /> },
       { name: "WhatsApp", icon: <FaWhatsapp className="text-[#25D366]" /> },
       { name: "Instagram", icon: <FaInstagram className="text-[#E4405F]" /> },
-      { name: "TikTok", icon: <FaTiktok className="text-black" /> },
+      { name: "TikTok", icon: <SiTiktok className="text-black" /> },
     ]
   },
   {
     title: "Alat Desain & Pengeditan",
     icon: "icon-design",
     items: [
-      { name: "CorelDraw", icon: <SiCoreldraw className="text-[#000000]" /> },
+      { name: "CorelDraw", icon: <img src={corelDrawIcon} alt="CorelDraw" className="w-6 h-6" /> },
       { name: "Photoshop", icon: <SiAdobephotoshop className="text-[#31A8FF]" /> },
       { name: "Canva", icon: <SiCanva className="text-[#00C4CC]" /> },
       { 
@@ -131,22 +146,27 @@ const OptimizedImage = ({ src, alt, className, ...props }) => {
   );
 };
 
+OptimizedImage.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
+
+// Tambahkan komponen pengganti untuk CorelDraw
+const CorelDrawIcon = () => (
+  <svg 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    className="w-6 h-6"
+    fill="currentColor"
+  >
+    <path d="M11.95 0C5.342 0 0 5.342 0 11.95c0 6.608 5.342 11.95 11.95 11.95 6.608 0 11.95-5.342 11.95-11.95C23.9 5.342 18.558 0 11.95 0zm0 1.85c5.565 0 10.1 4.535 10.1 10.1 0 5.565-4.535 10.1-10.1 10.1-5.565 0-10.1-4.535-10.1-10.1 0-5.565 4.535-10.1 10.1-10.1zm3.95 4.814a.923.923 0 0 0-.923.923v9.226a.923.923 0 0 0 1.846 0V7.587a.923.923 0 0 0-.923-.923zm-7.9 0a.923.923 0 0 0-.923.923v9.226a.923.923 0 0 0 1.846 0V7.587a.923.923 0 0 0-.923-.923zm3.95 0a.923.923 0 0 0-.923.923v9.226a.923.923 0 0 0 1.846 0V7.587a.923.923 0 0 0-.923-.923z"/>
+  </svg>
+);
+
 const TentangSaya = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { currentTheme } = useTheme();
-  const [colorClass, setColorClass] = useState('text-blue-500'); // Menggunakan class Tailwind
-
-  useEffect(() => {
-    const colors = ['text-blue-500', 'text-green-500', 'text-orange-500']; // Class Tailwind
-    let currentIndex = 0;
-
-    const intervalId = setInterval(() => {
-      currentIndex = (currentIndex + 1) % colors.length;
-      setColorClass(colors[currentIndex]);
-    }, 3000); // Ganti warna setiap 3 detik
-
-    return () => clearInterval(intervalId);
-  }, []);
 
   // Handler untuk social media clicks
   const handleSocialClick = async (platform) => {

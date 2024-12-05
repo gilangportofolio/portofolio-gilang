@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import PDFPreview from '../components/PDFPreview';
+
 import supabase from '../config/supabaseClient'
 import LoadingSpinner from '../components/LoadingSpinner'
 import PortofolioDetail from './PortofolioDetail'
@@ -258,7 +258,21 @@ function Portofolio() {
                           href={project.tautan}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-3 py-1 text-sm rounded-full text-blue-500 border border-blue-500 bg-white hover:bg-blue-50 transition-colors duration-300"
+                          className="inline-flex items-center gap-2 px-3 py-1 text-sm rounded-full transition-colors duration-300"
+                          style={{
+                            color: 'var(--color-primary)',
+                            borderColor: 'var(--color-primary)',
+                            borderWidth: '1px',
+                            backgroundColor: 'white'
+                          }}
+                          onMouseOver={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+                            e.currentTarget.style.color = 'white';
+                          }}
+                          onMouseOut={(e) => {
+                            e.currentTarget.style.backgroundColor = 'white';
+                            e.currentTarget.style.color = 'var(--color-primary)';
+                          }}
                         >
                           <AiOutlineGlobal className="w-4 h-4" />
                           Live Demo
@@ -266,7 +280,21 @@ function Portofolio() {
                       )}
                       <button
                         onClick={(e) => handleImageClick(project, e)}
-                        className="px-3 py-1 text-sm rounded-full text-blue-500 border border-blue-500 bg-white hover:bg-blue-50 transition-colors duration-300"
+                        className="px-3 py-1 text-sm rounded-full transition-colors duration-300"
+                        style={{
+                          color: 'var(--color-primary)',
+                          borderColor: 'var(--color-primary)',
+                          borderWidth: '1px',
+                          backgroundColor: 'white'
+                        }}
+                        onMouseOver={(e) => {
+                          e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+                          e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseOut={(e) => {
+                          e.currentTarget.style.backgroundColor = 'white';
+                          e.currentTarget.style.color = 'var(--color-primary)';
+                        }}
                       >
                         Detail
                       </button>

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Noto%20Serif%20Ottoman%20Siyaq:700|Halant:400');
-@import 'styles/zindex.css';
+@import url('./styles/zindex.css');
+
 /* tailwind directives */
 @tailwind base;
 @tailwind components;
@@ -31,14 +32,14 @@
   --color-primary: #50C878;    /* Hijau Diamond */
   --color-dark: #1A1A1A;       /* Hitam */
   --color-red: #E63946;        /* Merah */
-  --color-white: #FFFFFF;      /* Putih */
+  --color-white: #FFF;      /* Putih */
   
   /* Background System */
   --color-bg-body: #F3F4F6;     /* Background untuk body */
   --color-bg-main: #E8F5E9;     /* Background untuk main content */
-  --color-bg-card: #FFFFFF;     /* Background untuk card */
-  --color-bg-filter: rgba(232, 245, 233, 0.9); /* Background untuk filter */
-  --color-bg-overlay: rgba(255, 255, 255, 0.95); /* Background untuk overlay */
+  --color-bg-card: #FFF;     /* Background untuk card */
+  --color-bg-filter: rgb(232 245 233 / 90%); /* Background untuk filter */
+  --color-bg-overlay: rgb(255 255 255 / 95%); /* Background untuk overlay */
   
   /* Gradasi */
   --gradient-primary: linear-gradient(135deg, #50C878 0%, #3CB371 100%);
@@ -58,12 +59,15 @@
   --gradient-teal: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
 }
 
-/* Reset dasar */
+/* Reset dan scrollbar styles - gabungkan semua properti */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 50%) transparent;
 }
+
 
 html, body {
   overflow-x: hidden;
@@ -96,29 +100,6 @@ main {
 ::-webkit-tap-highlight-color {
   color: transparent;
 }
-/* Modern Scrollbar Style */
-::-webkit-scrollbar {
-  width: 8px; /* Lebar scrollbar */
-}
-/* Optimasi touch di mobile */
-.touch-manipulation {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(155, 155, 155, 0.5);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(155, 155, 155, 0.7);
-}
 
 /* Responsive containers */
 .container {
@@ -129,7 +110,7 @@ main {
 }
 
 /* Media Queries */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     padding: 0 1rem;
   }
@@ -141,7 +122,7 @@ main {
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .container {
     padding: 0 0.5rem;
   }
@@ -167,10 +148,12 @@ button:focus,
 button:focus-visible {
   outline: none;
 }
+
 button:focus-visible {
   outline: 2px solid #000;
   outline-offset: 2px;
 }
+
 button:active {
   transform: scale(0.98);
   transition: transform 0.1s;
@@ -205,6 +188,7 @@ button:active {
 
 .profile-image {
   @apply w-full h-full object-cover rounded-full border-4;
+
   border-color: var(--color-primary);
 }
 
@@ -214,6 +198,7 @@ button:active {
 
 .hero-title {
   @apply text-4xl font-bold mb-4;
+
   color: var(--color-dark);
 }
 
@@ -231,23 +216,8 @@ button:active {
 
 .brand {
   @apply text-2xl font-bold text-gray-800;
+
   color: var(--color-primary);
-}
-
-/* Sertifikat styles */
-.sertifikat-card {
-  @apply rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  position: relative;
-  isolation: isolate;
-  cursor: pointer;
-}
-
-.sertifikat-card:hover {
-  @apply transform -translate-y-1;
 }
 
 /* Animation untuk cards */
@@ -256,15 +226,13 @@ button:active {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.sertifikat-card {
-  animation: fadeInUp 0.5s ease-out forwards;
-}
 
 
 /* Dropdown styles */
@@ -274,11 +242,13 @@ button:active {
   left: 50%;
   transform: translateX(-50%);
   min-width: 200px;
+
   @apply bg-white rounded-lg shadow-lg py-2 mt-1;
 }
 
 .dropdown-item {
   @apply block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left;
+
   white-space: nowrap;
 }
 
@@ -293,43 +263,6 @@ button:active {
   display: inline-block;
 }
 
-/* Untuk Chrome, Safari, dan Opera */
-/* ::-webkit-scrollbar {
-  display: none;
-} */
-
-/* Untuk Firefox dan browser lainnya */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(16, 185, 129, 0.5);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.7);
-}
-
-footer {
-  flex-shrink: 0;
-  width: 100%;
-  background: var(--color-bg-card);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
-  margin-top: auto;
-}
 
 /* Di file CSS Anda */
 @layer utilities {
@@ -364,6 +297,7 @@ footer {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -371,10 +305,11 @@ footer {
 }
 
 /* Mobile touch interactions */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   /* Membuat card lebih mudah di-tap */
   .project-card {
     @apply relative cursor-pointer active:scale-[0.98] transition-transform;
+
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
@@ -383,11 +318,8 @@ footer {
   .project-card::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.1);
+    inset: 0;
+    background: rgb(0 0 0 / 10%);
     opacity: 0;
     transition: opacity 0.3s;
   }
@@ -399,6 +331,7 @@ footer {
   /* Membuat tombol lebih mudah di-tap */
   .tap-button {
     @apply min-h-[44px] min-w-[44px] active:scale-[0.98];
+
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
@@ -407,37 +340,97 @@ footer {
 /* Untuk tampilan mobile tetap full width */
 
 /* Tambahkan style baru untuk mendukung zoom pada gambar */
-.zoomable-image {
-  touch-action: pinch-zoom pan-x pan-y !important;
-  -webkit-touch-callout: default !important;
-  -webkit-user-select: none !important;
-  user-select: none !important;
-}
+
 
 /*
 
-/* Tambahkan styles untuk sertifikat */
-.sertifikat-card {
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
+/* Content wrapper yang sama dengan Portofolio */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   position: relative;
-  isolation: isolate;
-  cursor: pointer;
 }
 
-@media (max-width: 768px) {
-  .sertifikat-card {
-    transition: transform 0.2s;
+/* Lightbox styles */
+body.lightbox-open {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+body.lightbox-open header {
+  display: none;
+}
+
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 90%);
+  backdrop-filter: blur(8px);
+}
+
+.lightbox-content {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* Animasi untuk lightbox */
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .sertifikat-card:active {
-    transform: scale(0.98);
+
+  to {
+    opacity: 1;
   }
 }
 
-/* 
+.lightbox-backdrop,
+.lightbox-content {
+  animation: lightboxFadeIn 0.2s ease-out;
+}
+
+.zoomable-image {
+  touch-action: pinch-zoom pan-x pan-y !important;
+  -webkit-touch-callout: default !important;
+  user-select: none !important;
+  max-height: 90vh;
+  max-width: 90vw;
+  object-fit: contain;
+}
+
+/* Ketika modal terbuka */
+body.modal-open header {
+  z-index: 30; /* Lebih rendah dari modal */
+}
+
+.modal-overlay {
+  z-index: var(--z-modal-backdrop);
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  z-index: var(--z-modal);
+}
+
+@font-face {
+  font-family: Halant;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/halant/v14/u-4-0qaujRI2Pbsn2Nhn.woff2") format('woff2');
+}
+
 /* Style dari Portofolio untuk digunakan global */
 .portofolio-container,
 .tentang-container,
@@ -448,6 +441,13 @@ footer {
   min-height: 100vh;
   overflow: hidden;
   z-index: 1;
+
+  @apply min-h-screen px-4 
+    pt-12        /* Default untuk mobile (64px) */
+    sm:pt-10     /* Layar kecil (80px) */
+    md:pt-14     /* Layar medium (96px) */
+    lg:pt-16     /* Layar besar (112px) */
+    xl:pt-12     /* Layar extra large (128px) */
 }
 
 /* Background patterns dari Portofolio */
@@ -483,106 +483,30 @@ footer {
   pointer-events: none;
 }
 
-/* Layout container yang sama dengan Portofolio */
-.portofolio-container,
-.tentang-container,
-.pengalaman-container,
-.pendidikan-container,
-.sertifikat-container {
-  @apply min-h-screen px-4 
-    pt-12        /* Default untuk mobile (64px) */
-    sm:pt-10     /* Layar kecil (80px) */
-    md:pt-14     /* Layar medium (96px) */
-    lg:pt-16     /* Layar besar (112px) */
-    xl:pt-12     /* Layar extra large (128px) */
-}
+/* Sertifikat styles */
+.sertifikat-card {
+  @apply rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300;
 
-/* Content wrapper yang sama dengan Portofolio */
-.content-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-touch-callout: none;
   position: relative;
+  isolation: isolate;
+  cursor: pointer;
+  animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* Lightbox styles */
-body.lightbox-open {
-  overflow: hidden !important;
-  position: fixed;
-  width: 100%;
-  height: 100%;
+.sertifikat-card:hover {
+  @apply transform -translate-y-1;
 }
 
-body.lightbox-open header {
-  display: none;
-}
-
-.lightbox-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.lightbox-content {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.lightbox-controls {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-}
-
-/* Animasi untuk lightbox */
-@keyframes lightboxFadeIn {
-  from {
-    opacity: 0;
+/* Mobile styles */
+@media (width <= 768px) {
+  .sertifikat-card {
+    transition: transform 0.2s;
   }
-  to {
-    opacity: 1;
+  
+  .sertifikat-card:active {
+    transform: scale(0.98);
   }
-}
-
-.lightbox-backdrop,
-.lightbox-content {
-  animation: lightboxFadeIn 0.2s ease-out;
-}
-
-/* Zoomable image styles */
-.zoomable-image {
-  touch-action: pinch-zoom pan-x pan-y !important;
-  -webkit-touch-callout: default !important;
-  -webkit-user-select: none !important;
-  user-select: none !important;
-  max-height: 90vh;
-  max-width: 90vw;
-  object-fit: contain;
-}
-
-/* Ketika modal terbuka */
-body.modal-open header {
-  z-index: 30; /* Lebih rendah dari modal */
-}
-
-.modal-overlay {
-  z-index: var(--z-modal-backdrop);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.modal-content {
-  z-index: var(--z-modal);
-}
-
-@font-face {
-  font-family: 'Halant';
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/halant/v14/u-4-0qaujRI2Pbsn2Nhn.woff2) format('woff2');
 }

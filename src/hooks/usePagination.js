@@ -1,16 +1,14 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 
-export const usePagination = ({
-  totalCount,
-  pageSize,
-  currentPage
-}) => {
+export const usePagination = ({ totalCount, pageSize }) => {
   const paginationRange = useMemo(() => {
-    const totalPageCount = Math.ceil(totalCount / pageSize)
+    if (!totalCount || !pageSize) return [];
+
+    const totalPageCount = Math.ceil(totalCount / pageSize);
     return Array.from({ length: totalPageCount }, (_, i) => i + 1)
   }, [totalCount, pageSize])
 
-  return paginationRange
+  return paginationRange;
 }
 
 export const usePageTransition = (items, pageSize = 8) => {
@@ -21,16 +19,14 @@ export const usePageTransition = (items, pageSize = 8) => {
     if (page === currentPage) return
     
     setIsTransitioning(true)
-    // Tunggu transisi opacity selesai
     setTimeout(() => {
       setCurrentPage(page)
-      // Berikan waktu untuk konten baru dirender
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setIsTransitioning(false)
         })
       })
-    }, 150) // Setengah dari durasi transisi CSS
+    }, 150)
   }, [currentPage])
 
   const currentItems = useMemo(() => {

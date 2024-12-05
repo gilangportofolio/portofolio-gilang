@@ -10,6 +10,7 @@
 /* Page section */
 .page-section {
   @apply relative;
+
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -18,12 +19,14 @@
 /* Timeline container */
 .timeline-container {
   @apply space-y-6;
+
   flex: 1;
 }
 
 /* Filter styles */
 .filter-container {
   @apply sticky top-[80px] flex flex-wrap justify-center gap-2;
+
   margin-bottom: 2rem;
   padding: 0.5rem 0;
   z-index: 2;
@@ -31,6 +34,7 @@
 
 .filter-button {
   @apply px-4 py-2 rounded-full text-gray-600 transition-all;
+
   border: 1px solid #e5e7eb;
 }
 
@@ -50,6 +54,7 @@
 
 .status-badge {
   @apply px-2 py-1 text-xs font-medium rounded-full;
+
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -78,6 +83,7 @@
 /* Info container */
 .info-container {
   @apply flex flex-col md:flex-row gap-4;
+
   padding-top: 2rem;
 }
 
@@ -126,6 +132,7 @@
 
 .point-item {
   @apply text-gray-600 leading-relaxed;
+
   display: list-item; /* Pastikan bullet muncul */
 }
 
@@ -160,7 +167,7 @@
 }
 
 /* Mobile responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .company-logo {
     @apply w-12 h-12;
   }
@@ -207,6 +214,7 @@
 /* Jika masih ada garis, cek parent container */
 .mx-auto.max-w-7xl {
   @apply relative;
+
   border-bottom: none;
 }
 

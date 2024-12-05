@@ -8,11 +8,11 @@
 }
 
 .skill-category {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgb(255 255 255 / 50%);
   backdrop-filter: blur(4px);
   padding: 1.5rem;
   border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
 }
 
 .skill-item {
@@ -35,13 +35,13 @@
   height: 3.5rem;
   background-color: white;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
   transition: all 300ms;
   margin-bottom: 0.5rem;
 }
 
 .skill-icon:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%);
 }
 
 .skill-icon svg {
@@ -53,7 +53,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  color: rgb(55, 65, 81);
+  color: rgb(55 65 81);
   text-align: center;
 }
 
@@ -69,14 +69,14 @@
 .skill-name {
   font-size: 0.875rem;
   font-weight: 500;
-  color: rgb(75, 85, 99);
+  color: rgb(75 85 99);
   text-align: center;
   margin-top: 0.25rem;
   width: 100%;
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .skills-grid {
     gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
@@ -104,7 +104,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .skills-grid {
     gap: 0.75rem;
     grid-template-columns: repeat(2, 1fr);
@@ -123,7 +123,7 @@
   background: linear-gradient(90deg, #f97316, #facc15, #f97316);
   background-size: 200% auto;
   background-clip: text;
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient 3s linear infinite;
 }
